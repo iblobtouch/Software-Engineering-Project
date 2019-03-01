@@ -1,0 +1,13 @@
+Stuff to change:
+Improvements document needs to be split-
+-Critiques.pdf critiques the current system, containing bullet points with a brief description of why it's bad.
+-Improvements.pdf reports on changes made, containing brief points on the changes made, how they improved stuff.
+
+New additions:
+-Test cases
+-Undo command
+-Image cache
+-Javadocs documentation
+-Static analysis report
+-Full commit logs in improvements.pdf (Meaningful commit name/descriptions to)
+Everyone needs to commit.
