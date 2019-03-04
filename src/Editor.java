@@ -90,12 +90,12 @@ public class Editor {
     private boolean processCommand(Command command) {
         boolean wantToQuit = false;
 
-        if (command.isUnknown()) {
+        if (command.hasWord(0)) {
             System.out.println("I don't know what you mean...");
             return false;
         }
 
-        String commandWord = command.getCommandWord();
+        String commandWord = command.getWord(0);
         if (commandWord.equals("help")) {
             printHelp();
         } else if (commandWord.equals("open")) {
@@ -154,13 +154,13 @@ public class Editor {
      * @param command the command given.
      */
     private void open(Command command) {
-        if (!command.hasSecondWord()) {
+        if (!command.hasWord(1)) {
             // if there is no second word, we don't know what to open...
             System.out.println("open what?");
             return ;
         }
   
-        String inputName = command.getSecondWord();
+        String inputName = command.getWord(1);
         ColorImage img = loadImage(inputName);
         if (img == null) {
             printHelp();
@@ -185,13 +185,13 @@ public class Editor {
             printHelp();
             return;
         }
-        if (!command.hasSecondWord()) {
+        if (!command.hasWord(1)) {
             // if there is no second word, we don't know where to save...
             System.out.println("save where?");
             return ;
         }
   
-        String outputName = command.getSecondWord();
+        String outputName = command.getWord(1);
         try {
             File outputFile = new File(outputName);
             ImageIO.write(currentImage, "jpg", outputFile);
@@ -305,13 +305,13 @@ public class Editor {
      * @return whether to quit.
      */
     private boolean script(Command command) {
-        if (!command.hasSecondWord()) {
+        if (!command.hasWord(1)) {
             // if there is no second word, we don't know what to open...
             System.out.println("which script"); 
             return false;
         }
   
-        String scriptName = command.getSecondWord();
+        String scriptName = command.getWord(1);
         Parser scriptParser = new Parser();
         try (FileInputStream inputStream = new FileInputStream(scriptName)) {
             scriptParser.setInputStream(inputStream);
@@ -342,7 +342,7 @@ public class Editor {
      * @return true, if this command quits the editor, false otherwise.
      */
     private boolean quit(Command command) {
-        if (command.hasSecondWord()) {
+        if (command.hasWord(1)) {
             System.out.println("Quit what?");
             return false;
         } else {

@@ -19,76 +19,42 @@
 
 public class Command
 {
-    private String commandWord;
-    private String secondWord;
-    private String thirdWord;
+    private String[] commandList = {null, null, null};
 
     /**
      * Create a command object. First and second word must be supplied, but
      * either one (or both) can be null.
      * @param firstWord The first word of the command. Null if the command
-     *                  was not recognised.
+     *                  was not recognized.
      * @param secondWord The second word of the command.
      * @param thirdWord The second word of the command.
      */
     public Command(String firstWord, String secondWord, String thirdWord)
-    {
-        commandWord = firstWord;
-        this.secondWord = secondWord;
-        this.thirdWord = secondWord;
-
-    }
-
-    /**
-     * Return the command word (the first word) of this command. If the
-     * command was not understood, the result is null.
-     * @return The command word.
-     */
-    public String getCommandWord()
-    {
-        return commandWord;
-    }
-
-    /**
-     * @return The second word of this command. Returns null if there was no
-     * second word.
-     */
-    public String getSecondWord()
-    {
-        return secondWord;
-    }
-
-    /**
-     * @return The third word of this command. Returns null if there was no
-     * third word.
-     */
-    public String getThirdWord()
-    {
-        return secondWord;
+    {   
+        commandList[0] = firstWord;
+        commandList[1] = secondWord;
+        commandList[2] = thirdWord;
     }
     
     /**
-     * @return true if this command was not understood.
+     * Check the value at the given position is not null.
+     * @param pos
+     * @return true if the value at the specified position is not null.
      */
-    public boolean isUnknown()
-    {
-        return (commandWord == null);
-    }
-
-    /**
-     * @return true if the command has a second word.
-     */
-    public boolean hasSecondWord()
-    {
-        return (secondWord != null);
+    
+    public boolean hasWord(int pos){
+        
+        return commandList[pos] != null;
     }
     
-    /**
-     * @return true if the command has a third word.
+     /**
+     * Get the word at the specified position.
+     * @param pos
+     * @return the word at the specified position.
      */
-    public boolean hasThirdWord()
-    {
-        return (thirdWord != null);
+    
+    public String getWord(int pos){
+        
+        return commandList[pos];
     }
 }
-
