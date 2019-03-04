@@ -35,7 +35,8 @@ public class Parser
         reader = new Scanner(str);
     }
     /**
-     * @return The next command from the user.
+     * @return The next command from the user. Returns a command object which is created out of user input.
+     * 
      */
     public Command getCommand() 
     {
