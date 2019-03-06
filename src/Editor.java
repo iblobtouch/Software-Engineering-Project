@@ -39,7 +39,7 @@ public class Editor {
      */
     public Editor(ResourceBundle messages) {
         this.messages = messages;
-        parser = new Parser();
+        parser = new Parser(messages);
     }
 
     /**
@@ -324,7 +324,7 @@ public class Editor {
         }
   
         String scriptName = command.getSecondWord();
-        Parser scriptParser = new Parser();
+        Parser scriptParser = new Parser(messages);
         try (FileInputStream inputStream = new FileInputStream(scriptName)) {
             scriptParser.setInputStream(inputStream);
             boolean finished = false;

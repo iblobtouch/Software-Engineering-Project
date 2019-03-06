@@ -7,20 +7,27 @@
  *
  * @version 2013.09.09
  */
-
+import java.util.*;
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-        "open", "save", "look", "mono", "rot90", "help", "quit", "script"
-    };
+    private String[] validCommands;
 
     /**
      * Constructor - initialise the command words.
      */
-    public CommandWords()
+    public CommandWords(ResourceBundle messages)
     {
         // nothing to do at the moment...
+        validCommands = new String[] {
+            messages.getString("openFunc"),
+            messages.getString("saveFunc"),
+            messages.getString("lookFunc"),
+            messages.getString("monoFunc"),
+            messages.getString("rotate90Func"),
+            messages.getString("helpFunc"),
+            messages.getString("quitFunc"),
+            messages.getString("scriptFunc")};
     }
 
     /**

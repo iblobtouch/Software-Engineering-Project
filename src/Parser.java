@@ -17,17 +17,20 @@ import java.util.Scanner;
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
+import java.util.*;
 public class Parser 
 {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
     
+    private ResourceBundle messages;
+    
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser() 
+    public Parser(ResourceBundle messages) 
     {
-        commands = new CommandWords();
+        commands = new CommandWords(messages);
         reader = new Scanner(System.in);
     }
 
