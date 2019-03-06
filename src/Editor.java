@@ -24,15 +24,15 @@ import javax.imageio.ImageIO;
 import java.util.*;
 public class Editor {
 
-    Parser parser;
-    ColorImage currentImage;
-    String name;
-    String filter1;
-    String filter2;
-    String filter3;
-    String filter4;
+    private Parser parser;
+    private ColorImage currentImage;
+    private String name;
+    private String filter1;
+    private String filter2;
+    private String filter3;
+    private String filter4;
     
-    ResourceBundle messages;
+    private ResourceBundle messages;
    
     /**
      * Create the editor and initialise its parser.
