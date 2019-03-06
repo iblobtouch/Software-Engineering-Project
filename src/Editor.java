@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  * @author Joseph Williams
  * @version 2018.12.12
  */
-
+import java.util.*;
 public class Editor {
 
     Parser parser;
@@ -31,11 +31,14 @@ public class Editor {
     String filter2;
     String filter3;
     String filter4;
+    
+    ResourceBundle messages;
    
     /**
      * Create the editor and initialise its parser.
      */
-    public Editor() {
+    public Editor(ResourceBundle messages) {
+        this.messages = messages;
         parser = new Parser();
     }
 
@@ -52,7 +55,7 @@ public class Editor {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for using Fotoshop.  Good bye.");
+        System.out.println(messages.getString("finishMsg"));
     }
 
     /**
@@ -60,12 +63,12 @@ public class Editor {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome to Fotoshop!");
-        System.out.println("Fotoshop is an amazing new, image editing tool.");
-        System.out.println("Type 'help' if you need help.");
+        System.out.println(messages.getString("welcomeMsg"));
+        System.out.println(messages.getString("introMsg"));
+        System.out.println(messages.getString("helpIns"));
         System.out.println();
-        System.out.println("The current image is " + name);
-        System.out.print("Filters applied: ");
+        System.out.println(messages.getString("currentImg") + name);
+        System.out.print(messages.getString("appliedFltrs"));
         if (filter1 != null) {
             System.out.print(filter1 + " ");
         }
@@ -91,26 +94,26 @@ public class Editor {
         boolean wantToQuit = false;
 
         if (command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println(messages.getString("unclearMsg"));
             return false;
         }
 
         String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
+        if (commandWord.equals(messages.getString("helpFunc"))) {
             printHelp();
-        } else if (commandWord.equals("open")) {
+        } else if (commandWord.equals(messages.getString("openFunc"))) {
             open(command);
-        } else if (commandWord.equals("save")) {
+        } else if (commandWord.equals(messages.getString("saveFunc"))) {
             save(command);
-        } else if (commandWord.equals("mono")) {
+        } else if (commandWord.equals(messages.getString("monoFunc"))) {
             mono(command);
-        } else if (commandWord.equals("rot90")) {
+        } else if (commandWord.equals(messages.getString("rotate90Func"))) {
             rot90(command);
-        } else if (commandWord.equals("look")) {
+        } else if (commandWord.equals(messages.getString("lookFunc"))) {
             look(command);
-        } else if (commandWord.equals("script")) {
+        } else if (commandWord.equals(messages.getString("scriptFunc"))) {
             wantToQuit = script(command);
-        } else if (commandWord.equals("quit")) {
+        } else if (commandWord.equals(messages.getString("quitFunc"))) {
             wantToQuit = quit(command);
         }
         return wantToQuit;
@@ -125,10 +128,19 @@ public class Editor {
      * message and a list of the command words.
      */
     private void printHelp() {
-        System.out.println("You are using Fotoshop.");
+        System.out.println(messages.getString("helpMsg1"));
         System.out.println();
-        System.out.println("Your command words are:");
-        System.out.println("   open save look mono flipH rot90 help quit");
+        System.out.println(messages.getString("helpMsg2"));
+        System.out.println("   " +
+                            messages.getString("openFunc") + " " +
+                            messages.getString("saveFunc") + " " +
+                            messages.getString("lookFunc") + " " +
+                            messages.getString("monoFunc") + " " +
+                            messages.getString("flipHFunc") + " " +
+                            messages.getString("rotate90Func") + " " +
+                            messages.getString("helpFunc") + " " +
+                            messages.getString("quitFunc"));
+        
     }
 
     /**
@@ -141,8 +153,8 @@ public class Editor {
         try {
             img = new ColorImage(ImageIO.read(new File(name)));
         } catch (IOException e) {
-            System.out.println("Cannot find image file, " + name);
-            System.out.println("cwd is " + System.getProperty("user.dir"));
+            System.out.println(messages.getString("imgNotFound") + name);
+            System.out.println(messages.getString("imgDir") + System.getProperty("user.dir"));
         }
         return img;
     }
@@ -156,7 +168,7 @@ public class Editor {
     private void open(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            System.out.println("open what?");
+            System.out.println(messages.getString("openWhat"));
             return ;
         }
   
@@ -171,7 +183,7 @@ public class Editor {
             filter2 = null;
             filter3 = null;
             filter4 = null;
-            System.out.println("Loaded " + name);
+            System.out.println(messages.getString("loaded") + name);
         }
     }
 
@@ -187,7 +199,7 @@ public class Editor {
         }
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
-            System.out.println("save where?");
+            System.out.println(messages.getString("saveWhere"));
             return ;
         }
   
@@ -195,7 +207,7 @@ public class Editor {
         try {
             File outputFile = new File(outputName);
             ImageIO.write(currentImage, "jpg", outputFile);
-            System.out.println("Image saved to " + outputName);
+            System.out.println(messages.getString("imgSavedTo") + outputName);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             printHelp();
@@ -207,8 +219,8 @@ public class Editor {
      * @param command the command given.
      */
     private void look(Command command) {
-        System.out.println("The current image is " + name);
-        System.out.print("Filters applied: ");
+        System.out.println(messages.getString("currentImg") + name);
+        System.out.print(messages.getString("appliedFltrs"));
         if (filter1 != null) {
             System.out.print(filter1 + " ");
         }
@@ -230,7 +242,7 @@ public class Editor {
      */
     private void mono(Command command) {
         if (filter4 != null) {
-            System.out.println("Filter pipeline exceeded");
+            System.out.println(messages.getString("exceededPipe"));
             return;
         }
         
@@ -266,7 +278,7 @@ public class Editor {
      */
     private void rot90(Command command) {
         if (filter4 != null) {
-            System.out.println("Filter pipeline exceeded");
+            System.out.println(messages.getString("exceededPipe"));
             return;
         }
         
@@ -307,7 +319,7 @@ public class Editor {
     private boolean script(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            System.out.println("which script"); 
+            System.out.println(messages.getString("whichScript")); 
             return false;
         }
   
@@ -327,11 +339,11 @@ public class Editor {
             return finished;
         } 
         catch (FileNotFoundException ex) {
-            System.out.println("Cannot find " + scriptName);
+            System.out.println(messages.getString("cannotFind") + scriptName);
             return false;
         }
         catch (IOException ex) {
-            throw new RuntimeException("Panic: script barfed!");
+            throw new RuntimeException(messages.getString("scriptBarfed"));
         }
     }
     
@@ -343,7 +355,7 @@ public class Editor {
      */
     private boolean quit(Command command) {
         if (command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println(messages.getString("quitWhat"));
             return false;
         } else {
             return true;  // signal that we want to quit
