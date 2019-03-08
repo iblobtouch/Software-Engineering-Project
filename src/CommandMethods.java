@@ -32,19 +32,11 @@ public class CommandMethods {
      * message and a list of the command words.
      * @return Formatted text containing help.
      */
-    public String printHelp() {
+    public String getHelp(CommandWords c) {
         String helpText = "";
         helpText = helpText.concat(messages.getString("helpMsg1") + "\n");
         helpText = helpText.concat(messages.getString("helpMsg2") + "\n");
-        helpText = helpText.concat("   " +
-                            messages.getString("openFunc") + " " +
-                            messages.getString("saveFunc") + " " +
-                            messages.getString("lookFunc") + " " +
-                            messages.getString("monoFunc") + " " +
-                            messages.getString("flipHFunc") + " " +
-                            messages.getString("rotate90Func") + " " +
-                            messages.getString("helpFunc") + " " +
-                            messages.getString("quitFunc"));
+        helpText = helpText.concat(c.getCommands());
         return helpText;
     }
 
@@ -174,19 +166,18 @@ public class CommandMethods {
      * the script file.
      * @return What command to execute, null for no command.
      */
-    public Command script(Command command) throws Exception{
+    public Command script(Command command, Parser parser) throws Exception{
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
             throw new IllegalArgumentException(messages.getString("whichScript"));
         }
   
         String scriptName = command.getSecondWord();
-        Parser scriptParser = new Parser(messages);
         try (FileInputStream inputStream = new FileInputStream(scriptName)) {
-            scriptParser.setInputStream(inputStream);
+            parser.setInputStream(inputStream);
             while (true) {
                 try {
-                    Command cmd = scriptParser.getCommand();
+                    Command cmd = parser.getCommand();
                     return cmd;
                 } catch (Exception ex) {
                     throw ex;
@@ -197,7 +188,7 @@ public class CommandMethods {
             throw new FileNotFoundException(messages.getString("cannotFind") + scriptName);
         }
         catch (IOException ex) {
-            throw new IOException(messages.getString("scriptBarfed"));
+            throw new IOException(messages.getString("scriptBarfed"), ex);
         }
     }
     
@@ -213,5 +204,9 @@ public class CommandMethods {
         } else {
             return true;  // signal that we want to quit
         }
+    }
+    
+    public boolean test() {
+        return true;
     }
 }

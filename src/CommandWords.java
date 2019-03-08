@@ -7,11 +7,13 @@
  *
  * @version 2013.09.09
  */
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private String[] validCommands;
+    private ArrayList<String> validCommands;
 
     /**
      * Constructor - initialise the command words.
@@ -19,15 +21,16 @@ public class CommandWords
     public CommandWords(ResourceBundle messages)
     {
         // nothing to do at the moment...
-        validCommands = new String[] {
-            messages.getString("openFunc"),
-            messages.getString("saveFunc"),
-            messages.getString("lookFunc"),
-            messages.getString("monoFunc"),
-            messages.getString("rotate90Func"),
-            messages.getString("helpFunc"),
-            messages.getString("quitFunc"),
-            messages.getString("scriptFunc")};
+        Class c = CommandMethods.class;
+        Method[] m = c.getDeclaredMethods();
+        System.out.println(Arrays.toString(m));
+        validCommands = new ArrayList<String>(m.length);
+        
+        for (int i = 0; i < m.length; i += 1) {
+            if (Modifier.isPublic(m[i].getModifiers())) {
+                validCommands.add(messages.getString(m[i].getName() + "Func"));
+            }
+        }
     }
 
     /**
@@ -37,11 +40,14 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
+        if(validCommands.contains(aString)) {
+            return true;
         }
         // if we get here, the string was not found in the commands
         return false;
+    }
+    
+    public String getCommands() {
+        return validCommands.toString();
     }
 }

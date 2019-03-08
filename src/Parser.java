@@ -26,9 +26,9 @@ public class Parser
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser(ResourceBundle messages) 
+    public Parser(CommandWords c, ResourceBundle messages) 
     {
-        commands = new CommandWords(messages);
+        commands = c;
         reader = new Scanner(System.in);
     }
 
