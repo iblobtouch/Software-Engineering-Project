@@ -4,9 +4,9 @@ Improvements document needs to be split (Sohail)-
 -Improvements.pdf reports on changes made, containing brief points on the changes made, how they improved the project overall.
 
 New additions:
--Test cases, adequate for testing the system + evidence of good unit test coverage in improvements.pdf (Nick).
+-Test cases, adequate for testing the system + evidence of good unit test coverage in improvements.pdf (Gerron).
 -Undo command, revert filters applied (Nick).
--Image cache, with commands to put images in it and get them back, storing the filters applied with each one. (Gerron)
+-Image cache, with commands to put images in it and get them back, storing the filters applied with each one. (Nick).
 -Javadocs documentation, providing good documentation on how the code/project overall works. (Gerron)
 -Static analysis report filled out. (Sohail)
 -Full commit logs in improvements.pdf (Meaningful commit name/descriptions to)
