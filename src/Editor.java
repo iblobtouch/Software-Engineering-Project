@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
 import java.util.*;
 public class Editor {
 
+    private CommandWords commands;
     private Parser parser;
     private CommandMethods methods;
     private ColorImage currentImage;
@@ -37,7 +38,8 @@ public class Editor {
      */
     public Editor(ResourceBundle messages) {
         this.messages = messages;
-        parser = new Parser(messages);
+        commands = new CommandWords(messages);
+        parser = new Parser(commands, messages);
         this.methods = new CommandMethods(messages);
         filters = new ArrayList<String>(4);
     }
@@ -91,8 +93,8 @@ public class Editor {
         }
 
         String commandWord = command.getCommandWord();
-        if (commandWord.equals(messages.getString("helpFunc"))) {
-            System.out.println(methods.printHelp());
+        if (commandWord.equals(messages.getString("getHelpFunc"))) {
+            System.out.println(methods.getHelp(commands));
         } else if (commandWord.equals(messages.getString("openFunc"))) {
             try {
                 currentImage = methods.open(command);
@@ -110,14 +112,14 @@ public class Editor {
         } else if (commandWord.equals(messages.getString("monoFunc"))) {
             currentImage = methods.mono(currentImage);
             filters.add("mono");
-        } else if (commandWord.equals(messages.getString("rotate90Func"))) {
+        } else if (commandWord.equals(messages.getString("rot90Func"))) {
             currentImage = methods.mono(currentImage);
             filters.add("flipH");
         } else if (commandWord.equals(messages.getString("lookFunc"))) {
             System.out.println(methods.look(name, filters));
         } else if (commandWord.equals(messages.getString("scriptFunc"))) {
             try {
-                Command cmd = methods.script(command);
+                Command cmd = methods.script(command, new Parser(commands, messages));
                 wantToQuit = processCommand(cmd);
             } catch(Exception ex) {
                 System.out.println(ex);
@@ -127,6 +129,8 @@ public class Editor {
             if (command.hasSecondWord()) {
                 System.out.println(messages.getString("quitWhat"));
             }
+        } else if (commandWord.equals(messages.getString("testFunc"))) {
+                System.out.println("Ping");
         }
         return wantToQuit;
     }
