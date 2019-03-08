@@ -1,13 +1,13 @@
 Stuff to change:
-Improvements document needs to be split-
+Improvements document needs to be split (Sohail)-
 -Critiques.pdf critiques the current system, containing bullet points with a brief description of why it's bad.
--Improvements.pdf reports on changes made, containing brief points on the changes made, how they improved stuff.
+-Improvements.pdf reports on changes made, containing brief points on the changes made, how they improved the project overall.
 
 New additions:
--Test cases
--Undo command
--Image cache
--Javadocs documentation
--Static analysis report
+-Test cases, adequate for testing the system + evidence of good unit test coverage in improvements.pdf (Nick).
+-Undo command, revert filters applied (Nick).
+-Image cache, with commands to put images in it and get them back, storing the filters applied with each one. (Gerron)
+-Javadocs documentation, providing good documentation on how the code/project overall works. (Gerron)
+-Static analysis report filled out. (Sohail)
 -Full commit logs in improvements.pdf (Meaningful commit name/descriptions to)
 Everyone needs to commit.
