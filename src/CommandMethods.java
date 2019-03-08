@@ -53,13 +53,12 @@ public class CommandMethods {
      * @param name The name of the image file
      * @return a ColorImage containing the image
      */
-    private ColorImage loadImage(String name) {
+    private ColorImage loadImage(String name) throws IOException {
         ColorImage img = null;
         try {
             img = new ColorImage(ImageIO.read(new File(name)));
         } catch (IOException e) {
-            System.out.println(messages.getString("imgNotFound") + name);
-            System.out.println(messages.getString("imgDir") + System.getProperty("user.dir"));
+            throw new IOException(messages.getString("imgNotFound") + name + "\n" + messages.getString("imgDir") + System.getProperty("user.dir"));
         }
         return img;
     }
@@ -70,13 +69,17 @@ public class CommandMethods {
      * and use as the current image. 
      * @param command the command given.
      */
-    public ColorImage open(Command command) throws RuntimeException {
+    public ColorImage open(Command command) throws Exception {
         if (!command.hasSecondWord()) {
-            throw new RuntimeException(messages.getString("openWhat"));
+            throw new IllegalArgumentException(messages.getString("openWhat"));
         }
   
         String inputName = command.getSecondWord();
-        return loadImage(inputName);
+        try {
+            return loadImage(inputName);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     /**
@@ -84,13 +87,13 @@ public class CommandMethods {
      * second word of the command. 
      * @param command the command given
      */
-    public void save(ColorImage currentImage, Command command) throws RuntimeException {
+    public void save(ColorImage currentImage, Command command) throws Exception {
         if (currentImage == null) {
-            throw new RuntimeException(messages.getString("imgNotFound"));
+            throw new IllegalArgumentException(messages.getString("imgNotFound"));
         }
         
         if (!command.hasSecondWord()) {
-            throw new RuntimeException(messages.getString("saveWhere"));
+            throw new IllegalArgumentException(messages.getString("saveWhere"));
         }
   
         String outputName = command.getSecondWord();
@@ -98,7 +101,7 @@ public class CommandMethods {
             File outputFile = new File(outputName);
             ImageIO.write(currentImage, "jpg", outputFile);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
     }
 
@@ -171,10 +174,10 @@ public class CommandMethods {
      * the script file.
      * @return What command to execute, null for no command.
      */
-    public Command script(Command command) throws RuntimeException{
+    public Command script(Command command) throws Exception{
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            throw new RuntimeException(messages.getString("whichScript"));
+            throw new IllegalArgumentException(messages.getString("whichScript"));
         }
   
         String scriptName = command.getSecondWord();
@@ -186,15 +189,15 @@ public class CommandMethods {
                     Command cmd = scriptParser.getCommand();
                     return cmd;
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    throw ex;
                 }               
             }
         } 
         catch (FileNotFoundException ex) {
-            throw new RuntimeException(messages.getString("cannotFind") + scriptName);
+            throw new FileNotFoundException(messages.getString("cannotFind") + scriptName);
         }
         catch (IOException ex) {
-            throw new RuntimeException(messages.getString("scriptBarfed"));
+            throw new IOException(messages.getString("scriptBarfed"));
         }
     }
     

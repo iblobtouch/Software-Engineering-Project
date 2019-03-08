@@ -97,14 +97,14 @@ public class Editor {
             try {
                 currentImage = methods.open(command);
                 name = command.getSecondWord();
-            } catch (RuntimeException ex) {
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         } else if (commandWord.equals(messages.getString("saveFunc"))) {
             try {
                 methods.save(currentImage, command);
                 System.out.println(messages.getString("imgSavedTo") + command.getSecondWord());
-            } catch (RuntimeException ex) {
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         } else if (commandWord.equals(messages.getString("monoFunc"))) {
@@ -119,7 +119,7 @@ public class Editor {
             try {
                 Command cmd = methods.script(command);
                 wantToQuit = processCommand(cmd);
-            } catch(RuntimeException ex) {
+            } catch(Exception ex) {
                 System.out.println(ex);
             }
         } else if (commandWord.equals(messages.getString("quitFunc"))) {
