@@ -13,24 +13,26 @@ import java.util.*;
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private ArrayList<String> validCommands;
+    private HashMap<String, Command> commands;
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords(ResourceBundle messages)
     {
-        // nothing to do at the moment...
-        Class c = CommandMethods.class;
-        Method[] m = c.getDeclaredMethods();
-        System.out.println(Arrays.toString(m));
-        validCommands = new ArrayList<String>(m.length);
+    	
+    	commands = new HashMap<String, Command>();
         
-        for (int i = 0; i < m.length; i += 1) {
-            if (Modifier.isPublic(m[i].getModifiers())) {
-                validCommands.add(messages.getString(m[i].getName() + "Func"));
-            }
-        }
+        commands.put(messages.getString("openFunc"), new OpenCommand(this, messages));
+        commands.put(messages.getString("saveFunc"), new SaveCommand(this, messages));
+        commands.put(messages.getString("lookFunc"), new LookCommand(messages));
+        commands.put(messages.getString("monoFunc"), new MonoCommand(messages));
+        commands.put(messages.getString("rot90Func"), new Rotate90Command(messages));
+        commands.put(messages.getString("helpFunc"), new HelpCommand(this, messages));
+        commands.put(messages.getString("quitFunc"), new QuitCommand(messages));
+        commands.put(messages.getString("scriptFunc"), new ScriptCommand(messages));
+        // commands.put(messages.getString("flipHFunc"), new HelpCommand(this, messages));
+        
     }
 
     /**
@@ -38,16 +40,22 @@ public class CommandWords
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
-    public boolean isCommand(String aString)
+    public boolean isCommand(String command)
     {
-        if(validCommands.contains(aString)) {
-            return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+        return commands.containsKey(command);
     }
     
-    public String getCommands() {
-        return validCommands.toString();
+    public Command get(String command) {
+    	return commands.get(command);
+    }
+    
+    public String getAll() {
+    	String s = "";
+    	for (Iterator<String> i = commands.keySet().iterator(); i.hasNext(); )
+    	{
+    		s = s + i.next() + " ";
+    	}
+    	s = s + "\n";
+    	return s;
     }
 }

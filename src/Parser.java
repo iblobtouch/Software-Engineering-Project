@@ -26,9 +26,9 @@ public class Parser
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser(CommandWords c, ResourceBundle messages) 
+    public Parser(ResourceBundle messages) 
     {
-        commands = c;
+        commands = new CommandWords(messages);
         reader = new Scanner(System.in);
     }
 
@@ -57,13 +57,21 @@ public class Parser
             wordList[i] = tokenizer.next();
         }
 
+        Command command = commands.get(wordList[0]);
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(wordList[0])) {
-            return new Command(wordList[0], wordList[1], wordList[2]);
+        // if command is null, it means the command does not exists in the HashMap
+        if(command != null) {
+        	command.setSecondWord(wordList[1]);
+        	command.setThirdWord(wordList[2]);  
         }
-        else {
-            return new Command(null, wordList[1], wordList[2]); 
-        }
+        return command;
+
+    }
+    
+    
+    // return a list of valid command words
+    public String getCommands() {
+    	return commands.getAll();
     }
 }

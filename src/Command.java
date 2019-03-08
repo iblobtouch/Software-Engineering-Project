@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * This class is taken from the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -17,9 +19,8 @@
  * @version 2006.03.30
  */
 
-public class Command
+public abstract class Command
 {
-    private String commandWord;
     private String secondWord;
     private String thirdWord;
 
@@ -31,22 +32,11 @@ public class Command
      * @param secondWord The second word of the command.
      * @param thirdWord The second word of the command.
      */
-    public Command(String firstWord, String secondWord, String thirdWord)
+    public Command()
     {
-        commandWord = firstWord;
-        this.secondWord = secondWord;
-        this.thirdWord = secondWord;
+        this.secondWord = null;
+        this.thirdWord = null;
 
-    }
-
-    /**
-     * Return the command word (the first word) of this command. If the
-     * command was not understood, the result is null.
-     * @return The command word.
-     */
-    public String getCommandWord()
-    {
-        return commandWord;
     }
 
     /**
@@ -67,13 +57,6 @@ public class Command
         return secondWord;
     }
     
-    /**
-     * @return true if this command was not understood.
-     */
-    public boolean isUnknown()
-    {
-        return (commandWord == null);
-    }
 
     /**
      * @return true if the command has a second word.
@@ -90,5 +73,15 @@ public class Command
     {
         return (thirdWord != null);
     }
+    
+    public void setSecondWord(String secondWord) {
+    	this.secondWord = secondWord;
+    }
+    
+    public void setThirdWord(String thirdWord) {
+    	this.thirdWord = thirdWord;
+    }
+    
+    public abstract void execute();
 }
 

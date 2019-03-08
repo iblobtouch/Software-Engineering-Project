@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,10 +28,7 @@ public class Editor {
     private CommandWords commands;
     private Parser parser;
     private CommandMethods methods;
-    private ColorImage currentImage;
-    private String name;
-    private ArrayList<String> filters;
-    
+    private Resources sharedResource;
     private ResourceBundle messages;
    
     /**
@@ -39,9 +37,10 @@ public class Editor {
     public Editor(ResourceBundle messages) {
         this.messages = messages;
         commands = new CommandWords(messages);
-        parser = new Parser(commands, messages);
+        parser = new Parser(messages);
         this.methods = new CommandMethods(messages);
-        filters = new ArrayList<String>(4);
+        
+        sharedResource = Resources.getSharedResources();
     }
 
     /**
@@ -52,10 +51,13 @@ public class Editor {
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the editing session is over.
-        boolean finished = false;
-        while (!finished) {
+        while (!sharedResource.getFinished()) {
             Command command = parser.getCommand();
-            finished = processCommand(command);
+            if (command == null) {
+                System.out.println(messages.getString("unclearMsg"));
+            } else {
+            	command.execute();
+            }
         }
         System.out.println(messages.getString("finishMsg"));
     }
@@ -69,69 +71,28 @@ public class Editor {
         System.out.println(messages.getString("introMsg"));
         System.out.println(messages.getString("helpIns"));
         System.out.println();
-        System.out.println(messages.getString("currentImg") + name);
+        System.out.println(messages.getString("currentImg") + sharedResource.getName());
         System.out.print(messages.getString("appliedFltrs"));
-        for (int i = 0; i < filters.size(); i += 1) {
-            System.out.println(filters.get(i));
+        ArrayList<String> appliedFilters = sharedResource.getFilters();
+        for (int i = 0; i < appliedFilters.size(); i += 1) {
+            System.out.println(appliedFilters.get(i));
             System.out.println();
         }
         System.out.println();
     }
 
+    
     /**
+     * DEPRECATED
      * Given a command, edit (that is: execute) the command.
      *
      * @param command The command to be processed.
      * @return true If the command ends the editing session, false otherwise.
      */
+    /*
     private boolean processCommand(Command command) {
-        boolean wantToQuit = false;
+		return false;
 
-        if (command.isUnknown()) {
-            System.out.println(messages.getString("unclearMsg"));
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals(messages.getString("getHelpFunc"))) {
-            System.out.println(methods.getHelp(commands));
-        } else if (commandWord.equals(messages.getString("openFunc"))) {
-            try {
-                currentImage = methods.open(command);
-                name = command.getSecondWord();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else if (commandWord.equals(messages.getString("saveFunc"))) {
-            try {
-                methods.save(currentImage, command);
-                System.out.println(messages.getString("imgSavedTo") + command.getSecondWord());
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else if (commandWord.equals(messages.getString("monoFunc"))) {
-            currentImage = methods.mono(currentImage);
-            filters.add("mono");
-        } else if (commandWord.equals(messages.getString("rot90Func"))) {
-            currentImage = methods.mono(currentImage);
-            filters.add("flipH");
-        } else if (commandWord.equals(messages.getString("lookFunc"))) {
-            System.out.println(methods.look(name, filters));
-        } else if (commandWord.equals(messages.getString("scriptFunc"))) {
-            try {
-                Command cmd = methods.script(command, new Parser(commands, messages));
-                wantToQuit = processCommand(cmd);
-            } catch(Exception ex) {
-                System.out.println(ex);
-            }
-        } else if (commandWord.equals(messages.getString("quitFunc"))) {
-            wantToQuit = methods.quit(command);
-            if (command.hasSecondWord()) {
-                System.out.println(messages.getString("quitWhat"));
-            }
-        } else if (commandWord.equals(messages.getString("testFunc"))) {
-                System.out.println("Ping");
-        }
-        return wantToQuit;
-    }
+    }*/
+    
 }
