@@ -7,16 +7,22 @@
 import java.util.*;
 public class Main {
     
-   public static void main(String[] args) {
+    /**
+     *
+     * @param args - args[0] refers to the language code eg. 'en' and args[1]
+     * refers to the country code eg. 'UK'. These arguments can be set under
+     * properties
+     */
+    public static void main(String[] args) {
         String language;
         String country;
         
         if (args.length != 2) {
-            language = new String("fr");
-            country = new String("FR");
+            language = "en";
+            country = "UK";
         } else {
-            language = new String(args[0]);
-            country = new String(args[1]);
+            language = args[0];
+            country = args[1];
         }
        
         Locale currentLocale;

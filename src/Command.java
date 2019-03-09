@@ -17,41 +17,23 @@
  * @version 2006.03.30
  */
 
-public class Command
+public abstract class Command
 {
-    private String commandWord;
     private String secondWord;
     private String thirdWord;
 
     /**
-     * Create a command object. First and second word must be supplied, but
-     * either one (or both) can be null.
-     * @param firstWord The first word of the command. Null if the command
-     *                  was not recognised.
-     * @param secondWord The second word of the command.
-     * @param thirdWord The second word of the command.
+     * Create a command object and initialises second and third words to null
      */
-    public Command(String firstWord, String secondWord, String thirdWord)
+    public Command()
     {
-        commandWord = firstWord;
-        this.secondWord = secondWord;
-        this.thirdWord = secondWord;
-
+        this.secondWord = null;
+        this.thirdWord = null;
     }
 
     /**
-     * Return the command word (the first word) of this command. If the
-     * command was not understood, the result is null.
-     * @return The command word.
-     */
-    public String getCommandWord()
-    {
-        return commandWord;
-    }
-
-    /**
-     * @return The second word of this command. Returns null if there was no
-     * second word.
+     * @return The second word. Returns null if third word if second word
+     * is not set
      */
     public String getSecondWord()
     {
@@ -59,8 +41,8 @@ public class Command
     }
 
     /**
-     * @return The third word of this command. Returns null if there was no
-     * third word.
+     * @return The third word of this command. Returns null if third word
+     * is not set
      */
     public String getThirdWord()
     {
@@ -68,15 +50,7 @@ public class Command
     }
     
     /**
-     * @return true if this command was not understood.
-     */
-    public boolean isUnknown()
-    {
-        return (commandWord == null);
-    }
-
-    /**
-     * @return true if the command has a second word.
+     * @return true if a second word has been set. Returns false otherwise
      */
     public boolean hasSecondWord()
     {
@@ -84,11 +58,35 @@ public class Command
     }
     
     /**
-     * @return true if the command has a third word.
+     * @return true if a third word has been set. Returns false otherwise
      */
     public boolean hasThirdWord()
     {
         return (thirdWord != null);
     }
+    
+    /**
+     *
+     * @param secondWord - word to set to the secondWord field
+     * Sets the second word with a given parameter
+     */
+    public void setSecondWord(String secondWord) {
+    	this.secondWord = secondWord;
+    }
+    
+    /**
+     *
+     * @param thirdWord - word to set to the thirdWord field
+     * Sets the third word with a given parameter
+     */
+    public void setThirdWord(String thirdWord) {
+    	this.thirdWord = thirdWord;
+    }
+    
+    /**
+     * Abstract method which ensures each function from a command call performs
+     * the corresponding operation
+     */
+    public abstract void execute();
 }
 
