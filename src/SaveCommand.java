@@ -1,37 +1,39 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javax.imageio.ImageIO;
 
-public class SaveCommand extends Command{
-
-	private ResourceBundle messages;
-	private CommandWords commandWords;
-	private Resources sharedResource;
+public class SaveCommand extends Command {
+    private final ResourceBundle messages;
+    private final CommandWords commandWords;
+    private final Resources sharedResource;
 	
-	public SaveCommand(CommandWords words, ResourceBundle messages) {
-		this.messages = messages;
-		this.commandWords = words;
-		sharedResource = Resources.getSharedResources();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     * @param words - instance of commandWords class which enables the
+     * retrieval of all valid commands (used here when HelpCommand is called)
+     * @param messages - Contains the internalisation resource which
+     * enables localisation
+     */
+    public SaveCommand(CommandWords words, ResourceBundle messages) {
+	this.messages = messages;
+	this.commandWords = words;
+	sharedResource = Resources.getSharedResources();
+    }
 	
-	/**
+    /**
      * "save" was entered. Save the current image to the file given as the 
      * second word of the command. 
-     * @param command the command given
      */
     @Override
     public void execute() {
     	if (sharedResource.getCurrentImage() == null) {
-            new HelpCommand(commandWords, messages);
+            new HelpCommand(commandWords, messages).execute();
             return;
         }
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
-        	System.out.println(messages.getString("saveWhere"));
+            System.out.println(messages.getString("saveWhere"));
             return ;
         }
   
@@ -39,14 +41,10 @@ public class SaveCommand extends Command{
         try {
             File outputFile = new File(outputName);
             ImageIO.write(sharedResource.getCurrentImage(), "jpg", outputFile);
-            System.out.println("Image saved to " + outputName);
+            System.out.println(messages.getString("imgSavedTo") + outputName);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            new HelpCommand(commandWords, messages);
+            new HelpCommand(commandWords, messages).execute();
         }
-        
     }
-
-   
-	
 }

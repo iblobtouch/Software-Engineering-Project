@@ -1,12 +1,3 @@
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
 /**
  * This class is the main processing class of the Fotoshop application. 
  * Fotoshop is a very simple image editing tool. Users can apply a number of
@@ -24,27 +15,25 @@ import javax.imageio.ImageIO;
  */
 import java.util.*;
 public class Editor {
-
-    private CommandWords commands;
-    private Parser parser;
-    private CommandMethods methods;
-    private Resources sharedResource;
-    private ResourceBundle messages;
+    private final Parser parser;
+    private final Resources sharedResource;
+    private final ResourceBundle messages;
    
     /**
-     * Create the editor and initialise its parser.
+     * Create the editor and initialise its parser, shared Resource and 
+     * internalised resource
+     * @param messages - Contains the internalisation resource which
+     * enables localisation
      */
     public Editor(ResourceBundle messages) {
+        this.parser = new Parser(messages);
+        this.sharedResource = Resources.getSharedResources();
         this.messages = messages;
-        commands = new CommandWords(messages);
-        parser = new Parser(messages);
-        this.methods = new CommandMethods(messages);
-        
-        sharedResource = Resources.getSharedResources();
     }
 
     /**
      * Main edit routine. Loops until the end of the editing session.
+     * Executes command operations until its requested termination
      */
     public void edit() {
         printWelcome();
@@ -61,6 +50,19 @@ public class Editor {
         }
         System.out.println(messages.getString("finishMsg"));
     }
+    
+    /**
+     *
+     * @param command - user commands executed from a script
+     * edit with a provided command as parameter. Used in scripts
+     */
+    public void edit(Command command) {
+        if (command == null) {
+            System.out.println(messages.getString("unclearMsg"));
+        } else {
+            command.execute();
+        }
+    }
 
     /**
      * Print out the opening message for the user.
@@ -73,26 +75,12 @@ public class Editor {
         System.out.println();
         System.out.println(messages.getString("currentImg") + sharedResource.getName());
         System.out.print(messages.getString("appliedFltrs"));
-        ArrayList<String> appliedFilters = sharedResource.getFilters();
-        for (int i = 0; i < appliedFilters.size(); i += 1) {
-            System.out.println(appliedFilters.get(i));
-            System.out.println();
+        String[] appliedFilters = sharedResource.getFilters();
+        for (String appliedFilter : appliedFilters) {
+            if (appliedFilter != null) {
+                System.out.println(appliedFilter + " ");
+            }
         }
         System.out.println();
     }
-
-    
-    /**
-     * DEPRECATED
-     * Given a command, edit (that is: execute) the command.
-     *
-     * @param command The command to be processed.
-     * @return true If the command ends the editing session, false otherwise.
-     */
-    /*
-    private boolean processCommand(Command command) {
-		return false;
-
-    }*/
-    
 }

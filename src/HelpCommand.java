@@ -1,30 +1,31 @@
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class HelpCommand extends Command{
 
-	private CommandWords commandWords;
-	private ResourceBundle messages;
-	private Resources sharedResource;
+    private final CommandWords commandWords;
+    private final ResourceBundle messages;
 	
-	public HelpCommand(CommandWords words, ResourceBundle messages) {
-		commandWords = words;
-		this.messages = messages;
-		sharedResource = Resources.getSharedResources();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     * @param words - instance of commandWords class which enables the
+     * retrieval of all valid commands
+     * @param messages - Contains the internalisation resource which
+     * enables localisation
+     */
+    public HelpCommand(CommandWords words, ResourceBundle messages) {
+        commandWords = words;
+	this.messages = messages;
+    }
 	
-	 /**
+    /**
      * Print out some help information. Here we print some useless, cryptic
      * message and a list of the command words.
-     * @return Formatted text containing help.
      */
-	@Override
+    @Override
     public void execute() {
         System.out.println(messages.getString("helpMsg1"));
         System.out.println(messages.getString("helpMsg2"));
         System.out.println(commandWords.getAll());
-
     }
 	
 }

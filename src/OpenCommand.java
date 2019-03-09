@@ -1,27 +1,30 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javax.imageio.ImageIO;
 
 public class OpenCommand extends Command{
 
-	private ResourceBundle messages;
-	private CommandWords commandWords;
-	private Resources sharedResource;
+    private final ResourceBundle messages;
+    private final CommandWords commandWords;
+    private final Resources sharedResource;
 	
-	public OpenCommand(CommandWords words, ResourceBundle messages) {
-		this.messages = messages;
-		this.commandWords = words;
-		sharedResource = Resources.getSharedResources();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     * @param words - instance of commandWords class which enables the
+     * retrieval of all valid commands (used here when HelpCommand is called)
+     * @param messages - Contains the internalisation resource which
+     * enables localisation
+     */
+    public OpenCommand(CommandWords words, ResourceBundle messages) {
+        this.messages = messages;
+        this.commandWords = words;
+        sharedResource = Resources.getSharedResources();
+    }
 	
-	 /**
+    /**
      * "open" was entered. Open the file given as the second word of the command
      * and use as the current image. 
-     * @param command the command given.
      */
     @Override
     public void execute() {
@@ -30,32 +33,25 @@ public class OpenCommand extends Command{
             System.out.println(messages.getString("openWhat"));
             return ;
         }
-  
         String inputName = this.getSecondWord();
-        
-		try {
-			ColorImage img = loadImage(inputName);
-
-			if (img == null) {
-	            new HelpCommand(commandWords, messages);
-	        } else {
-	        	sharedResource.setImage(img);
-	            sharedResource.setName(inputName);
-	            //Initialise array list
-	            sharedResource.getFilters().add(null);
-	            sharedResource.getFilters().add(null);
-	            sharedResource.getFilters().add(null);
-	            sharedResource.getFilters().add(null);
-	            System.out.println("Loaded " + sharedResource.getName());
-	        }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+        try {
+            ColorImage img = loadImage(inputName);
+            if (img == null) {
+                new HelpCommand(commandWords, messages).execute();
+	    } else {
+                sharedResource.setImage(img);
+	        sharedResource.setName(inputName);
+	        // Initialise array list
+	        sharedResource.initialiseFilters();
+	        System.out.println(messages.getString("loaded") + sharedResource.getName());
+	    }
+	} catch (IOException e) {
+            // Peform logging
+            e.printStackTrace();
+	}
     }
-	
-	/**
+    
+    /**
      * Load an image from a file.
      * @param name The name of the image file
      * @return a ColorImage containing the image
@@ -68,9 +64,5 @@ public class OpenCommand extends Command{
             throw new IOException(messages.getString("imgNotFound") + name + "\n" + messages.getString("imgDir") + System.getProperty("user.dir"));
         }
         return img;
-    }
-
-
-   
-	
+    }	
 }

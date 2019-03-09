@@ -1,31 +1,27 @@
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
-
-public class Rotate90Command extends Command{
-
-	private ResourceBundle messages;
-	private Resources sharedResource;
+public class Rotate90Command extends Command {
+    private final ResourceBundle messages;
+    private final Resources sharedResource;
 	
-	public Rotate90Command(ResourceBundle messages) {
-		this.messages = messages;
-		sharedResource = Resources.getSharedResources();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     * @param messages - Contains the internalisation resource which
+     * enables localisation
+     */
+    public Rotate90Command(ResourceBundle messages) {
+	this.messages = messages;
+	sharedResource = Resources.getSharedResources();
+    }
 	
-	/**
+    /**
      * "rot90" was entered. Rotate the current image 90 degrees. 
-     * @param command the command given.
      */
     @Override
     public void execute() {
-    	ArrayList<String> filterList = sharedResource.getFilters();
-    	if (filterList.get(3) != null) {
-            System.out.println(messages.getString("exceedPipe"));
+    	if (sharedResource.getFilters()[3] != null) {
+            System.out.println(messages.getString("exceededPipe"));
             return;
         }
         
@@ -41,19 +37,16 @@ public class Rotate90Command extends Command{
                 rotImage.setPixel(height-y-1,x, pix);
             }
         }
-        sharedResource.setImage(rotImage);
-        if (filterList.get(0) == null) {
-        	sharedResource.addFilter(0, "flipH");
-        } else if (filterList.get(1) == null) {
-        	sharedResource.addFilter(1, "flipH");
-        } else if (filterList.get(2) == null) {
-        	sharedResource.addFilter(2, "flipH");
-        } else if (filterList.get(3) == null) {
-        	sharedResource.addFilter(3, "flipH");
-        }
         
+        sharedResource.setImage(rotImage);
+        if (sharedResource.getFilters()[0] == null) {
+            sharedResource.addFilter(0, "rot90");
+        } else if (sharedResource.getFilters()[1] == null) {
+            sharedResource.addFilter(1, "rot90");
+        } else if (sharedResource.getFilters()[2] == null) {
+            sharedResource.addFilter(2, "rot90");
+        } else if (sharedResource.getFilters()[3] == null) {
+            sharedResource.addFilter(3, "rot90");
+        }
     }
-
-   
-	
 }

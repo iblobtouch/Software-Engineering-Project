@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * This class is taken from the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -25,23 +23,17 @@ public abstract class Command
     private String thirdWord;
 
     /**
-     * Create a command object. First and second word must be supplied, but
-     * either one (or both) can be null.
-     * @param firstWord The first word of the command. Null if the command
-     *                  was not recognised.
-     * @param secondWord The second word of the command.
-     * @param thirdWord The second word of the command.
+     * Create a command object and initialises second and third words to null
      */
     public Command()
     {
         this.secondWord = null;
         this.thirdWord = null;
-
     }
 
     /**
-     * @return The second word of this command. Returns null if there was no
-     * second word.
+     * @return The second word. Returns null if third word if second word
+     * is not set
      */
     public String getSecondWord()
     {
@@ -49,17 +41,16 @@ public abstract class Command
     }
 
     /**
-     * @return The third word of this command. Returns null if there was no
-     * third word.
+     * @return The third word of this command. Returns null if third word
+     * is not set
      */
     public String getThirdWord()
     {
         return secondWord;
     }
     
-
     /**
-     * @return true if the command has a second word.
+     * @return true if a second word has been set. Returns false otherwise
      */
     public boolean hasSecondWord()
     {
@@ -67,21 +58,35 @@ public abstract class Command
     }
     
     /**
-     * @return true if the command has a third word.
+     * @return true if a third word has been set. Returns false otherwise
      */
     public boolean hasThirdWord()
     {
         return (thirdWord != null);
     }
     
+    /**
+     *
+     * @param secondWord - word to set to the secondWord field
+     * Sets the second word with a given parameter
+     */
     public void setSecondWord(String secondWord) {
     	this.secondWord = secondWord;
     }
     
+    /**
+     *
+     * @param thirdWord - word to set to the thirdWord field
+     * Sets the third word with a given parameter
+     */
     public void setThirdWord(String thirdWord) {
     	this.thirdWord = thirdWord;
     }
     
+    /**
+     * Abstract method which ensures each function from a command call performs
+     * the corresponding operation
+     */
     public abstract void execute();
 }
 
