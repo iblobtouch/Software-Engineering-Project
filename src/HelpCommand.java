@@ -9,7 +9,7 @@ public class HelpCommand extends Command{
      *
      * @param words - instance of commandWords class which enables the
      * retrieval of all valid commands
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public HelpCommand(CommandWords words, ResourceBundle messages) {

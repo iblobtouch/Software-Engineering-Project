@@ -13,7 +13,7 @@ public class OpenCommand extends Command{
      *
      * @param words - instance of commandWords class which enables the
      * retrieval of all valid commands (used here when HelpCommand is called)
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public OpenCommand(CommandWords words, ResourceBundle messages) {

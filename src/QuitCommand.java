@@ -6,7 +6,7 @@ public class QuitCommand extends Command {
 	
     /**
      *
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public QuitCommand(ResourceBundle messages) {

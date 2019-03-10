@@ -32,7 +32,7 @@ public abstract class Command
     }
 
     /**
-     * @return The second word. Returns null if third word if second word
+     * @return The second word of this command. Returns null if second word
      * is not set
      */
     public String getSecondWord()
@@ -86,6 +86,7 @@ public abstract class Command
     /**
      * Abstract method which ensures each function from a command call performs
      * the corresponding operation
+     * @return output for each operation executed
      */
     public abstract String execute();
 }

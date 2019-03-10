@@ -25,7 +25,7 @@ public class Parser
     
     /**
      * Create a parser to read from the terminal window.
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public Parser(ResourceBundle messages) 

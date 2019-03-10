@@ -6,7 +6,8 @@ public class LookCommand extends Command {
 	
     /**
      *
-     * @param messages
+     * @param messages - Contains the internationalisation resource which
+     * enables localisation
      */
     public LookCommand(ResourceBundle messages) {
 	this.messages = messages;

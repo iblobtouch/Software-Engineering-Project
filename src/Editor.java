@@ -21,8 +21,8 @@ public class Editor {
    
     /**
      * Create the editor and initialise its parser, shared Resource and 
-     * internalised resource
-     * @param messages - Contains the internalisation resource which
+     * internationalised resource
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public Editor(ResourceBundle messages) {
