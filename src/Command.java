@@ -87,6 +87,6 @@ public abstract class Command
      * Abstract method which ensures each function from a command call performs
      * the corresponding operation
      */
-    public abstract void execute();
+    public abstract String execute();
 }
 

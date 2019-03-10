@@ -17,12 +17,13 @@ public class Rotate90Command extends Command {
 	
     /**
      * "rot90" was entered. Rotate the current image 90 degrees. 
+     * @return result after rotating image to 90 degrees
      */
     @Override
-    public void execute() {
+    public String execute() {
+        String output = "";
     	if (sharedResource.getFilters()[3] != null) {
-            System.out.println(messages.getString("exceededPipe"));
-            return;
+            return messages.getString("exceededPipe") + "\n";
         }
         
         // R90 = [0 -1, 1 0] rotates around origin
@@ -39,14 +40,14 @@ public class Rotate90Command extends Command {
         }
         
         sharedResource.setImage(rotImage);
-        if (sharedResource.getFilters()[0] == null) {
-            sharedResource.addFilter(0, "rot90");
-        } else if (sharedResource.getFilters()[1] == null) {
-            sharedResource.addFilter(1, "rot90");
-        } else if (sharedResource.getFilters()[2] == null) {
-            sharedResource.addFilter(2, "rot90");
-        } else if (sharedResource.getFilters()[3] == null) {
-            sharedResource.addFilter(3, "rot90");
+        
+        for (int i =0; i < sharedResource.getFilters().length; i++) {
+            if (sharedResource.getFilters()[i] == null) {
+                sharedResource.addFilter(i, "rot90");
+                break;
+            }
         }
+        
+        return output;
     }
 }

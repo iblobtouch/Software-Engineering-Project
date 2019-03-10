@@ -15,23 +15,21 @@ public class LookCommand extends Command {
 	
     /**
      * "look" was entered. Report the status of the work bench. 
+     * @return current state of image
      */
     @Override
-    public void execute() {
-    	System.out.println(messages.getString("currentImg") + sharedResource.getName());
-        System.out.print(messages.getString("appliedFltrs"));
-        if (sharedResource.getFilters()[0] != null) {
-            System.out.print(sharedResource.getFilters()[0] + " ");
+    public String execute() {
+        String output;
+        output = messages.getString("currentImg") + sharedResource.getName()
+                + "\n" + messages.getString("appliedFltrs");
+        
+        for (String filter : sharedResource.getFilters()) {
+            if (filter != null) {
+                output += filter + " ";
+            }
         }
-        if (sharedResource.getFilters()[1]!= null) {
-            System.out.print(sharedResource.getFilters()[1] + " ");
-        }
-        if (sharedResource.getFilters()[2] != null) {
-            System.out.print(sharedResource.getFilters()[2] + " ");
-        }
-        if (sharedResource.getFilters()[3] != null) {
-            System.out.print(sharedResource.getFilters()[3] + " ");
-        }
-        System.out.println();
+        output += "\n";
+        
+        return output;
     }	
 }

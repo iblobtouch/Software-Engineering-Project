@@ -25,30 +25,33 @@ public class OpenCommand extends Command{
     /**
      * "open" was entered. Open the file given as the second word of the command
      * and use as the current image. 
+     * @return the result of opening an image file
      */
     @Override
-    public void execute() {
+    public String execute() {
+        String output = "";
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            System.out.println(messages.getString("openWhat"));
-            return ;
+            return messages.getString("openWhat") + "\n";
         }
         String inputName = this.getSecondWord();
         try {
             ColorImage img = loadImage(inputName);
             if (img == null) {
-                new HelpCommand(commandWords, messages).execute();
+                output += new HelpCommand(commandWords, messages).execute();
 	    } else {
                 sharedResource.setImage(img);
 	        sharedResource.setName(inputName);
 	        // Initialise array list
 	        sharedResource.initialiseFilters();
-	        System.out.println(messages.getString("loaded") + sharedResource.getName());
+                output += messages.getString("loaded") + sharedResource.getName() + "\n";
 	    }
 	} catch (IOException e) {
             // Peform logging
             e.printStackTrace();
 	}
+        
+        return output;
     }
     
     /**

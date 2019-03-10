@@ -24,27 +24,30 @@ public class SaveCommand extends Command {
     /**
      * "save" was entered. Save the current image to the file given as the 
      * second word of the command. 
+     * @return output after saving image file
      */
     @Override
-    public void execute() {
+    public String execute() {
+        String output = "";
     	if (sharedResource.getCurrentImage() == null) {
-            new HelpCommand(commandWords, messages).execute();
-            return;
+            return new HelpCommand(commandWords, messages).execute();
         }
+        
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
-            System.out.println(messages.getString("saveWhere"));
-            return ;
+            return messages.getString("saveWhere") + "\n";
         }
   
         String outputName = this.getSecondWord();
         try {
             File outputFile = new File(outputName);
             ImageIO.write(sharedResource.getCurrentImage(), "jpg", outputFile);
-            System.out.println(messages.getString("imgSavedTo") + outputName);
+            output += messages.getString("imgSavedTo") + outputName;
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            new HelpCommand(commandWords, messages).execute();
+            output += e.getMessage();
+            output += new HelpCommand(commandWords, messages).execute();
+            return output;
         }
+        return output;
     }
 }
