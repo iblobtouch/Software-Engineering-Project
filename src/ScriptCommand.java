@@ -45,7 +45,7 @@ public class ScriptCommand extends Command {
                     Command cmd = scriptParser.getCommand();
                     // executes new commands from a script
                     output += new Editor(messages).executeScript(cmd);
-                } catch (Exception ex) {
+                } catch (Exception e) {
                     // No further script to read. Set local 'finished' to true
                     finished = true;
                 }               
@@ -53,12 +53,12 @@ public class ScriptCommand extends Command {
             // Set global 'finished' to false
             sharedResource.setFinished(finished);
         } 
-        catch (FileNotFoundException ex) {
+        catch (FileNotFoundException fnf) {
             sharedResource.setFinished(false);  
-            return messages.getString("cannotFind") + scriptName + "\n";
+            return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName + "\n";
         }
-        catch (IOException ex) {
-            throw new RuntimeException(messages.getString("scriptBarfed"));
+        catch (IOException io) {
+            return io.getMessage() + "\n" + messages.getString("scriptBarfed");
         }  
         
         return output;

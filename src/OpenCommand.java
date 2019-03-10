@@ -47,8 +47,7 @@ public class OpenCommand extends Command{
                 output += messages.getString("loaded") + sharedResource.getName() + "\n";
 	    }
 	} catch (IOException e) {
-            // Peform logging
-            e.printStackTrace();
+            return e.getMessage();
 	}
         
         return output;

@@ -26,9 +26,14 @@ public class Rotate90Command extends Command {
             return messages.getString("exceededPipe") + "\n";
         }
         
+        if (sharedResource.getCurrentImage() == null) {
+            return messages.getString("noImgLoaded");
+        }
+        
         // R90 = [0 -1, 1 0] rotates around origin
         // (x,y) -> (-y,x)
         // then transate -> (height-y, x)
+        
         int height = sharedResource.getCurrentImage().getHeight();
         int width = sharedResource.getCurrentImage().getWidth();
         ColorImage rotImage = new ColorImage(height, width);

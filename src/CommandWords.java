@@ -11,17 +11,17 @@ import java.util.*;
 
 public class CommandWords
 {
-    private final HashMap<String, Command> commands;
+    private final LinkedHashMap<String, Command> commands;
 
     /**
      * Constructor - initialise the valid command words and pair them with
      * their corresponding Class instance
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public CommandWords(ResourceBundle messages)
     {   
-        commands = new HashMap<>();
+        commands = new LinkedHashMap<>();
         commands.put(messages.getString("openFunc"), new OpenCommand(this, messages));
         commands.put(messages.getString("saveFunc"), new SaveCommand(this, messages));
         commands.put(messages.getString("lookFunc"), new LookCommand(messages));

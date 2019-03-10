@@ -26,6 +26,10 @@ public class MonoCommand extends Command {
             return messages.getString("exceededPipe") + "\n";
         }
         
+        if (sharedResource.getCurrentImage() == null) {
+            return messages.getString("noImgLoaded");
+        }
+        
         ColorImage tmpImage = new ColorImage(sharedResource.getCurrentImage());
         //Graphics2D g2 = currentImage.createGraphics();
         int height = tmpImage.getHeight();
