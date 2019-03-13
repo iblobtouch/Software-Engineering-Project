@@ -30,7 +30,8 @@ public class CommandWords
         commands.put(messages.getString("helpFunc"), new HelpCommand(this, messages));
         commands.put(messages.getString("quitFunc"), new QuitCommand(messages));
         commands.put(messages.getString("scriptFunc"), new ScriptCommand(messages));
-        // commands.put(messages.getString("flipHFunc"), new FlipHCommand(this, messages));
+        commands.put(messages.getString("flipHFunc"), new FlipHorizontalCommand(messages));
+        commands.put(messages.getString("flipVFunc"), new FlipVerticalCommand(messages));
         
     }
 
