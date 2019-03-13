@@ -7,7 +7,7 @@ public class MonoCommand extends Command {
 	
     /**
      *
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public MonoCommand(ResourceBundle messages) {
@@ -17,13 +17,17 @@ public class MonoCommand extends Command {
 	
     /**
      * "mono" was entered. Converts a given ColorImage to monochrome 
+     * @return result of adding a mono filter
      */
     @Override
-    public void execute() {
-    	
+    public String execute() {
+    	String output = "";
     	if (sharedResource.getFilters()[3] != null) {
-            System.out.println(messages.getString("exceededPipe"));
-            return;
+            return messages.getString("exceededPipe") + "\n";
+        }
+        
+        if (sharedResource.getCurrentImage() == null) {
+            return messages.getString("noImgLoaded");
         }
         
         ColorImage tmpImage = new ColorImage(sharedResource.getCurrentImage());
@@ -41,14 +45,13 @@ public class MonoCommand extends Command {
         }
         
         sharedResource.setImage(tmpImage);
-        if (sharedResource.getFilters()[0] == null) {
-            sharedResource.addFilter(0, "mono");
-        } else if (sharedResource.getFilters()[1] == null) {
-            sharedResource.addFilter(1, "mono");
-        } else if (sharedResource.getFilters()[2] == null) {
-            sharedResource.addFilter(2, "mono");
-        } else if (sharedResource.getFilters()[3] == null) {
-            sharedResource.addFilter(3, "mono");
-        }    
+        for (int i =0; i < sharedResource.getFilters().length; i++) {
+            if (sharedResource.getFilters()[i] == null) {
+                sharedResource.addFilter(i, "mono");
+                break;
+            }
+        }
+        
+        return output;
     }
 }

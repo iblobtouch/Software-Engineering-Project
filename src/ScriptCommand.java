@@ -9,7 +9,7 @@ public class ScriptCommand extends Command {
     
     /**
      *
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public ScriptCommand(ResourceBundle messages) {
@@ -23,14 +23,16 @@ public class ScriptCommand extends Command {
      * 
      * IT IS IMPORTANT THAT THIS COMMAND WORKS AS IT CAN BE USED FOR TESTING
      * 
+     * @return result after executing a script
      */
     @Override
-    public void execute() {
+    public String execute() {
+        String output = "";
+        
     	if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            System.out.println(messages.getString("whichScript")); 
             sharedResource.setFinished(false);
-            return;
+            return messages.getString("whichScript") + "\n";
         }
   
         String scriptName = this.getSecondWord();
@@ -42,8 +44,8 @@ public class ScriptCommand extends Command {
                 try {
                     Command cmd = scriptParser.getCommand();
                     // executes new commands from a script
-                    new Editor(messages).edit(cmd);
-                } catch (Exception ex) {
+                    output += new Editor(messages).executeScript(cmd);
+                } catch (Exception e) {
                     // No further script to read. Set local 'finished' to true
                     finished = true;
                 }               
@@ -51,12 +53,15 @@ public class ScriptCommand extends Command {
             // Set global 'finished' to false
             sharedResource.setFinished(finished);
         } 
-        catch (FileNotFoundException ex) {
-            System.out.println(messages.getString("cannotFind") + scriptName);
-            sharedResource.setFinished(false);
+        catch (FileNotFoundException fnf) {
+            sharedResource.setFinished(false);  
+            return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName + "\n";
         }
-        catch (IOException ex) {
-            throw new RuntimeException(messages.getString("scriptBarfed"));
+        catch (IOException io) {
+            return io.getMessage() + "\n" + messages.getString("scriptBarfed");
         }  
+        
+        return output;
     }
+    
 }

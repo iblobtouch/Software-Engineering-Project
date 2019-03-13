@@ -21,8 +21,8 @@ public class Editor {
    
     /**
      * Create the editor and initialise its parser, shared Resource and 
-     * internalised resource
-     * @param messages - Contains the internalisation resource which
+     * internationalised resource
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public Editor(ResourceBundle messages) {
@@ -37,6 +37,7 @@ public class Editor {
      */
     public void edit() {
         printWelcome();
+        String output;
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the editing session is over.
@@ -45,7 +46,8 @@ public class Editor {
             if (command == null) {
                 System.out.println(messages.getString("unclearMsg"));
             } else {
-            	command.execute();
+            	output = command.execute();
+                System.out.println(output);
             }
         }
         System.out.println(messages.getString("finishMsg"));
@@ -55,13 +57,16 @@ public class Editor {
      *
      * @param command - user commands executed from a script
      * edit with a provided command as parameter. Used in scripts
+     * @return result of executing a script
      */
-    public void edit(Command command) {
+    public String executeScript(Command command) {
+        String output = "";
         if (command == null) {
-            System.out.println(messages.getString("unclearMsg"));
+            output += messages.getString("unclearMsg");
         } else {
-            command.execute();
+            output += command.execute();
         }
+        return output;
     }
 
     /**

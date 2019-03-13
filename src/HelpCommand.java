@@ -9,7 +9,7 @@ public class HelpCommand extends Command{
      *
      * @param words - instance of commandWords class which enables the
      * retrieval of all valid commands
-     * @param messages - Contains the internalisation resource which
+     * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
     public HelpCommand(CommandWords words, ResourceBundle messages) {
@@ -20,12 +20,15 @@ public class HelpCommand extends Command{
     /**
      * Print out some help information. Here we print some useless, cryptic
      * message and a list of the command words.
+     * @return help message and commands
      */
     @Override
-    public void execute() {
-        System.out.println(messages.getString("helpMsg1"));
-        System.out.println(messages.getString("helpMsg2"));
-        System.out.println(commandWords.getAll());
+    public String execute() {
+        String output = "";
+        output = messages.getString("helpMsg1") 
+                + "\n" + messages.getString("helpMsg2")
+                + "\n" + commandWords.getAll();
+        return output;
     }
 	
 }
