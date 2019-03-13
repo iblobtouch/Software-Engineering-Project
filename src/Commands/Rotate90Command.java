@@ -1,6 +1,9 @@
-package src;
+package Commands;
+import Commands.Command;
 import java.awt.Color;
 import java.util.ResourceBundle;
+import src.ColorImage;
+import src.Resources;
 
 public class Rotate90Command extends Command {
     private final ResourceBundle messages;
@@ -45,7 +48,7 @@ public class Rotate90Command extends Command {
             }
         }
         
-        sharedResource.setImage(rotImage);
+        sharedResource.updateImage(rotImage);
         
         for (int i =0; i < sharedResource.getFilters().length; i++) {
             if (sharedResource.getFilters()[i] == null) {

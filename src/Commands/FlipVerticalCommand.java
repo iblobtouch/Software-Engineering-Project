@@ -1,6 +1,8 @@
-package src;
+package Commands;
 import java.awt.Color;
 import java.util.ResourceBundle;
+import src.ColorImage;
+import src.Resources;
 
 public class FlipVerticalCommand extends Command {
     private final ResourceBundle messages;
@@ -43,7 +45,7 @@ public class FlipVerticalCommand extends Command {
             maxH--;
         }
         
-        sharedResource.setImage(flipImage);
+        sharedResource.updateImage(flipImage);
         
         for (int i =0; i < sharedResource.getFilters().length; i++) {
             if (sharedResource.getFilters()[i] == null) {

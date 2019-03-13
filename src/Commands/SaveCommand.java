@@ -1,8 +1,11 @@
-package src;
+package Commands;
+import Commands.Command;
+import Commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+import src.Resources;
 
 public class SaveCommand extends Command {
     private final ResourceBundle messages;

@@ -1,6 +1,8 @@
-package src;
+package Commands;
 import java.awt.Color;
 import java.util.ResourceBundle;
+import src.ColorImage;
+import src.Resources;
 
 public class MonoCommand extends Command {
     private final ResourceBundle messages;
@@ -45,7 +47,7 @@ public class MonoCommand extends Command {
             }
         }
         
-        sharedResource.setImage(tmpImage);
+        sharedResource.updateImage(tmpImage);
         for (int i =0; i < sharedResource.getFilters().length; i++) {
             if (sharedResource.getFilters()[i] == null) {
                 sharedResource.addFilter(i, "mono");

@@ -1,4 +1,4 @@
-package src;
+package Commands;
 import java.util.ResourceBundle;
 
 public class HelpCommand extends Command{

@@ -1,5 +1,7 @@
-package src;
+package Commands;
+import Commands.Command;
 import java.util.ResourceBundle;
+import src.Resources;
 
 public class LookCommand extends Command {
     private final ResourceBundle messages;

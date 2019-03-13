@@ -1,10 +1,14 @@
-package src;
+package Commands;
+import Commands.Command;
+import Commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+import src.ColorImage;
+import src.Resources;
 
-public class OpenCommand extends Command{
+public class GetImageCommand extends Command{
 
     private final ResourceBundle messages;
     private final CommandWords commandWords;
@@ -17,7 +21,7 @@ public class OpenCommand extends Command{
      * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
-    public OpenCommand(CommandWords words, ResourceBundle messages) {
+    public GetImageCommand(CommandWords words, ResourceBundle messages) {
         this.messages = messages;
         this.commandWords = words;
         sharedResource = Resources.getSharedResources();
@@ -36,36 +40,13 @@ public class OpenCommand extends Command{
             return messages.getString("openWhat") + "\n";
         }
         String inputName = this.getSecondWord();
-        try {
-            ColorImage img = loadImage(inputName);
-            if (img == null) {
-                output += new HelpCommand(commandWords, messages).execute();
+            boolean res = sharedResource.getImage(inputName);
+            if (res == false) {
+                output += res;
 	    } else {
-                sharedResource.setImage(img);
-	        sharedResource.setName(inputName);
-	        // Initialise array list
-	        sharedResource.initialiseFilters();
                 output += messages.getString("loaded") + sharedResource.getName() + "\n";
 	    }
-	} catch (IOException e) {
-            return e.getMessage();
-	}
         
         return output;
     }
-    
-    /**
-     * Load an image from a file.
-     * @param name The name of the image file
-     * @return a ColorImage containing the image
-     */
-    private ColorImage loadImage(String name) throws IOException {
-        ColorImage img = null;
-        try {
-            img = new ColorImage(ImageIO.read(new File(name)));
-        } catch (IOException e) {
-            throw new IOException(messages.getString("imgNotFound") + name + "\n" + messages.getString("imgDir") + System.getProperty("user.dir"));
-        }
-        return img;
-    }	
 }
