@@ -16,8 +16,8 @@ package src;
  * @version 2006.03.30
  */
 
-import Commands.CommandWords;
-import Commands.Command;
+import commands.CommandWords;
+import commands.Command;
 import java.io.FileInputStream;
 import java.util.Scanner;
 import java.util.*;

@@ -1,5 +1,5 @@
-package Commands;
-import Commands.Command;
+package commands;
+import commands.Command;
 import java.util.ResourceBundle;
 import src.Resources;
 

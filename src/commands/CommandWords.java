@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 /**
  * This class is derived from the "World of Zuul" application,
  * author Michael Kolling and David J. Barnes,

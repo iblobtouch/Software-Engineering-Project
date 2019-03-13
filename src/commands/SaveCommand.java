@@ -1,6 +1,6 @@
-package Commands;
-import Commands.Command;
-import Commands.HelpCommand;
+package commands;
+import commands.Command;
+import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;

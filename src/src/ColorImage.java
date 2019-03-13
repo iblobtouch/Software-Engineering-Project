@@ -2,6 +2,7 @@ package src;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.util.Arrays;
 
 /**
  * Extends standard BufferedImage class with convenience functions
@@ -20,6 +21,18 @@ public class ColorImage extends BufferedImage
 {
     String name;
     String[] filters;
+    
+    public ColorImage(ColorImage image) {
+        super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        name = image.name;
+        filters = image.filters;
+        for (int y=0; y<height; y++)
+            for (int x=0; x<width; x++)
+                setRGB(x, y, image.getRGB(x,y));
+    }
+    
     /**
      * Create a ColorImage copied from a BufferedImage
      * Convert to 24-bit direct colour
@@ -42,11 +55,11 @@ public class ColorImage extends BufferedImage
      * @param width The width of the image
      * @param height The height of the image
      */
-    public ColorImage(int width, int height)
+    public ColorImage(int width, int height, String nme, String[] flters)
     {
         super(width, height, TYPE_INT_RGB);
-        name = null;
-        filters = new String[4];
+        name = new String(nme);
+        filters = Arrays.copyOf(flters, flters.length);
     }
 
     /**

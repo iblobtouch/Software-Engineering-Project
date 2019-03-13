@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 import java.awt.Color;
 import java.util.ResourceBundle;
 import src.ColorImage;

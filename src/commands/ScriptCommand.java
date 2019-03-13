@@ -1,6 +1,6 @@
-package Commands;
+package commands;
 
-import Commands.Command;
+import commands.Command;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;

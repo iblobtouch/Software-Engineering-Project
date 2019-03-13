@@ -72,7 +72,7 @@ public class Resources {
         if (!currentImage.isEmpty()) {
             return currentImage.peek().getFilters();
         } else {
-            return new String[5];
+            return new String[4];
         }
     }
     

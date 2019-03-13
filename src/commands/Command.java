@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 /**
  * This class is taken from the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
