@@ -1,7 +1,12 @@
+package src;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class ScriptCommand extends Command {
     private final ResourceBundle messages;
@@ -32,35 +37,55 @@ public class ScriptCommand extends Command {
     	if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
             sharedResource.setFinished(false);
-            return messages.getString("whichScript") + "\n";
+            return messages.getString("whichScript");
         }
   
         String scriptName = this.getSecondWord();
         Parser scriptParser = new Parser(messages);
-        try (FileInputStream inputStream = new FileInputStream(scriptName)) {
-            scriptParser.setInputStream(inputStream);
-            boolean finished = false;
-            while (!finished) {
-                try {
-                    Command cmd = scriptParser.getCommand();
+        
+        try {
+            File currentDir = new File(System.getProperty("user.dir"));
+            String fileName = this.hasThirdWord() ? currentDir.getAbsolutePath() 
+                    + "\\" + this.getThirdWord() + "\\" + scriptName 
+                    : scriptName;
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            
+            try {
+                String str;
+                while ((str = br.readLine()) != null) {
+                    Command cmd = scriptParser.getCommand(str);
                     // executes new commands from a script
-                    output += new Editor(messages).executeScript(cmd);
-                } catch (Exception e) {
-                    // No further script to read. Set local 'finished' to true
-                    finished = true;
-                }               
+                    output += executeScript(cmd);
+                }
+            } 
+            finally {
+                br.close();
             }
-            // Set global 'finished' to false
-            sharedResource.setFinished(finished);
-        } 
+        }
         catch (FileNotFoundException fnf) {
             sharedResource.setFinished(false);  
-            return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName + "\n";
+            return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName;
         }
         catch (IOException io) {
             return io.getMessage() + "\n" + messages.getString("scriptBarfed");
-        }  
-        
+        }
+       
+        return output;
+    }
+    
+    /**
+     *
+     * @param command - user commands executed from a script
+     * edit with a provided command as parameter. Used in scripts
+     * @return result of executing a script
+     */
+    public String executeScript(Command command) {
+        String output = "";
+        if (command == null) {
+            output += messages.getString("unclearMsg");
+        } else {
+            output += command.execute();
+        }
         return output;
     }
     

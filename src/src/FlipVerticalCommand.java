@@ -1,7 +1,8 @@
+package src;
 import java.awt.Color;
 import java.util.ResourceBundle;
 
-public class FlipHorizontalCommand extends Command {
+public class FlipVerticalCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;
 	
@@ -10,14 +11,14 @@ public class FlipHorizontalCommand extends Command {
      * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
-    public FlipHorizontalCommand(ResourceBundle messages) {
+    public FlipVerticalCommand(ResourceBundle messages) {
 	this.messages = messages;
 	sharedResource = Resources.getSharedResources();
     }
 	
     /**
-     * "flipH" was entered. Flip the current image horizontally. 
-     * @return result after flipping the image horizontally
+     * "flipV" was entered. Flip the current image vertically. 
+     * @return result after flipping the image vertically
      */
     @Override
     public String execute() {
@@ -33,20 +34,20 @@ public class FlipHorizontalCommand extends Command {
         int height = sharedResource.getCurrentImage().getHeight();
         int width = sharedResource.getCurrentImage().getWidth();
         ColorImage flipImage = new ColorImage(width, height);
+        int maxH = height - 1;
         for (int y=0; y<height; y++) {
-            int maxW = width - 1;
             for (int x=0; x<width; x++) {
-                Color pix = sharedResource.getCurrentImage().getPixel(maxW,y);
+                Color pix = sharedResource.getCurrentImage().getPixel(x,maxH);
                 flipImage.setPixel(x, y, pix);
-                maxW--;
             }
+            maxH--;
         }
         
         sharedResource.setImage(flipImage);
         
         for (int i =0; i < sharedResource.getFilters().length; i++) {
             if (sharedResource.getFilters()[i] == null) {
-                sharedResource.addFilter(i, "flipH");
+                sharedResource.addFilter(i, "flipV");
                 break;
             }
         }

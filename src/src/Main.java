@@ -1,3 +1,4 @@
+package src;
 /**
  * This is the main class for the Fotoshop application
  * 

@@ -1,3 +1,4 @@
+package src;
 public class Resources {
     private static Resources sharedResource = new Resources();
     private ColorImage currentImage;
