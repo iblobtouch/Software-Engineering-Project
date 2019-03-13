@@ -1,7 +1,8 @@
+package src;
 import java.awt.Color;
 import java.util.ResourceBundle;
 
-public class Rotate90Command extends Command {
+public class FlipHorizontalCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;
 	
@@ -10,14 +11,14 @@ public class Rotate90Command extends Command {
      * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
-    public Rotate90Command(ResourceBundle messages) {
+    public FlipHorizontalCommand(ResourceBundle messages) {
 	this.messages = messages;
 	sharedResource = Resources.getSharedResources();
     }
 	
     /**
-     * "rot90" was entered. Rotate the current image 90 degrees. 
-     * @return result after rotating image to 90 degrees
+     * "flipH" was entered. Flip the current image horizontally. 
+     * @return result after flipping the image horizontally
      */
     @Override
     public String execute() {
@@ -30,25 +31,23 @@ public class Rotate90Command extends Command {
             return messages.getString("noImgLoaded");
         }
         
-        // R90 = [0 -1, 1 0] rotates around origin
-        // (x,y) -> (-y,x)
-        // then transate -> (height-y, x)
-        
         int height = sharedResource.getCurrentImage().getHeight();
         int width = sharedResource.getCurrentImage().getWidth();
-        ColorImage rotImage = new ColorImage(height, width);
-        for (int y=0; y<height; y++) { // in the rotated image
+        ColorImage flipImage = new ColorImage(width, height);
+        for (int y=0; y<height; y++) {
+            int maxW = width - 1;
             for (int x=0; x<width; x++) {
-                Color pix = sharedResource.getCurrentImage().getPixel(x,y);
-                rotImage.setPixel(height-y-1,x, pix);
+                Color pix = sharedResource.getCurrentImage().getPixel(maxW,y);
+                flipImage.setPixel(x, y, pix);
+                maxW--;
             }
         }
         
-        sharedResource.setImage(rotImage);
+        sharedResource.setImage(flipImage);
         
         for (int i =0; i < sharedResource.getFilters().length; i++) {
             if (sharedResource.getFilters()[i] == null) {
-                sharedResource.addFilter(i, "rot90");
+                sharedResource.addFilter(i, "flipH");
                 break;
             }
         }

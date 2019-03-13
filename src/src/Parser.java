@@ -1,3 +1,4 @@
+package src;
 /**
  * This class is taken from the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -14,6 +15,7 @@
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
+
 import java.io.FileInputStream;
 import java.util.Scanner;
 import java.util.*;
@@ -21,7 +23,7 @@ import java.util.*;
 public class Parser 
 {
     private final CommandWords commands;  // holds all valid command words
-    private Scanner reader;         // source of command input
+    ResourceBundle messages;
     
     /**
      * Create a parser to read from the terminal window.
@@ -31,28 +33,16 @@ public class Parser
     public Parser(ResourceBundle messages) 
     {
         commands = new CommandWords(messages);
-        reader = new Scanner(System.in);
-    }
-
-    /**
-     *
-     * @param str - FileInputStream
-     * Enables the reading of user input (Used in Scripts)
-     */
-    public void setInputStream(FileInputStream str) { 
-        reader = new Scanner(str);
+        this.messages = messages;
     }
     
     /**
+     * @param inputLine - User input from the user
      * @return The next command from the user.
      */
-    public Command getCommand() 
-    {
-        String inputLine;   // will hold the full input line
+    public Command getCommand(String inputLine) 
+    {        
         String[] wordList = {null, null, null};
-
-        System.out.print("> ");     // print prompt
-        inputLine = reader.nextLine();
 
         // Find up to three words on the line.
         Scanner tokenizer = new Scanner(inputLine);

@@ -1,0 +1,3 @@
+open input.jpg
+mono
+look

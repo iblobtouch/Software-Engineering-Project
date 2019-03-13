@@ -1,3 +1,4 @@
+package src;
 /**
  * This class is the main processing class of the Fotoshop application. 
  * Fotoshop is a very simple image editing tool. Users can apply a number of
@@ -13,11 +14,13 @@
  * @author Joseph Williams
  * @version 2018.12.12
  */
+import java.io.FileInputStream;
 import java.util.*;
 public class Editor {
     private final Parser parser;
     private final Resources sharedResource;
     private final ResourceBundle messages;
+    private Scanner reader;         // source of command input
    
     /**
      * Create the editor and initialise its parser, shared Resource and 
@@ -29,6 +32,7 @@ public class Editor {
         this.parser = new Parser(messages);
         this.sharedResource = Resources.getSharedResources();
         this.messages = messages;
+        this.reader = new Scanner(System.in);
     }
 
     /**
@@ -42,7 +46,9 @@ public class Editor {
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the editing session is over.
         while (!sharedResource.getFinished()) {
-            Command command = parser.getCommand();
+            System.out.print("> ");     // print prompt
+            String inputLine = reader.nextLine(); // will hold the full input line
+            Command command = parser.getCommand(inputLine);
             if (command == null) {
                 System.out.println(messages.getString("unclearMsg"));
             } else {
@@ -51,22 +57,6 @@ public class Editor {
             }
         }
         System.out.println(messages.getString("finishMsg"));
-    }
-    
-    /**
-     *
-     * @param command - user commands executed from a script
-     * edit with a provided command as parameter. Used in scripts
-     * @return result of executing a script
-     */
-    public String executeScript(Command command) {
-        String output = "";
-        if (command == null) {
-            output += messages.getString("unclearMsg");
-        } else {
-            output += command.execute();
-        }
-        return output;
     }
 
     /**
