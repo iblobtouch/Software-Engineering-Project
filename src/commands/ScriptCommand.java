@@ -1,5 +1,6 @@
-package src;
+package commands;
 
+import commands.Command;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.util.ResourceBundle;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import src.Parser;
+import src.Resources;
 
 public class ScriptCommand extends Command {
     private final ResourceBundle messages;

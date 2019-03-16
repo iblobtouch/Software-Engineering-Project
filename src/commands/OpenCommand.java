@@ -1,8 +1,13 @@
-package src;
+package commands;
+import commands.Command;
+import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javax.imageio.ImageIO;
+import src.ColorImage;
+import src.Resources;
 
 public class OpenCommand extends Command{
 
@@ -38,14 +43,15 @@ public class OpenCommand extends Command{
         String inputName = this.getSecondWord();
         try {
             ColorImage img = loadImage(inputName);
+            img.setName(inputName);
             if (img == null) {
                 output += new HelpCommand(commandWords, messages).execute();
 	    } else {
-                sharedResource.setImage(img);
-	        sharedResource.setName(inputName);
+                Stack<ColorImage> tmp = new Stack<ColorImage>();
+                tmp.push(img);
+                sharedResource.setCurrentImage(tmp);
 	        // Initialise array list
-	        sharedResource.initialiseFilters();
-                output += messages.getString("loaded") + sharedResource.getName() + "\n";
+                output += messages.getString("loaded") + inputName + "\n";
 	    }
 	} catch (IOException e) {
             return e.getMessage();

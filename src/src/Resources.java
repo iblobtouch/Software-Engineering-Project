@@ -1,9 +1,13 @@
 package src;
+
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 public class Resources {
     private static Resources sharedResource = new Resources();
-    private ColorImage currentImage;
-    private String name;
-    private String filters[];
+    private Stack<ColorImage> currentImage;
+    private ArrayList<Stack<ColorImage>> imageCache;
     private boolean finished;
 	 
     /** 
@@ -11,9 +15,8 @@ public class Resources {
      * the client class (Editor) and method executor Classes
      */
     private Resources() {
-        this.currentImage = null;
-        this.name = null;
-	this.filters = new String[4];
+        this.currentImage = new Stack<ColorImage>();
+        this.imageCache = new ArrayList<Stack<ColorImage>>();
         this.finished = false;
     }
     
@@ -34,7 +37,53 @@ public class Resources {
      * @return Image at its current state
      */
     public ColorImage getCurrentImage() {
-	return currentImage;
+	try {
+            return currentImage.peek();
+        } catch (EmptyStackException e) {
+            return null;
+        }
+    }
+    
+    /**
+     *
+     * Puts the current image in the cache, then sets it to the provided image.
+     * @param img image to replace current image with.
+     */
+    public void setCurrentImage(Stack<ColorImage> img) {
+	if (currentImage.isEmpty() == false) {
+            addToImageCache(currentImage);
+        }
+        currentImage = img;
+    }
+    
+    /**
+     *
+     * @return the image cache in its current state.
+     */
+    public ArrayList<Stack<ColorImage>> getImageCache () {
+        return imageCache;
+    }
+    
+    /**
+     *
+     * @param img to add to cache
+     * @return the image cache in its current state.
+     */
+    public boolean addToImageCache (Stack<ColorImage> img) {
+        if (!imageCache.contains(img)) {
+            imageCache.add(img);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     *
+     * @return The whole history of the current image;
+     */
+    public Stack<ColorImage> getCurrentImageHistory() {
+        return currentImage;
     }
     
     /**
@@ -42,7 +91,11 @@ public class Resources {
      * @return Image name
      */
     public String getName() {
-        return name;
+        if (!currentImage.isEmpty()) {
+            return currentImage.peek().getName();
+        } else {
+            return null;
+        }
     }
 	
     /**
@@ -50,7 +103,11 @@ public class Resources {
      * @return Array of filters that is currently applied to the image
      */
     public String[] getFilters() {
-	return filters;
+        if (!currentImage.isEmpty()) {
+            return currentImage.peek().getFilters();
+        } else {
+            return new String[4];
+        }
     }
     
     /**
@@ -61,14 +118,42 @@ public class Resources {
     public boolean getFinished() {
 	return finished;
     }
-	 
+    
     /**
      *
-     * @param updatedImage - Image after being updated from an operation/filter
-     * overwrites the current Image with updatedImage
+     * Gets an image from the cache by name and sets it as the current image.
+     * @param itemName name of item to get.
+     * @return boolean indicating the success of the method.
      */
-    public void setImage(ColorImage updatedImage) {
-	currentImage = updatedImage;
+    public Stack<ColorImage> getImageFromCache(String itemName) {
+        for (int i = 0; i < imageCache.size(); i ++) {
+            if (imageCache.get(i).peek().getName().equals(itemName)) {
+                return imageCache.get(i);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     *
+     * @param newImage - Image after being updated from an operation/filter
+     * Adds the new contents of the current image to the cache.
+     */
+    public void updateImage(ColorImage newImage) {
+	currentImage.push(newImage);
+    }
+    
+    /**
+     *
+     * Removes the last operation performed on the current image.
+     */
+    public void undo() {
+        try {
+            if (!currentImage.isEmpty()) {
+                currentImage.pop();
+            }
+        } catch (EmptyStackException e) {
+        }
     }
 	 
     /**
@@ -77,39 +162,9 @@ public class Resources {
      * overwrites the current name of the image with newName
      */
     public void setName(String newName) {
-	name = newName;
-    }
-
-    /**
-     * Initialise the values of the array of filters to null
-     */
-    public void initialiseFilters(){
-        for (int i=0; i < filters.length; i++) {
-            filters[i] = null;
-	}
-    }
-    
-    /**
-     *
-     * @param filterNum - refers the index of the filter to add/replace in array
-     * @param filtAdd - Name of the filter to be added
-     * Adds a filter from the array of filters
-     */
-    public void addFilter(int filterNum, String filtAdd) {
-	filters[filterNum] = filtAdd;
-    }
-	 
-    /**
-     *
-     * @param filtRem - refers to the name of the filter to be removed
-     * Removes a particular filter from the array of filters
-     */
-    public void removeFilter(String filtRem) {
-        for (int i=0; i < filters.length; i++) {
-            if (filters[i].equals(filtRem)){
-		filters[i] = null;
-            }
-	}
+        if (!currentImage.isEmpty()) {
+            currentImage.peek().setName(newName);
+        }
     }
 	 
     /**

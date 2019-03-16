@@ -14,6 +14,7 @@ package src;
  * @author Joseph Williams
  * @version 2018.12.12
  */
+import commands.Command;
 import java.io.FileInputStream;
 import java.util.*;
 public class Editor {

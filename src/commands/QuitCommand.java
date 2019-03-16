@@ -1,5 +1,7 @@
-package src;
+package commands;
+import commands.Command;
 import java.util.ResourceBundle;
+import src.Resources;
 
 public class QuitCommand extends Command {
     private final ResourceBundle messages;
