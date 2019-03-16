@@ -12,10 +12,11 @@ public class FlipHorizontalCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public FlipHorizontalCommand(ResourceBundle messages) {
+    public FlipHorizontalCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

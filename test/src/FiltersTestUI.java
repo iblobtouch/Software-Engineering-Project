@@ -25,9 +25,9 @@ public class FiltersTestUI {
     
     @Before
     public void setUp() {
-        messages = ResourceBundle.getBundle("MessagesBundle", new Locale("en", "UK"));
-        parser = new Parser(messages); 
+        messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
         resources = Resources.getSharedResources();
+        parser = new Parser(messages, resources); 
     }
     
     @Test

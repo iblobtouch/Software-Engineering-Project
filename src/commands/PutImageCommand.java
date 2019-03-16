@@ -7,17 +7,16 @@ import src.Resources;
 public class PutImageCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;
-    private final CommandWords commandWords;
 	
     /**
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public PutImageCommand(CommandWords words, ResourceBundle messages) {
+    public PutImageCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-        this.commandWords = words;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

@@ -31,7 +31,7 @@ public class Main {
 
         currentLocale = new Locale(language, country);
         
-        messages = ResourceBundle.getBundle("LanguageFiles.MessagesBundle", currentLocale);
+        messages = ResourceBundle.getBundle("langFiles.MessagesBundle", currentLocale);
         new Editor(messages).edit();
     }
 }

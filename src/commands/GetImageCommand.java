@@ -5,20 +5,17 @@ import src.Resources;
 public class GetImageCommand extends Command{
 
     private final ResourceBundle messages;
-    private final CommandWords commandWords;
     private final Resources sharedResource;
 	
     /**
      *
-     * @param words - instance of commandWords class which enables the
-     * retrieval of all valid commands (used here when HelpCommand is called)
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public GetImageCommand(CommandWords words, ResourceBundle messages) {
+    public GetImageCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;
-        this.commandWords = words;
-        sharedResource = Resources.getSharedResources();
+        sharedResource = resources;
     }
 	
     /**

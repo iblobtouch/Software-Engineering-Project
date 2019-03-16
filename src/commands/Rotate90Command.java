@@ -1,5 +1,4 @@
 package commands;
-import commands.Command;
 import java.awt.Color;
 import java.util.ResourceBundle;
 import src.ColorImage;
@@ -13,10 +12,11 @@ public class Rotate90Command extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public Rotate90Command(ResourceBundle messages) {
+    public Rotate90Command(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

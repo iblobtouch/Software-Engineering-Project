@@ -12,10 +12,11 @@ public class MonoCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public MonoCommand(ResourceBundle messages) {
+    public MonoCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

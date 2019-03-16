@@ -1,6 +1,4 @@
 package commands;
-import commands.Command;
-import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -18,11 +16,12 @@ public class SaveCommand extends Command {
      * retrieval of all valid commands (used here when HelpCommand is called)
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public SaveCommand(CommandWords words, ResourceBundle messages) {
+    public SaveCommand(CommandWords words, ResourceBundle messages, Resources resources) {
 	this.messages = messages;
 	this.commandWords = words;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

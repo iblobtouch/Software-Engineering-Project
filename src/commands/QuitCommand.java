@@ -1,5 +1,4 @@
 package commands;
-import commands.Command;
 import java.util.ResourceBundle;
 import src.Resources;
 
@@ -11,10 +10,11 @@ public class QuitCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public QuitCommand(ResourceBundle messages) {
+    public QuitCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

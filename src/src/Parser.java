@@ -18,7 +18,6 @@ package src;
 
 import commands.CommandWords;
 import commands.Command;
-import java.io.FileInputStream;
 import java.util.Scanner;
 import java.util.*;
 
@@ -31,10 +30,11 @@ public class Parser
      * Create a parser to read from the terminal window.
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public Parser(ResourceBundle messages) 
+    public Parser(ResourceBundle messages, Resources resources) 
     {
-        commands = new CommandWords(messages);
+        commands = new CommandWords(messages, resources);
         this.messages = messages;
     }
     

@@ -30,8 +30,8 @@ public class Editor {
      * enables localisation
      */
     public Editor(ResourceBundle messages) {
-        this.parser = new Parser(messages);
         this.sharedResource = Resources.getSharedResources();
+        this.parser = new Parser(messages, this.sharedResource);
         this.messages = messages;
         this.reader = new Scanner(System.in);
     }

@@ -8,10 +8,12 @@ public class UndoCommand extends Command{
 	
     /**
      *
+     * @param messages
+     * @param resources
      */
-    public UndoCommand(ResourceBundle messages) {
-        sharedResource = Resources.getSharedResources();
-        this.messages = messages;
+    public UndoCommand(ResourceBundle messages, Resources resources) {
+	this.messages = messages;
+	sharedResource = resources;
     }
 	
     /**

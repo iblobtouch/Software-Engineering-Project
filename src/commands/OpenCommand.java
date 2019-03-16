@@ -1,6 +1,4 @@
 package commands;
-import commands.Command;
-import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -21,11 +19,12 @@ public class OpenCommand extends Command{
      * retrieval of all valid commands (used here when HelpCommand is called)
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public OpenCommand(CommandWords words, ResourceBundle messages) {
-        this.messages = messages;
+    public OpenCommand(CommandWords words, ResourceBundle messages, Resources resources) {
+	this.messages = messages;
         this.commandWords = words;
-        sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**

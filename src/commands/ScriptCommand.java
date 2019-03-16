@@ -1,7 +1,5 @@
 package commands;
 
-import commands.Command;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -19,10 +17,11 @@ public class ScriptCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources
      */
-    public ScriptCommand(ResourceBundle messages) {
+    public ScriptCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	sharedResource = resources;
     }
 	
     /**
@@ -44,7 +43,7 @@ public class ScriptCommand extends Command {
         }
   
         String scriptName = this.getSecondWord();
-        Parser scriptParser = new Parser(messages);
+        Parser scriptParser = new Parser(messages, sharedResource);
         
         try {
             File currentDir = new File(System.getProperty("user.dir"));
