@@ -34,7 +34,7 @@ public class CommandWords
         commands.put(messages.getString("flipHFunc"), new FlipHorizontalCommand(messages));
         commands.put(messages.getString("flipVFunc"), new FlipVerticalCommand(messages));
         commands.put(messages.getString("undoFunc"), new UndoCommand(messages));
-        commands.put(messages.getString("putFunc"), new PutImageCommand(messages));
+        commands.put(messages.getString("putFunc"), new PutImageCommand(this, messages));
         commands.put(messages.getString("getFunc"), new GetImageCommand(this, messages));
         
     }

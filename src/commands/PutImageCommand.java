@@ -1,20 +1,22 @@
 package commands;
-import java.awt.Color;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import src.ColorImage;
 import src.Resources;
 
 public class PutImageCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;
+    private final CommandWords commandWords;
 	
     /**
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
      */
-    public PutImageCommand(ResourceBundle messages) {
+    public PutImageCommand(CommandWords words, ResourceBundle messages) {
 	this.messages = messages;
+        this.commandWords = words;
 	sharedResource = Resources.getSharedResources();
     }
 	
@@ -24,7 +26,19 @@ public class PutImageCommand extends Command {
      */
     @Override
     public String execute() {
-        sharedResource.putImage();
-    	return sharedResource.getName() + messages.getString("imgAdded");
+        if (!this.hasSecondWord()) {
+            // if there is no second word, we don't know what to open...
+            return messages.getString("saveAs") + "\n";
+        }
+        String inputName = this.getSecondWord();
+        Stack<ColorImage> tempImg = sharedResource.getCurrentImageHistory();
+        if (tempImg.isEmpty()) {
+            return messages.getString("noImgLoaded");
+        }
+        ColorImage topImage = tempImg.peek();
+        topImage.setName(inputName);
+        tempImg.push(topImage);
+        sharedResource.addToImageCache(tempImg);
+        return sharedResource.getName() + messages.getString("imgAdded");
     }
 }

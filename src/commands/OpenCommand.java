@@ -4,6 +4,7 @@ import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javax.imageio.ImageIO;
 import src.ColorImage;
 import src.Resources;
@@ -46,7 +47,9 @@ public class OpenCommand extends Command{
             if (img == null) {
                 output += new HelpCommand(commandWords, messages).execute();
 	    } else {
-                sharedResource.setImage(img);
+                Stack<ColorImage> tmp = new Stack<ColorImage>();
+                tmp.push(img);
+                sharedResource.setCurrentImage(tmp);
 	        // Initialise array list
                 output += messages.getString("loaded") + inputName + "\n";
 	    }

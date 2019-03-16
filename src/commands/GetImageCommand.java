@@ -1,11 +1,5 @@
 package commands;
-import commands.Command;
-import commands.HelpCommand;
-import java.io.File;
-import java.io.IOException;
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
-import src.ColorImage;
 import src.Resources;
 
 public class GetImageCommand extends Command{
@@ -34,19 +28,16 @@ public class GetImageCommand extends Command{
      */
     @Override
     public String execute() {
-        String output = "";
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
             return messages.getString("openWhat") + "\n";
         }
         String inputName = this.getSecondWord();
-            boolean res = sharedResource.getImage(inputName);
-            if (res == false) {
-                output += res;
-	    } else {
-                output += messages.getString("loaded") + sharedResource.getName() + "\n";
-	    }
-        
-        return output;
+        if (sharedResource.getImageFromCache(inputName) != null) {
+            sharedResource.setCurrentImage(sharedResource.getImageFromCache(inputName));
+            return messages.getString("loaded") + sharedResource.getName() + "\n";
+        } else {
+            return messages.getString("openWhat") + "\n";
+        } 
     }
 }
