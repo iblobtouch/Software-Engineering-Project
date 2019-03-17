@@ -5,6 +5,7 @@
  */
 package src;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
@@ -25,32 +26,79 @@ public class ImageOutputTestUI {
     ResourceBundle messages;
     Parser parser;
     Resources resources;
-    
-    public ImageOutputTestUI() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    String testDir;
     
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
         resources = Resources.getSharedResources();
         parser = new Parser(messages, resources); 
+        testDir = System.getProperty("user.dir") + "\\testFiles\\images\\";
     }
     
     @Test
-    public void testMono() throws IOException{
-        String input = "script testMono.txt testFiles/scripts";
+    public void testMonoImage() throws IOException{
+        boolean result = automateImageTest("testMono.txt", "monoTest.jpg", "monoImage.jpg");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testMonoRotateImage() throws IOException{
+        boolean result = automateImageTest("testMonoRotate.txt", "monoRotateTest.jpg", "monoRotateImage.jpg");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testRotateImage() throws IOException{
+        boolean result = automateImageTest("testRotate.txt", "rotateTest.jpg", "rotateImage.jpg");
+        assertTrue(result);
+    }
+    
+    // Automate image testing for filters
+    // @param scriptName - Name of the script text file to run 
+    // (should be located in the directory /testFiles/scripts)
+    // @param savedFN - fileName of the saved image being tested. 
+    // Use the name inside the script file provided.
+    // @param comparedImageFN - Name of the expected output image file 
+    // (should be located in the directory /testFiles/images)
+    private boolean automateImageTest(String scriptName, String savedFN, String comparedImageFN) throws IOException {
+        String input = "script " + scriptName + " testFiles/scripts";
         parser.getCommand(input).execute();
-        ColorImage actualImageOutput = resources.getCurrentImage();
-        ColorImage expectedImageOutput = new ColorImage(ImageIO.read(new File("testFiles/main/mono.jpg")));
-        assertTrue(actualImageOutput.equals(expectedImageOutput));
+        File savedFile = new File(savedFN);
+        ColorImage actualImageOutput = new ColorImage(ImageIO.read(savedFile));
+        ColorImage expectedImageOutput = new ColorImage(ImageIO.read(new File(testDir + comparedImageFN)));
+        savedFile.delete();
+        return imageMatched(0, actualImageOutput, expectedImageOutput);
+    }
+    
+    // The saved image will not necessarily have the same exact pixel
+    // values as the one before it was saved. This utility enables comparing two
+    // image files that may be slightly similar by providing a pixel difference
+    // allowance as one of its parameters.
+    private boolean imageMatched(int pixDiffAllowance, ColorImage a, ColorImage b) {
+        boolean imageMatch = true;
+        int width = a.getWidth();
+        int height = a.getHeight();
+        
+        for (int y=0; y<height; y++) { 
+            for (int x=0; x<width; x++) {
+                Color ap = a.getPixel(x,y);
+                Color bp = b.getPixel(x,y);
+
+                int blueDiff = Math.abs(ap.getBlue() - bp.getBlue());
+                int redDiff = Math.abs(ap.getRed() - bp.getRed());
+                int greenDiff = Math.abs(ap.getGreen() - bp.getGreen());
+                
+                if (blueDiff > pixDiffAllowance || 
+                        redDiff > pixDiffAllowance || 
+                        greenDiff > pixDiffAllowance) {
+                    imageMatch = false;
+                }
+
+            }
+        }
+        
+        return imageMatch;
     }
     
     @After
