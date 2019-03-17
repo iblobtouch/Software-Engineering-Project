@@ -10,9 +10,9 @@ package commands;
  * 
  * The way this is used is: Commands are already checked for being valid
  * command words. If the user entered an invalid command (a word that is not
- * known) then the command word is <null>.
+ * known) then the command word is null.
  *
- * If the command had only one word, then the second word is <null>.
+ * If the command had only one word, then the second word is null.
  * 
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
@@ -51,7 +51,8 @@ public abstract class Command
     }
     
     /**
-     * @return true if a second word has been set. Returns false otherwise
+     * @return The boolean true if a second word has been set. 
+     * Returns false otherwise
      */
     public boolean hasSecondWord()
     {
@@ -59,7 +60,8 @@ public abstract class Command
     }
     
     /**
-     * @return true if a third word has been set. Returns false otherwise
+     * @return The boolean true if a third word has been set. 
+     * Returns false otherwise
      */
     public boolean hasThirdWord()
     {
@@ -67,8 +69,7 @@ public abstract class Command
     }
     
     /**
-     *
-     * @param secondWord - word to set to the secondWord field
+     * @param secondWord Word to set to the secondWord field.
      * Sets the second word with a given parameter
      */
     public void setSecondWord(String secondWord) {
@@ -76,8 +77,7 @@ public abstract class Command
     }
     
     /**
-     *
-     * @param thirdWord - word to set to the thirdWord field
+     * @param thirdWord Word to set to the thirdWord field.
      * Sets the third word with a given parameter
      */
     public void setThirdWord(String thirdWord) {
@@ -86,8 +86,8 @@ public abstract class Command
     
     /**
      * Abstract method which ensures each function from a command call performs
-     * the corresponding operation
-     * @return output for each operation executed
+     * the corresponding operation.
+     * @return Output for each operation executed
      */
     public abstract String execute();
 }

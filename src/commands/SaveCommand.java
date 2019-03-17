@@ -1,6 +1,4 @@
 package commands;
-import commands.Command;
-import commands.HelpCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -13,33 +11,33 @@ public class SaveCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param words - instance of commandWords class which enables the
+     * @param words instance of commandWords class which enables the
      * retrieval of all valid commands (used here when HelpCommand is called)
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public SaveCommand(CommandWords words, ResourceBundle messages) {
+    public SaveCommand(CommandWords words, ResourceBundle messages, Resources resources) {
 	this.messages = messages;
 	this.commandWords = words;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
-     * "save" was entered. Save the current image to the file given as the 
-     * second word of the command. 
-     * @return output after saving image file
+     * "save 'name'" was entered. Save the current image to the file 
+     * given as the second word of the command. 
+     * @return Message output after saving image file
      */
     @Override
     public String execute() {
         String output = "";
     	if (sharedResource.getCurrentImage() == null) {
-            return new HelpCommand(commandWords, messages).execute();
+            return messages.getString("noImgLoaded");
         }
         
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
-            return messages.getString("saveWhere") + "\n";
+            return messages.getString("saveAs");
         }
   
         String outputName = this.getSecondWord();

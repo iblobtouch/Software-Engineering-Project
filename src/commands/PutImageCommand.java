@@ -1,44 +1,53 @@
 package commands;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import src.ColorImage;
 import src.Resources;
 
 public class PutImageCommand extends Command {
+
     private final ResourceBundle messages;
     private final Resources sharedResource;
-    private final CommandWords commandWords;
-	
+
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
-     * enables localisation
+     * @param messages Contains the internationalisation resource which enables
+     * localisation
+     * @param resources Central Resources shared within the application
      */
-    public PutImageCommand(CommandWords words, ResourceBundle messages) {
-	this.messages = messages;
-        this.commandWords = words;
-	sharedResource = Resources.getSharedResources();
+    public PutImageCommand(ResourceBundle messages, Resources resources) {
+        this.messages = messages;
+        this.sharedResource = resources;
     }
-	
+
     /**
-     * "put" was entered. Put a copy of the current image on the cache. 
-     * @return result of adding a mono filter
+     * "put 'name'" was entered. Put a copy of the current image on the cache.
+     * @return Message output after adding an image in the cache
      */
     @Override
     public String execute() {
+        String output = "";
         if (!this.hasSecondWord()) {
-            // if there is no second word, we don't know what to open...
-            return messages.getString("saveAs") + "\n";
+            return messages.getString("saveAs");
         }
         String inputName = this.getSecondWord();
-        Stack<ColorImage> tempImg = sharedResource.getCurrentImageHistory();
-        if (tempImg.isEmpty()) {
+        Stack<ColorImage> tempImg = new Stack<ColorImage>();
+        tempImg = (Stack<ColorImage>) sharedResource.getCurrentImageHistory().clone();
+        if (sharedResource.getCurrentImage() == null) {
             return messages.getString("noImgLoaded");
+        } 
+        
+        if (sharedResource.getImageCache().containsKey(inputName)) {
+            output += messages.getString("cacheOverwrite") + inputName;
+        } else {
+            output += inputName + " " + messages.getString("imgAdded");
         }
-        ColorImage topImage = tempImg.peek();
-        topImage.setName(inputName);
-        tempImg.push(topImage);
-        sharedResource.addToImageCache(tempImg);
-        return sharedResource.getName() + messages.getString("imgAdded");
+        
+        sharedResource.addToImageCache(inputName, tempImg);
+        
+        return output;
     }
 }

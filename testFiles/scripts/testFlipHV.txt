@@ -1,0 +1,4 @@
+open input.jpg
+flipH
+flipV
+save flipHVTest.jpg

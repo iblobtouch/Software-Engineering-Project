@@ -1,4 +1,4 @@
 open input.jpg
 mono
 rot90
-look
+save monoRotateTest.jpg

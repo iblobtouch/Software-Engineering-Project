@@ -1,0 +1,4 @@
+open input.jpg
+rot90
+look
+save rotateTest.jpg

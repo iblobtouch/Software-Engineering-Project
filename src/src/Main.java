@@ -9,10 +9,9 @@ import java.util.*;
 public class Main {
     
     /**
-     *
-     * @param args - args[0] refers to the language code eg. 'en' and args[1]
-     * refers to the country code eg. 'UK'. These arguments can be set under
-     * properties
+     * @param args The first value args[0] refers to the language code eg. 'en'.
+     * The second value args[1] refers to the country code eg. 'UK'. 
+     * These arguments can be set under project properties.
      */
     public static void main(String[] args) {
         String language;
@@ -31,7 +30,7 @@ public class Main {
 
         currentLocale = new Locale(language, country);
         
-        messages = ResourceBundle.getBundle("LanguageFiles.MessagesBundle", currentLocale);
+        messages = ResourceBundle.getBundle("langFiles.MessagesBundle", currentLocale);
         new Editor(messages).edit();
     }
 }

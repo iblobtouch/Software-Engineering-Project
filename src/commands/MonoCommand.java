@@ -9,24 +9,24 @@ public class MonoCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public MonoCommand(ResourceBundle messages) {
+    public MonoCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
-     * "mono" was entered. Converts a given ColorImage to monochrome 
-     * @return result of adding a mono filter
+     * "mono" was entered. Converts a given ColorImage to monochrome.
+     * @return Message output after adding a mono filter
      */
     @Override
     public String execute() {
     	String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -46,15 +46,11 @@ public class MonoCommand extends Command {
                 tmpImage.setPixel(x, y, new Color(lum, lum, lum));
             }
         }
-        
-        for (int i =0; i < tmpImage.getFilters().length; i++) {
-            if (tmpImage.getFilters()[i] == null) {
-                tmpImage.addFilter(i, "mono");
-                break;
-            }
-        }
+
+        tmpImage.addFilter("mono");
         
         sharedResource.updateImage(tmpImage);
+        output += messages.getString("monoRes");
         return output;
     }
 }

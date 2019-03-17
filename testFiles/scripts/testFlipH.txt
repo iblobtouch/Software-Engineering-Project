@@ -1,0 +1,3 @@
+open input.jpg
+flipH
+save flipHTest.jpg

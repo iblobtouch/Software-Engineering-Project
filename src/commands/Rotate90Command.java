@@ -1,5 +1,4 @@
 package commands;
-import commands.Command;
 import java.awt.Color;
 import java.util.ResourceBundle;
 import src.ColorImage;
@@ -10,24 +9,24 @@ public class Rotate90Command extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public Rotate90Command(ResourceBundle messages) {
+    public Rotate90Command(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
      * "rot90" was entered. Rotate the current image 90 degrees. 
-     * @return result after rotating image to 90 degrees
+     * @return Message output after rotating image to 90 degrees
      */
     @Override
     public String execute() {
         String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -40,7 +39,7 @@ public class Rotate90Command extends Command {
         
         int height = sharedResource.getCurrentImage().getHeight();
         int width = sharedResource.getCurrentImage().getWidth();
-        ColorImage rotImage = new ColorImage(height, width, sharedResource.getCurrentImage().getName(), sharedResource.getCurrentImage().getFilters());
+        ColorImage rotImage = new ColorImage(height, width, sharedResource.getName(), sharedResource.getCurrentImage().getFilters());
         for (int y=0; y<height; y++) { // in the rotated image
             for (int x=0; x<width; x++) {
                 Color pix = sharedResource.getCurrentImage().getPixel(x,y);
@@ -49,13 +48,10 @@ public class Rotate90Command extends Command {
         }
         
         
-        for (int i =0; i < rotImage.getFilters().length; i++) {
-            if (rotImage.getFilters()[i] == null) {
-                rotImage.addFilter(i, "rot90");
-                break;
-            }
-        }
+        rotImage.addFilter("rot90");
+        
         sharedResource.updateImage(rotImage);
+        output += messages.getString("rot90Res");
         return output;
     }
 }

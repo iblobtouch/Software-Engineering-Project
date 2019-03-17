@@ -9,24 +9,24 @@ public class FlipHorizontalCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public FlipHorizontalCommand(ResourceBundle messages) {
+    public FlipHorizontalCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
-     * "flipH" was entered. Flip the current image horizontally. 
-     * @return result after flipping the image horizontally
+     * "flipH" was entered. Flip the current image horizontally.
+     * @return Message output after flipping the image horizontally
      */
     @Override
     public String execute() {
         String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -45,15 +45,10 @@ public class FlipHorizontalCommand extends Command {
             }
         }
         
+        flipImage.addFilter("flipH");
         
-        
-        for (int i =0; i < flipImage.getFilters().length; i++) {
-            if (flipImage.getFilters()[i] == null) {
-                flipImage.addFilter(i, "flipH");
-                break;
-            }
-        }
         sharedResource.updateImage(flipImage);
+        output += messages.getString("flipHRes");
         return output;
     }
 }

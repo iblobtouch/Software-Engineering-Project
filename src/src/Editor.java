@@ -15,30 +15,29 @@ package src;
  * @version 2018.12.12
  */
 import commands.Command;
-import java.io.FileInputStream;
 import java.util.*;
 public class Editor {
     private final Parser parser;
     private final Resources sharedResource;
     private final ResourceBundle messages;
-    private Scanner reader;         // source of command input
+    private final Scanner reader;         // source of command input
    
     /**
      * Create the editor and initialise its parser, shared Resource and 
-     * internationalised resource
-     * @param messages - Contains the internationalisation resource which
-     * enables localisation
+     * internationalised resource.
+     * @param messages Contains the internationalisation resource which
+     * enables localisation.
      */
     public Editor(ResourceBundle messages) {
-        this.parser = new Parser(messages);
         this.sharedResource = Resources.getSharedResources();
+        this.parser = new Parser(messages, this.sharedResource);
         this.messages = messages;
         this.reader = new Scanner(System.in);
     }
 
     /**
      * Main edit routine. Loops until the end of the editing session.
-     * Executes command operations until its requested termination
+     * Executes command operations until its requested termination.
      */
     public void edit() {
         printWelcome();
@@ -54,7 +53,7 @@ public class Editor {
                 System.out.println(messages.getString("unclearMsg"));
             } else {
             	output = command.execute();
-                System.out.println(output);
+                System.out.println(output + "\n");
             }
         }
         System.out.println(messages.getString("finishMsg"));
@@ -71,7 +70,7 @@ public class Editor {
         System.out.println();
         System.out.println(messages.getString("currentImg") + sharedResource.getName());
         System.out.print(messages.getString("appliedFltrs"));
-        String[] appliedFilters = sharedResource.getFilters();
+        String[] appliedFilters = sharedResource.getCurrentFilters();
         for (String appliedFilter : appliedFilters) {
             if (appliedFilter != null) {
                 System.out.println(appliedFilter + " ");

@@ -1,29 +1,31 @@
 package src;
 
-import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.LinkedHashMap;
 import java.util.Stack;
 
 public class Resources {
     private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
-    private ArrayList<Stack<ColorImage>> imageCache;
+    private LinkedHashMap<String, Stack<ColorImage>> imageCache;
+    private String name;
     private boolean finished;
 	 
     /** 
      * Uses Singleton Design Pattern to create a shared Resource between
-     * the client class (Editor) and method executor Classes
+     * the client class (Editor) and method executor Classes.
      */
     private Resources() {
-        this.currentImage = new Stack<ColorImage>();
-        this.imageCache = new ArrayList<Stack<ColorImage>>();
+        this.currentImage = new Stack<>();
+        this.imageCache = new LinkedHashMap<>();
         this.finished = false;
+        this.name = null;
     }
     
     /**
      * Creates an instance of the resource once and ensures it 
-     * uses the same one throughout
-     * @return current/created shared Resources
+     * uses the same one throughout.
+     * @return Current/created shared Resources
      */
     public static Resources getSharedResources() {
 	if (sharedResource == null) {
@@ -31,10 +33,24 @@ public class Resources {
 	}
         return sharedResource;
     }
+    
+    /**
+     * @return The whole history of the current image
+     */
+    public Stack<ColorImage> getCurrentImageHistory() {
+        return currentImage;
+    }
+    
+    /**
+     * Puts the loaded image in the cache, then sets it to the provided image.
+     * @param img Image to replace current image with
+     */
+    public void setCurrentImageHistory(Stack<ColorImage> img) {
+        currentImage = img;
+    }
 	 
     /**
-     *
-     * @return Image at its current state
+     * @return The top image in the current image stack
      */
     public ColorImage getCurrentImage() {
 	try {
@@ -45,74 +61,36 @@ public class Resources {
     }
     
     /**
-     *
-     * Puts the current image in the cache, then sets it to the provided image.
-     * @param img image to replace current image with.
+     * Adds the new contents of the current image to the cache.
+     * @param newImage Image after being updated from an operation/filter
      */
-    public void setCurrentImage(Stack<ColorImage> img) {
-	if (currentImage.isEmpty() == false) {
-            addToImageCache(currentImage);
-        }
-        currentImage = img;
+    public void updateImage(ColorImage newImage) {
+	currentImage.push(newImage);
     }
     
     /**
-     *
-     * @return the image cache in its current state.
+     * @return The image cache in its current state
      */
-    public ArrayList<Stack<ColorImage>> getImageCache () {
+    public LinkedHashMap<String, Stack<ColorImage>> getImageCache () {
         return imageCache;
     }
-    
-    /**
-     *
-     * @param img to add to cache
-     * @return the image cache in its current state.
-     */
-    public boolean addToImageCache (Stack<ColorImage> img) {
-        if (!imageCache.contains(img)) {
-            imageCache.add(img);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @return The whole history of the current image;
-     */
-    public Stack<ColorImage> getCurrentImageHistory() {
-        return currentImage;
-    }
-    
-    /**
-     *
-     * @return Image name
-     */
     public String getName() {
-        if (!currentImage.isEmpty()) {
-            return currentImage.peek().getName();
-        } else {
-            return null;
-        }
+        return name;
     }
-	
-    /**
-     *
-     * @return Array of filters that is currently applied to the image
-     */
-    public String[] getFilters() {
-        if (!currentImage.isEmpty()) {
-            return currentImage.peek().getFilters();
-        } else {
-            return new String[4];
-        }
+    public void setName(String fN){
+        this.name = fN;
     }
     
     /**
-     *
-     * @return a boolean value which determines whether further usage
+     * @param name
+     * @param img The image to add to the cache
+     */
+    public void addToImageCache (String name, Stack<ColorImage> img) {
+        imageCache.put(name, img);
+    }
+    
+    /**
+     * @return A boolean value which determines whether further usage
      * of the application is required
      */
     public boolean getFinished() {
@@ -120,59 +98,19 @@ public class Resources {
     }
     
     /**
-     *
-     * Gets an image from the cache by name and sets it as the current image.
-     * @param itemName name of item to get.
-     * @return boolean indicating the success of the method.
-     */
-    public Stack<ColorImage> getImageFromCache(String itemName) {
-        for (int i = 0; i < imageCache.size(); i ++) {
-            if (imageCache.get(i).peek().getName().equals(itemName)) {
-                return imageCache.get(i);
-            }
-        }
-        return null;
-    }
-    
-    /**
-     *
-     * @param newImage - Image after being updated from an operation/filter
-     * Adds the new contents of the current image to the cache.
-     */
-    public void updateImage(ColorImage newImage) {
-	currentImage.push(newImage);
-    }
-    
-    /**
-     *
-     * Removes the last operation performed on the current image.
-     */
-    public void undo() {
-        try {
-            if (!currentImage.isEmpty()) {
-                currentImage.pop();
-            }
-        } catch (EmptyStackException e) {
-        }
-    }
-	 
-    /**
-     *
-     * @param newName - new name for the image
-     * overwrites the current name of the image with newName
-     */
-    public void setName(String newName) {
-        if (!currentImage.isEmpty()) {
-            currentImage.peek().setName(newName);
-        }
-    }
-	 
-    /**
-     *
-     * @param fin - refers to whether the application is ready to terminate
-     * Sets the 'finished' field with the value of 'fin'
+     * Sets the 'finished' field with the value of 'fin'.
+     * @param fin Refers to whether the application is ready to terminate
      */
     public void setFinished(boolean fin) {
 	finished = fin;
     } 
+    
+    public String[] getCurrentFilters() {
+        if (!currentImage.empty()) {
+            return currentImage.peek().getFilters();
+        } else {
+            return new String[4];
+        }
+    }
+    
 }

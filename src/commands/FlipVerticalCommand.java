@@ -9,24 +9,24 @@ public class FlipVerticalCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public FlipVerticalCommand(ResourceBundle messages) {
+    public FlipVerticalCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
      * "flipV" was entered. Flip the current image vertically. 
-     * @return result after flipping the image vertically
+     * @return Message output after flipping the image vertically
      */
     @Override
     public String execute() {
         String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -45,13 +45,10 @@ public class FlipVerticalCommand extends Command {
             maxH--;
         }
         
-        for (int i =0; i < flipImage.getFilters().length; i++) {
-            if (flipImage.getFilters()[i] == null) {
-                flipImage.addFilter(i, "flipV");
-                break;
-            }
-        }
+        flipImage.addFilter("flipV");
+        
         sharedResource.updateImage(flipImage);
+        output += messages.getString("flipVRes");
         return output;
     }
 }

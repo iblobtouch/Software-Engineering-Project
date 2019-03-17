@@ -7,18 +7,18 @@ public class LookCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public LookCommand(ResourceBundle messages) {
+    public LookCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = Resources.getSharedResources();
+	this.sharedResource = resources;
     }
 	
     /**
      * "look" was entered. Report the status of the work bench. 
-     * @return current state of image
+     * @return Message output after entailing the current state of image
      */
     @Override
     public String execute() {
@@ -26,12 +26,11 @@ public class LookCommand extends Command {
         output = messages.getString("currentImg") + sharedResource.getName()
                 + "\n" + messages.getString("appliedFltrs");
         
-        for (String filter : sharedResource.getFilters()) {
+        for (String filter : sharedResource.getCurrentFilters()) {
             if (filter != null) {
-                output += filter + " ";
+                output += " " + filter;
             }
         }
-        output += "\n";
         
         return output;
     }	

@@ -9,41 +9,44 @@ package commands;
  * @version 2013.09.09
  */
 import java.util.*;
+import src.Resources;
 
 public class CommandWords
 {
     private final LinkedHashMap<String, Command> commands;
 
     /**
-     * Constructor - initialise the valid command words and pair them with
-     * their corresponding Class instance
-     * @param messages - Contains the internationalisation resource which
+     * Initialise the valid command words and pair them with
+     * their corresponding Class instance.
+     * @param messages Contains the internationalisation resource which
      * enables localisation
+     * @param resources Central Resources shared within the application
      */
-    public CommandWords(ResourceBundle messages)
+    public CommandWords(ResourceBundle messages, Resources resources)
     {   
         commands = new LinkedHashMap<>();
-        commands.put(messages.getString("openFunc"), new OpenCommand(this, messages));
-        commands.put(messages.getString("saveFunc"), new SaveCommand(this, messages));
-        commands.put(messages.getString("lookFunc"), new LookCommand(messages));
-        commands.put(messages.getString("monoFunc"), new MonoCommand(messages));
-        commands.put(messages.getString("rot90Func"), new Rotate90Command(messages));
+        commands.put(messages.getString("openFunc"), new OpenCommand(this, messages, resources));
+        commands.put(messages.getString("saveFunc"), new SaveCommand(this, messages, resources));
+        commands.put(messages.getString("lookFunc"), new LookCommand(messages, resources));
+        commands.put(messages.getString("monoFunc"), new MonoCommand(messages, resources));
+        commands.put(messages.getString("rot90Func"), new Rotate90Command(messages, resources));
         commands.put(messages.getString("helpFunc"), new HelpCommand(this, messages));
-        commands.put(messages.getString("quitFunc"), new QuitCommand(messages));
-        commands.put(messages.getString("scriptFunc"), new ScriptCommand(messages));
-        commands.put(messages.getString("flipHFunc"), new FlipHorizontalCommand(messages));
-        commands.put(messages.getString("flipVFunc"), new FlipVerticalCommand(messages));
-        commands.put(messages.getString("undoFunc"), new UndoCommand(messages));
-        commands.put(messages.getString("putFunc"), new PutImageCommand(this, messages));
-        commands.put(messages.getString("getFunc"), new GetImageCommand(this, messages));
+        commands.put(messages.getString("quitFunc"), new QuitCommand(messages, resources));
+        commands.put(messages.getString("scriptFunc"), new ScriptCommand(messages, resources));
+        commands.put(messages.getString("flipHFunc"), new FlipHorizontalCommand(messages, resources));
+        commands.put(messages.getString("flipVFunc"), new FlipVerticalCommand(messages, resources));
+        commands.put(messages.getString("undoFunc"), new UndoCommand(messages, resources));
+        commands.put(messages.getString("putFunc"), new PutImageCommand(messages, resources));
+        commands.put(messages.getString("getFunc"), new GetImageCommand(messages, resources));
+        commands.put(messages.getString("cacheFunc"), new ViewImageCacheCommand(messages, resources));
         
     }
 
     /**
      * Check whether a given String is a valid command word. 
-     * @param command
-     * @return true if a given string is a valid command,
-     * false if it isn't.
+     * @param command Command name
+     * @return The boolean true if a given string is a valid command,
+     * false if it isn't
      */
     public boolean isCommand(String command)
     {
@@ -51,9 +54,8 @@ public class CommandWords
     }
     
     /**
-     *
-     * @param command
-     * @return a key value pair which corresponds to the given command
+     * @param command Command name
+     * @return A key value pair which corresponds to the given command
      * parameter
      */
     public Command get(String command) {
@@ -62,15 +64,14 @@ public class CommandWords
     
     /**
      * Iterates through the HashMap of valid commands and returns them in
-     * String format
-     * @return valid commands in String format
+     * String format.
+     * @return Valid commands in String format
      */
     public String getAll() {
     	String s = "";
     	for (Iterator<String> i = commands.keySet().iterator(); i.hasNext();) {
             s = s + i.next() + " ";
     	}
-    	s = s + "\n";
     	return s;
     }
 }
