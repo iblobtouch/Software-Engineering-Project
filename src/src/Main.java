@@ -6,6 +6,11 @@ package src;
  * @version 2018.12.12
  */
 import java.util.*;
+
+/**
+ *
+ * @author regno
+ */
 public class Main {
     
     /**

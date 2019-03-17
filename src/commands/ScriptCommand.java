@@ -9,6 +9,10 @@ import java.io.FileReader;
 import src.Parser;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class ScriptCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;

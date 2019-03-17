@@ -11,6 +11,10 @@ package commands;
 import java.util.*;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class CommandWords
 {
     private final LinkedHashMap<String, Command> commands;

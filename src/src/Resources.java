@@ -4,6 +4,10 @@ import java.util.EmptyStackException;
 import java.util.LinkedHashMap;
 import java.util.Stack;
 
+/**
+ *
+ * @author regno
+ */
 public class Resources {
     private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
@@ -74,9 +78,19 @@ public class Resources {
     public LinkedHashMap<String, Stack<ColorImage>> getImageCache () {
         return imageCache;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     *
+     * @param fN
+     */
     public void setName(String fN){
         this.name = fN;
     }
@@ -105,6 +119,10 @@ public class Resources {
 	finished = fin;
     } 
     
+    /**
+     *
+     * @return
+     */
     public String[] getCurrentFilters() {
         if (!currentImage.empty()) {
             return currentImage.peek().getFilters();

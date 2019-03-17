@@ -21,6 +21,10 @@ public class ColorImage extends BufferedImage
 {
     private String[] filters;
     
+    /**
+     *
+     * @param image
+     */
     public ColorImage(ColorImage image) {
         super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
         int width = image.getWidth();

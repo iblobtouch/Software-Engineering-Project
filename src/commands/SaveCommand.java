@@ -5,6 +5,10 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class SaveCommand extends Command {
     private final ResourceBundle messages;
     private final CommandWords commandWords;

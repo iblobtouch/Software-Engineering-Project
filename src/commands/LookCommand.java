@@ -2,6 +2,10 @@ package commands;
 import java.util.ResourceBundle;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class LookCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;

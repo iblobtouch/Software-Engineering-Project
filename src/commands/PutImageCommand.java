@@ -8,6 +8,10 @@ import java.util.Stack;
 import src.ColorImage;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class PutImageCommand extends Command {
 
     private final ResourceBundle messages;

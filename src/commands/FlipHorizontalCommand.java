@@ -4,6 +4,10 @@ import java.util.ResourceBundle;
 import src.ColorImage;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class FlipHorizontalCommand extends Command {
     private final ResourceBundle messages;
     private final Resources sharedResource;

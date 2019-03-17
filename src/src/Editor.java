@@ -16,6 +16,11 @@ package src;
  */
 import commands.Command;
 import java.util.*;
+
+/**
+ *
+ * @author regno
+ */
 public class Editor {
     private final Parser parser;
     private final Resources sharedResource;

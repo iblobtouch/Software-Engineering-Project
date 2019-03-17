@@ -7,6 +7,10 @@ import javax.imageio.ImageIO;
 import src.ColorImage;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class OpenCommand extends Command{
 
     private final ResourceBundle messages;

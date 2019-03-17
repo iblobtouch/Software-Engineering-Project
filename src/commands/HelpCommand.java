@@ -1,6 +1,10 @@
 package commands;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author regno
+ */
 public class HelpCommand extends Command{
 
     private final CommandWords commandWords;

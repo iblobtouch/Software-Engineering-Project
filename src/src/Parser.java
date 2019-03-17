@@ -21,6 +21,10 @@ import commands.Command;
 import java.util.Scanner;
 import java.util.*;
 
+/**
+ *
+ * @author regno
+ */
 public class Parser 
 {
     private final CommandWords commands;  // holds all valid command words

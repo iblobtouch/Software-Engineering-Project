@@ -3,6 +3,10 @@ import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 import src.Resources;
 
+/**
+ *
+ * @author regno
+ */
 public class UndoCommand extends Command{
     private final Resources sharedResource;
     private final ResourceBundle messages;
