@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -54,13 +51,15 @@ public class ImageOutputTestUI {
         assertTrue(result);
     }
     
-    // Automate image testing for filters
-    // @param scriptName - Name of the script text file to run 
-    // (should be located in the directory /testFiles/scripts)
-    // @param savedFN - fileName of the saved image being tested. 
-    // Use the name inside the script file provided.
-    // @param comparedImageFN - Name of the expected output image file 
-    // (should be located in the directory /testFiles/images)
+    /*
+    * Automate image testing for filters.
+    * @param scriptName Name of the script text file to run 
+    * (should be located in the directory /testFiles/scripts)
+    * @param savedFN fileName of the saved image being tested. 
+    * Use the name inside the script file provided.
+    * @param comparedImageFN Name of the expected output image file 
+    * (should be located in the directory /testFiles/images)
+    */
     private boolean automateImageTest(String scriptName, String savedFN, String comparedImageFN) throws IOException {
         String input = "script " + scriptName + " testFiles/scripts";
         parser.getCommand(input).execute();
@@ -71,10 +70,12 @@ public class ImageOutputTestUI {
         return imageMatched(0, actualImageOutput, expectedImageOutput);
     }
     
-    // The saved image will not necessarily have the same exact pixel
-    // values as the one before it was saved. This utility enables comparing two
-    // image files that may be slightly similar by providing a pixel difference
-    // allowance as one of its parameters.
+    /*
+    * The saved image will not necessarily have the same exact pixel
+    * values as the one before it was saved. This utility enables comparing two
+    * image files that may be slightly similar by providing a pixel difference
+    * allowance as one of its parameters.
+    */
     private boolean imageMatched(int pixDiffAllowance, ColorImage a, ColorImage b) {
         boolean imageMatch = true;
         int width = a.getWidth();
@@ -100,14 +101,4 @@ public class ImageOutputTestUI {
         
         return imageMatch;
     }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

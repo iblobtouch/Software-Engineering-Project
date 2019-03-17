@@ -9,19 +9,18 @@ public class Rotate90Command extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public Rotate90Command(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
      * "rot90" was entered. Rotate the current image 90 degrees. 
-     * @return result after rotating image to 90 degrees
+     * @return Message output after rotating image to 90 degrees
      */
     @Override
     public String execute() {

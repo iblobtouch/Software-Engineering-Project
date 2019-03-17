@@ -7,21 +7,21 @@ public class HelpCommand extends Command{
     private final ResourceBundle messages;
 	
     /**
-     *
-     * @param words - instance of commandWords class which enables the
+     * @param words instance of commandWords class which enables the
      * retrieval of all valid commands
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
      */
     public HelpCommand(CommandWords words, ResourceBundle messages) {
-        commandWords = words;
+        this.commandWords = words;
 	this.messages = messages;
     }
 	
     /**
-     * Print out some help information. Here we print some useless, cryptic
+     * "help" was entered Print out some help information. 
+     * Here we print some useless, cryptic
      * message and a list of the command words.
-     * @return help message and commands
+     * @return Help message and commands
      */
     @Override
     public String execute() {

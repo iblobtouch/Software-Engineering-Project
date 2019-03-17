@@ -12,7 +12,7 @@ public class Resources {
 	 
     /** 
      * Uses Singleton Design Pattern to create a shared Resource between
-     * the client class (Editor) and method executor Classes
+     * the client class (Editor) and method executor Classes.
      */
     private Resources() {
         this.currentImage = new Stack<>();
@@ -22,8 +22,8 @@ public class Resources {
     
     /**
      * Creates an instance of the resource once and ensures it 
-     * uses the same one throughout
-     * @return current/created shared Resources
+     * uses the same one throughout.
+     * @return Current/created shared Resources
      */
     public static Resources getSharedResources() {
 	if (sharedResource == null) {
@@ -33,7 +33,6 @@ public class Resources {
     }
 	 
     /**
-     *
      * @return Image at its current state
      */
     public ColorImage getCurrentImage() {
@@ -45,9 +44,8 @@ public class Resources {
     }
     
     /**
-     *
      * Puts the current image in the cache, then sets it to the provided image.
-     * @param img image to replace current image with.
+     * @param img Image to replace current image with
      */
     public void setCurrentImage(Stack<ColorImage> img) {
 	if (currentImage.isEmpty() == false) {
@@ -57,17 +55,15 @@ public class Resources {
     }
     
     /**
-     *
-     * @return the image cache in its current state.
+     * @return The image cache in its current state
      */
     public ArrayList<Stack<ColorImage>> getImageCache () {
         return imageCache;
     }
     
     /**
-     *
-     * @param img to add to cache
-     * @return the image cache in its current state.
+     * @param img The image to add to the cache
+     * @return The image cache in its current state
      */
     public boolean addToImageCache (Stack<ColorImage> img) {
         if (!imageCache.contains(img)) {
@@ -79,15 +75,13 @@ public class Resources {
     }
     
     /**
-     *
-     * @return The whole history of the current image;
+     * @return The whole history of the current image
      */
     public Stack<ColorImage> getCurrentImageHistory() {
         return currentImage;
     }
     
     /**
-     *
      * @return Image name
      */
     public String getName() {
@@ -99,7 +93,6 @@ public class Resources {
     }
 	
     /**
-     *
      * @return Array of filters that is currently applied to the image
      */
     public String[] getFilters() {
@@ -111,8 +104,7 @@ public class Resources {
     }
     
     /**
-     *
-     * @return a boolean value which determines whether further usage
+     * @return A boolean value which determines whether further usage
      * of the application is required
      */
     public boolean getFinished() {
@@ -120,10 +112,9 @@ public class Resources {
     }
     
     /**
-     *
      * Gets an image from the cache by name and sets it as the current image.
-     * @param itemName name of item to get.
-     * @return boolean indicating the success of the method.
+     * @param itemName Name of item to retrieve from the cache
+     * @return Image that was retrieved from the cache
      */
     public Stack<ColorImage> getImageFromCache(String itemName) {
         for (int i = 0; i < imageCache.size(); i ++) {
@@ -135,16 +126,14 @@ public class Resources {
     }
     
     /**
-     *
-     * @param newImage - Image after being updated from an operation/filter
      * Adds the new contents of the current image to the cache.
+     * @param newImage Image after being updated from an operation/filter
      */
     public void updateImage(ColorImage newImage) {
 	currentImage.push(newImage);
     }
     
     /**
-     *
      * Removes the last operation performed on the current image.
      */
     public void undo() {
@@ -157,9 +146,8 @@ public class Resources {
     }
 	 
     /**
-     *
-     * @param newName - new name for the image
-     * overwrites the current name of the image with newName
+     * Overwrites the current name of the image with newName.
+     * @param newName New name for the image
      */
     public void setName(String newName) {
         if (!currentImage.isEmpty()) {
@@ -168,9 +156,8 @@ public class Resources {
     }
 	 
     /**
-     *
-     * @param fin - refers to whether the application is ready to terminate
-     * Sets the 'finished' field with the value of 'fin'
+     * Sets the 'finished' field with the value of 'fin'.
+     * @param fin Refers to whether the application is ready to terminate
      */
     public void setFinished(boolean fin) {
 	finished = fin;

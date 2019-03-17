@@ -7,20 +7,19 @@ public class QuitCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public QuitCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
-     * "Quit" was entered. Check the rest of the command to see whether we
+     * "quit" was entered. Check the rest of the command to see whether we
      * really quit the editor.
-     * @return output after quitting the application
+     * @return Message output after quitting the application
      */
     @Override
     public String execute() {

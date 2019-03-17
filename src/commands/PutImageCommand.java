@@ -9,19 +9,18 @@ public class PutImageCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public PutImageCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
-     * "put" was entered. Put a copy of the current image on the cache. 
-     * @return result of adding a mono filter
+     * "put 'name'" was entered. Put a copy of the current image on the cache. 
+     * @return Message output after adding an image in the cache
      */
     @Override
     public String execute() {

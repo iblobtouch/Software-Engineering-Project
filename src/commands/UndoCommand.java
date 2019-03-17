@@ -7,20 +7,19 @@ public class UndoCommand extends Command{
     private final ResourceBundle messages;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public UndoCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
-     * Print out some help information. Here we print some useless, cryptic
-     * message and a list of the command words.
-     * @return Message stating the undo was completed
+     * "undo" was entered. Undo the previous operation to
+     * go back on the previous state.
+     * @return Message output stating if the undo was completed
      */
     @Override
     public String execute() {

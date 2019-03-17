@@ -14,23 +14,22 @@ public class OpenCommand extends Command{
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param words - instance of commandWords class which enables the
+     * @param words instance of commandWords class which enables the
      * retrieval of all valid commands (used here when HelpCommand is called)
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public OpenCommand(CommandWords words, ResourceBundle messages, Resources resources) {
 	this.messages = messages;
         this.commandWords = words;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
-     * "open" was entered. Open the file given as the second word of the command
-     * and use as the current image. 
-     * @return the result of opening an image file
+     * "open 'filename'" was entered. Open the file given 
+     * as the second word of the command and use as the current image. 
+     * @return Message output after opening an image file
      */
     @Override
     public String execute() {
@@ -62,7 +61,7 @@ public class OpenCommand extends Command{
     /**
      * Load an image from a file.
      * @param name The name of the image file
-     * @return a ColorImage containing the image
+     * @return A ColorImage containing the image
      */
     private ColorImage loadImage(String name) throws IOException {
         ColorImage img = null;

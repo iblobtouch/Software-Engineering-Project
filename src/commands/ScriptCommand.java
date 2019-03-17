@@ -14,23 +14,19 @@ public class ScriptCommand extends Command {
     private final Resources sharedResource;
     
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public ScriptCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
-     * The 'script' command runs a sequence of commands from a
-     * text file.
-     * 
-     * IT IS IMPORTANT THAT THIS COMMAND WORKS AS IT CAN BE USED FOR TESTING
-     * 
-     * @return result after executing a script
+     * "script 'name'" was entered. Command runs a 
+     * sequence of commands from a text file.
+     * @return Message output after executing a script
      */
     @Override
     public String execute() {
@@ -76,10 +72,9 @@ public class ScriptCommand extends Command {
     }
     
     /**
-     *
-     * @param command - user commands executed from a script
-     * edit with a provided command as parameter. Used in scripts
-     * @return result of executing a script
+     * Executes the content of a script file.
+     * @param command User commands executed from a script
+     * @return Result of executing a script appended to main function
      */
     public String executeScript(Command command) {
         String output = "";

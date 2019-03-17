@@ -9,19 +9,18 @@ public class FlipVerticalCommand extends Command {
     private final Resources sharedResource;
 	
     /**
-     *
-     * @param messages - Contains the internationalisation resource which
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public FlipVerticalCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;
-	sharedResource = resources;
+	this.sharedResource = resources;
     }
 	
     /**
      * "flipV" was entered. Flip the current image vertically. 
-     * @return result after flipping the image vertically
+     * @return Message output after flipping the image vertically
      */
     @Override
     public String execute() {

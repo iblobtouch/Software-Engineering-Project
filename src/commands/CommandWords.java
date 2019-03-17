@@ -16,11 +16,11 @@ public class CommandWords
     private final LinkedHashMap<String, Command> commands;
 
     /**
-     * Constructor - initialise the valid command words and pair them with
-     * their corresponding Class instance
-     * @param messages - Contains the internationalisation resource which
+     * Initialise the valid command words and pair them with
+     * their corresponding Class instance.
+     * @param messages Contains the internationalisation resource which
      * enables localisation
-     * @param resources - Central Resources shared within the application
+     * @param resources Central Resources shared within the application
      */
     public CommandWords(ResourceBundle messages, Resources resources)
     {   
@@ -43,9 +43,9 @@ public class CommandWords
 
     /**
      * Check whether a given String is a valid command word. 
-     * @param command - Command name
-     * @return true if a given string is a valid command,
-     * false if it isn't.
+     * @param command Command name
+     * @return The boolean true if a given string is a valid command,
+     * false if it isn't
      */
     public boolean isCommand(String command)
     {
@@ -53,9 +53,8 @@ public class CommandWords
     }
     
     /**
-     *
-     * @param command - Command name
-     * @return a key value pair which corresponds to the given command
+     * @param command Command name
+     * @return A key value pair which corresponds to the given command
      * parameter
      */
     public Command get(String command) {
@@ -64,8 +63,8 @@ public class CommandWords
     
     /**
      * Iterates through the HashMap of valid commands and returns them in
-     * String format
-     * @return valid commands in String format
+     * String format.
+     * @return Valid commands in String format
      */
     public String getAll() {
     	String s = "";

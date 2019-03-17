@@ -34,9 +34,9 @@ public class ColorImage extends BufferedImage
     }
     
     /**
-     * Create a ColorImage copied from a BufferedImage
-     * Convert to 24-bit direct colour
-     * @param image The image to copy
+     * Create a ColorImage copied from a BufferedImage.
+     * Convert to 24-bit direct colour.
+     * @param image The image to copy.
      */
     public ColorImage(BufferedImage image)
     {
@@ -51,11 +51,11 @@ public class ColorImage extends BufferedImage
     }
 
     /**
-     * Create a ColorImage with specified size and 24-bit direct colour
-     * @param width The width of the image
-     * @param height The height of the image
-     * @param nme The name of the image
-     * @param flters The filters applied to the image
+     * Create a ColorImage with specified size and 24-bit direct colour.
+     * @param width The width of the image.
+     * @param height The height of the image.
+     * @param nme The name of the image.
+     * @param flters The filters applied to the image.
      */
     public ColorImage(int width, int height, String nme, String[] flters)
     {
@@ -67,9 +67,9 @@ public class ColorImage extends BufferedImage
     /**
      * Set a given pixel of this image to a specified color.
      * The color is represented as an (r,g,b) value.
-     * @param x The x position of the pixel
-     * @param y The y position of the pixel
-     * @param col The color of the pixel
+     * @param x The x position of the pixel.
+     * @param y The y position of the pixel.
+     * @param col The color of the pixel.
      */
     public void setPixel(int x, int y, Color col)
     {
@@ -78,10 +78,10 @@ public class ColorImage extends BufferedImage
     }
 
     /**
-     * Get the color value at a specified pixel position
-     * @param x The x position of the pixel
-     * @param y The y position of the pixel
-     * @return The color of the pixel at the given position
+     * Get the color value at a specified pixel position.
+     * @param x The x position of the pixel.
+     * @param y The y position of the pixel.
+     * @return The color of the pixel at the given position.
      */
     public Color getPixel(int x, int y)
     {
@@ -90,16 +90,15 @@ public class ColorImage extends BufferedImage
     }
     
     /**
-     *
-     * @param newName - new name for the image
-     * overwrites the current name of the image with newName
+     * Overwrites the current name of the image with newName.
+     * @param newName New name for the image.
      */
     public void setName(String newName) {
 	name = newName;
     }
 
     /**
-     * Initialise the values of the array of filters to null
+     * Initialise the values of the array of filters to null.
      */
     public void initialiseFilters(){
         for (int i=0; i < filters.length; i++) {
@@ -108,19 +107,17 @@ public class ColorImage extends BufferedImage
     }
     
     /**
-     *
-     * @param filterNum - refers the index of the filter to add/replace in array
-     * @param filtAdd - Name of the filter to be added
-     * Adds a filter from the array of filters
+     * Adds a filter from the array of filters.
+     * @param filterNum Refers the index of the filter to add/replace in array.
+     * @param filtAdd Name of the filter to be added.
      */
     public void addFilter(int filterNum, String filtAdd) {
 	filters[filterNum] = filtAdd;
     }
 	 
     /**
-     *
-     * @param filtRem - refers to the name of the filter to be removed
-     * Removes a particular filter from the array of filters
+     * Removes a particular filter from the array of filters.
+     * @param filtRem Refers to the name of the filter to be removed.
      */
     public void removeFilter(String filtRem) {
         for (int i=0; i < filters.length; i++) {
@@ -129,7 +126,9 @@ public class ColorImage extends BufferedImage
             }
 	}
     }
-    
+    /**
+     * Removes the previously added filter.
+     */
     public void removeLastFilter() {
         for (int i = filters.length - 1; i >= 0; i--) {
             if (filters[i] != null) {
@@ -140,16 +139,14 @@ public class ColorImage extends BufferedImage
     }
     
     /**
-     *
-     * @return Image name
+     * @return Image name.
      */
     public String getName() {
         return name;
     }
 	
     /**
-     *
-     * @return Array of filters that is currently applied to the image
+     * @return Array of filters that is currently applied to the image.
      */
     public String[] getFilters() {
 	return filters;

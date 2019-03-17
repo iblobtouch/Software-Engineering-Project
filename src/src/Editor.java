@@ -24,9 +24,9 @@ public class Editor {
    
     /**
      * Create the editor and initialise its parser, shared Resource and 
-     * internationalised resource
-     * @param messages - Contains the internationalisation resource which
-     * enables localisation
+     * internationalised resource.
+     * @param messages Contains the internationalisation resource which
+     * enables localisation.
      */
     public Editor(ResourceBundle messages) {
         this.sharedResource = Resources.getSharedResources();
@@ -37,7 +37,7 @@ public class Editor {
 
     /**
      * Main edit routine. Loops until the end of the editing session.
-     * Executes command operations until its requested termination
+     * Executes command operations until its requested termination.
      */
     public void edit() {
         printWelcome();
