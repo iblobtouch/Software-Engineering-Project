@@ -28,33 +28,32 @@ public class FiltersTestUI {
     }
     
     @Test
-    public void testMono(){
-        String input = "script testMono.txt testScripts";
-        String output = parser.getCommand(input).execute();
-        System.out.println(output);
-        assertTrue(output.contains("Loaded input.jpg\n" +
-                "The current image is input.jpg\n" +
-                "Filters applied:mono"));
-        
+    public void testMonoMessageOutput(){
+        parser.getCommand("open input.jpg").execute();
+        String output = parser.getCommand("mono").execute();
+        assertTrue(output.equals("Mono filter has been successfully applied to the image."));   
     }
     
     @Test
-    public void testRotate(){
-        String input = "script testRotate90.txt testScripts";
-        String output = parser.getCommand(input).execute();
-        System.out.println(output);
-        assertTrue(output.contains("Loaded input.jpg\n" +
-                "The current image is input.jpg\n" +
-                "Filters applied:rot90"));
+    public void testRotateMessageOutput(){
+        parser.getCommand("open input.jpg").execute();
+        String output = parser.getCommand("rot90").execute();
+        assertTrue(output.equals("Image has been successfully rotated around 90 degrees."));
     }
     
     @Test
-    public void testMonoAndRotate(){
-        String input = "script testMonoRotate.txt testScripts";
-        String output = parser.getCommand(input).execute();
-        System.out.println(output);
-        assertTrue(output.contains("Loaded input.jpg\n" +
-                "The current image is input.jpg\n" +
-                "Filters applied:mono rot90"));
+    public void testFlipHMessageOutput(){
+        parser.getCommand("open input.jpg").execute();
+        String output = parser.getCommand("flipH").execute();
+        assertTrue(output.equals("Image has been successfully flipped horizontally."));
     }
+    
+    @Test
+    public void testFlipVMessageOutput(){
+        parser.getCommand("open input.jpg").execute();
+        String output = parser.getCommand("flipV").execute();
+        assertTrue(output.equals("Image has been successfully flipped vertically."));
+    }
+    
+    
 }

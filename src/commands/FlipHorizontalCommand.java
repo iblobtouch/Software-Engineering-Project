@@ -52,6 +52,7 @@ public class FlipHorizontalCommand extends Command {
             }
         }
         sharedResource.updateImage(flipImage);
+        output += "Image has been successfully flipped horizontally.";
         return output;
     }
 }

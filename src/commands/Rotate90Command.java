@@ -55,6 +55,7 @@ public class Rotate90Command extends Command {
             }
         }
         sharedResource.updateImage(rotImage);
+        output += "Image has been successfully rotated around 90 degrees.";
         return output;
     }
 }

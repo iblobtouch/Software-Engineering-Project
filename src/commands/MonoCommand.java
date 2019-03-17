@@ -55,6 +55,7 @@ public class MonoCommand extends Command {
         }
         
         sharedResource.updateImage(tmpImage);
+        output += "Mono filter has been successfully applied to the image.";
         return output;
     }
 }

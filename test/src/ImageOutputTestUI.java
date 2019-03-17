@@ -40,12 +40,6 @@ public class ImageOutputTestUI {
     }
     
     @Test
-    public void testMonoRotateImage() throws IOException{
-        boolean result = automateImageTest("testMonoRotate.txt", "monoRotateTest.jpg", "monoRotateImage.jpg");
-        assertTrue(result);
-    }
-    
-    @Test
     public void testRotateImage() throws IOException{
         boolean result = automateImageTest("testRotate.txt", "rotateTest.jpg", "rotateImage.jpg");
         assertTrue(result);
@@ -60,6 +54,12 @@ public class ImageOutputTestUI {
     @Test
     public void testFlipVImage() throws IOException{
         boolean result = automateImageTest("testFlipV.txt", "flipVTest.jpg", "flipVImage.jpg");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testMonoRotateImage() throws IOException{
+        boolean result = automateImageTest("testMonoRotate.txt", "monoRotateTest.jpg", "monoRotateImage.jpg");
         assertTrue(result);
     }
     
