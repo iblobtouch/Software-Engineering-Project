@@ -51,6 +51,24 @@ public class ImageOutputTestUI {
         assertTrue(result);
     }
     
+    @Test
+    public void testFlipHImage() throws IOException{
+        boolean result = automateImageTest("testFlipH.txt", "flipHTest.jpg", "flipHImage.jpg");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testFlipVImage() throws IOException{
+        boolean result = automateImageTest("testFlipV.txt", "flipVTest.jpg", "flipVImage.jpg");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testFlipHVImage() throws IOException{
+        boolean result = automateImageTest("testFlipHV.txt", "flipHVTest.jpg", "flipHVImage.jpg");
+        assertTrue(result);
+    }
+    
     /*
     * Automate image testing for filters.
     * @param scriptName Name of the script text file to run 
@@ -65,14 +83,15 @@ public class ImageOutputTestUI {
         parser.getCommand(input).execute();
         File savedFile = new File(savedFN);
         ColorImage actualImageOutput = new ColorImage(ImageIO.read(savedFile));
-        ColorImage expectedImageOutput = new ColorImage(ImageIO.read(new File(testDir + comparedImageFN)));
+        File comparedFile = new File(testDir + comparedImageFN);
+        ColorImage expectedImageOutput = new ColorImage(ImageIO.read(comparedFile));
         savedFile.delete();
         return imageMatched(0, actualImageOutput, expectedImageOutput);
     }
     
     /*
     * The saved image will not necessarily have the same exact pixel
-    * values as the one before it was saved. This utility enables comparing two
+    * values as the image being processed. This utility enables comparing two
     * image files that may be slightly similar by providing a pixel difference
     * allowance as one of its parameters.
     */

@@ -1,0 +1,3 @@
+open input.jpg
+flipV
+save flipVTest.jpg
