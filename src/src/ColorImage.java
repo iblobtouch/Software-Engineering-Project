@@ -19,15 +19,13 @@ import java.util.Arrays;
 
 public class ColorImage extends BufferedImage
 {
-    String name;
-    String[] filters;
+    private String[] filters;
     
     public ColorImage(ColorImage image) {
         super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
         int width = image.getWidth();
         int height = image.getHeight();
-        name = image.name;
-        filters = image.filters;
+        this.filters = Arrays.copyOf(image.filters, image.filters.length);
         for (int y=0; y<height; y++)
             for (int x=0; x<width; x++)
                 setRGB(x, y, image.getRGB(x,y));
@@ -43,8 +41,7 @@ public class ColorImage extends BufferedImage
         super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
         int width = image.getWidth();
         int height = image.getHeight();
-        name = null;
-        filters = new String[4];
+        this.filters = new String[4];
         for (int y=0; y<height; y++)
             for (int x=0; x<width; x++)
                 setRGB(x, y, image.getRGB(x,y));
@@ -60,8 +57,7 @@ public class ColorImage extends BufferedImage
     public ColorImage(int width, int height, String nme, String[] flters)
     {
         super(width, height, TYPE_INT_RGB);
-        name = nme;
-        filters = Arrays.copyOf(flters, flters.length);
+        this.filters = Arrays.copyOf(flters, flters.length);
     }
 
     /**
@@ -89,60 +85,18 @@ public class ColorImage extends BufferedImage
         return new Color(pixel);
     }
     
-    /**
-     * Overwrites the current name of the image with newName.
-     * @param newName New name for the image.
-     */
-    public void setName(String newName) {
-	name = newName;
-    }
-
-    /**
-     * Initialise the values of the array of filters to null.
-     */
-    public void initialiseFilters(){
-        for (int i=0; i < filters.length; i++) {
-            filters[i] = null;
-	}
-    }
     
     /**
      * Adds a filter from the array of filters.
-     * @param filterNum Refers the index of the filter to add/replace in array.
      * @param filtAdd Name of the filter to be added.
      */
-    public void addFilter(int filterNum, String filtAdd) {
-	filters[filterNum] = filtAdd;
-    }
-	 
-    /**
-     * Removes a particular filter from the array of filters.
-     * @param filtRem Refers to the name of the filter to be removed.
-     */
-    public void removeFilter(String filtRem) {
-        for (int i=0; i < filters.length; i++) {
-            if (filters[i].equals(filtRem)){
-		filters[i] = null;
-            }
-	}
-    }
-    /**
-     * Removes the previously added filter.
-     */
-    public void removeLastFilter() {
-        for (int i = filters.length - 1; i >= 0; i--) {
-            if (filters[i] != null) {
-                filters[i] = null;
-                return;
+    public void addFilter(String filtAdd) {
+        for (int i =0; i < filters.length; i++) {
+            if (filters[i] == null) {
+                filters[i]= filtAdd;
+                break;
             }
         }
-    }
-    
-    /**
-     * @return Image name.
-     */
-    public String getName() {
-        return name;
     }
 	
     /**

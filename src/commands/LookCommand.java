@@ -26,12 +26,11 @@ public class LookCommand extends Command {
         output = messages.getString("currentImg") + sharedResource.getName()
                 + "\n" + messages.getString("appliedFltrs");
         
-        for (String filter : sharedResource.getFilters()) {
+        for (String filter : sharedResource.getCurrentFilters()) {
             if (filter != null) {
-                output += filter + " ";
+                output += " " + filter;
             }
         }
-        output += "\n";
         
         return output;
     }	

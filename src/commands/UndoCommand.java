@@ -1,4 +1,5 @@
 package commands;
+import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 import src.Resources;
 
@@ -23,11 +24,25 @@ public class UndoCommand extends Command{
      */
     @Override
     public String execute() {
-        if (sharedResource.getCurrentImageHistory().empty() == false) {
-            sharedResource.undo();
-            return messages.getString("undoComplete");
-        } else {
+        if (sharedResource.getCurrentImageHistory().empty()) {
             return messages.getString("noImgLoaded");
+        } else if (sharedResource.getCurrentImageHistory().size() == 1) {
+            return messages.getString("noFiltersUndo");
+        } else {
+            undo();
+            return messages.getString("undoComplete");
+        }           
+    }
+    
+    /**
+     * Removes the last operation performed on the current image.
+     */
+    public void undo() {
+        try {
+            if (!sharedResource.getCurrentImageHistory().isEmpty()) {
+                sharedResource.getCurrentImageHistory().pop();
+            }
+        } catch (EmptyStackException e) {
         }
     }
 	

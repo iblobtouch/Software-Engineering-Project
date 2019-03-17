@@ -25,8 +25,8 @@ public class FlipHorizontalCommand extends Command {
     @Override
     public String execute() {
         String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -45,14 +45,10 @@ public class FlipHorizontalCommand extends Command {
             }
         }
         
-        for (int i =0; i < flipImage.getFilters().length; i++) {
-            if (flipImage.getFilters()[i] == null) {
-                flipImage.addFilter(i, "flipH");
-                break;
-            }
-        }
+        flipImage.addFilter("flipH");
+        
         sharedResource.updateImage(flipImage);
-        output += "Image has been successfully flipped horizontally.";
+        output += messages.getString("flipHRes");
         return output;
     }
 }

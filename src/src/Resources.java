@@ -1,13 +1,14 @@
 package src;
 
-import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.LinkedHashMap;
 import java.util.Stack;
 
 public class Resources {
     private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
-    private ArrayList<Stack<ColorImage>> imageCache;
+    private LinkedHashMap<String, Stack<ColorImage>> imageCache;
+    private String name;
     private boolean finished;
 	 
     /** 
@@ -16,8 +17,9 @@ public class Resources {
      */
     private Resources() {
         this.currentImage = new Stack<>();
-        this.imageCache = new ArrayList<>();
+        this.imageCache = new LinkedHashMap<>();
         this.finished = false;
+        this.name = null;
     }
     
     /**
@@ -31,48 +33,6 @@ public class Resources {
 	}
         return sharedResource;
     }
-	 
-    /**
-     * @return Image at its current state
-     */
-    public ColorImage getCurrentImage() {
-	try {
-            return currentImage.peek();
-        } catch (EmptyStackException e) {
-            return null;
-        }
-    }
-    
-    /**
-     * Puts the current image in the cache, then sets it to the provided image.
-     * @param img Image to replace current image with
-     */
-    public void setCurrentImage(Stack<ColorImage> img) {
-	if (currentImage.isEmpty() == false) {
-            addToImageCache(currentImage);
-        }
-        currentImage = img;
-    }
-    
-    /**
-     * @return The image cache in its current state
-     */
-    public ArrayList<Stack<ColorImage>> getImageCache () {
-        return imageCache;
-    }
-    
-    /**
-     * @param img The image to add to the cache
-     * @return The image cache in its current state
-     */
-    public boolean addToImageCache (Stack<ColorImage> img) {
-        if (!imageCache.contains(img)) {
-            imageCache.add(img);
-            return true;
-        } else {
-            return false;
-        }
-    }
     
     /**
      * @return The whole history of the current image
@@ -82,47 +42,22 @@ public class Resources {
     }
     
     /**
-     * @return Image name
+     * Puts the loaded image in the cache, then sets it to the provided image.
+     * @param img Image to replace current image with
      */
-    public String getName() {
-        if (!currentImage.isEmpty()) {
-            return currentImage.peek().getName();
-        } else {
+    public void setCurrentImageHistory(Stack<ColorImage> img) {
+        currentImage = img;
+    }
+	 
+    /**
+     * @return The top image in the current image stack
+     */
+    public ColorImage getCurrentImage() {
+	try {
+            return currentImage.peek();
+        } catch (EmptyStackException e) {
             return null;
         }
-    }
-	
-    /**
-     * @return Array of filters that is currently applied to the image
-     */
-    public String[] getFilters() {
-        if (!currentImage.isEmpty()) {
-            return currentImage.peek().getFilters();
-        } else {
-            return new String[4];
-        }
-    }
-    
-    /**
-     * @return A boolean value which determines whether further usage
-     * of the application is required
-     */
-    public boolean getFinished() {
-	return finished;
-    }
-    
-    /**
-     * Gets an image from the cache by name and sets it as the current image.
-     * @param itemName Name of item to retrieve from the cache
-     * @return Image that was retrieved from the cache
-     */
-    public Stack<ColorImage> getImageFromCache(String itemName) {
-        for (int i = 0; i < imageCache.size(); i ++) {
-            if (imageCache.get(i).peek().getName().equals(itemName)) {
-                return imageCache.get(i);
-            }
-        }
-        return null;
     }
     
     /**
@@ -134,27 +69,34 @@ public class Resources {
     }
     
     /**
-     * Removes the last operation performed on the current image.
+     * @return The image cache in its current state
      */
-    public void undo() {
-        try {
-            if (!currentImage.isEmpty()) {
-                currentImage.pop();
-            }
-        } catch (EmptyStackException e) {
-        }
+    public LinkedHashMap<String, Stack<ColorImage>> getImageCache () {
+        return imageCache;
     }
-	 
+    public String getName() {
+        return name;
+    }
+    public void setName(String fN){
+        this.name = fN;
+    }
+    
     /**
-     * Overwrites the current name of the image with newName.
-     * @param newName New name for the image
+     * @param name
+     * @param img The image to add to the cache
      */
-    public void setName(String newName) {
-        if (!currentImage.isEmpty()) {
-            currentImage.peek().setName(newName);
-        }
+    public void addToImageCache (String name, Stack<ColorImage> img) {
+        imageCache.put(name, img);
     }
-	 
+    
+    /**
+     * @return A boolean value which determines whether further usage
+     * of the application is required
+     */
+    public boolean getFinished() {
+	return finished;
+    }
+    
     /**
      * Sets the 'finished' field with the value of 'fin'.
      * @param fin Refers to whether the application is ready to terminate
@@ -162,4 +104,13 @@ public class Resources {
     public void setFinished(boolean fin) {
 	finished = fin;
     } 
+    
+    public String[] getCurrentFilters() {
+        if (!currentImage.empty()) {
+            return currentImage.peek().getFilters();
+        } else {
+            return new String[4];
+        }
+    }
+    
 }

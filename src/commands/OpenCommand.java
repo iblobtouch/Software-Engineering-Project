@@ -36,20 +36,20 @@ public class OpenCommand extends Command{
         String output = "";
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
-            return messages.getString("openWhat") + "\n";
+            return messages.getString("openWhat");
         }
         String inputName = this.getSecondWord();
         try {
             ColorImage img = loadImage(inputName);
-            img.setName(inputName);
+            sharedResource.setName(inputName);
             if (img == null) {
                 output += new HelpCommand(commandWords, messages).execute();
 	    } else {
                 Stack<ColorImage> tmp = new Stack<ColorImage>();
                 tmp.push(img);
-                sharedResource.setCurrentImage(tmp);
+                sharedResource.setCurrentImageHistory(tmp);
 	        // Initialise array list
-                output += messages.getString("loaded") + inputName + "\n";
+                output += messages.getString("loaded") + inputName;
 	    }
 	} catch (IOException e) {
             return e.getMessage();

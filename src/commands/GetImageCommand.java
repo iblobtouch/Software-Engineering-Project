@@ -1,5 +1,10 @@
 package commands;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Stack;
+import src.ColorImage;
 import src.Resources;
 
 public class GetImageCommand extends Command{
@@ -24,15 +29,31 @@ public class GetImageCommand extends Command{
     @Override
     public String execute() {
         if (!this.hasSecondWord()) {
-            // if there is no second word, we don't know what to open...
-            return messages.getString("getWhat") + "\n";
+            return messages.getString("getWhat");
         }
         String inputName = this.getSecondWord();
-        if (sharedResource.getImageFromCache(inputName) != null) {
-            sharedResource.setCurrentImage(sharedResource.getImageFromCache(inputName));
-            return messages.getString("loaded") + sharedResource.getName() + "\n";
+        Map.Entry<String, Stack<ColorImage>> foundItem = getImageFromCache(inputName); 
+        if (foundItem != null) {
+            sharedResource.setCurrentImageHistory((Stack<ColorImage>)foundItem.getValue().clone());
+            sharedResource.setName(foundItem.getKey());
+            return messages.getString("loaded") + sharedResource.getName();
         } else {
-            return messages.getString("openWhat") + "\n";
+            return messages.getString("cacheNotFound");
         } 
+    }
+    
+    /**
+     * Gets an image from the cache by name and sets it as the current image.
+     * @param itemName Name of item to retrieve from the cache
+     * @return Image that was retrieved from the cache
+     */
+    public Map.Entry<String, Stack<ColorImage>> getImageFromCache(String itemName) {
+        LinkedHashMap<String, Stack<ColorImage>> imageCache = sharedResource.getImageCache(); 
+        for (Map.Entry<String, Stack<ColorImage>> entry : imageCache.entrySet()) {
+            if (itemName.equals(entry.getKey())) {
+                return entry;
+            }
+        }
+        return null;
     }
 }

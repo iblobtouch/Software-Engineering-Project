@@ -32,12 +32,12 @@ public class SaveCommand extends Command {
     public String execute() {
         String output = "";
     	if (sharedResource.getCurrentImage() == null) {
-            return new HelpCommand(commandWords, messages).execute();
+            return messages.getString("noImgLoaded");
         }
         
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
-            return messages.getString("saveWhere") + "\n";
+            return messages.getString("saveAs");
         }
   
         String outputName = this.getSecondWord();

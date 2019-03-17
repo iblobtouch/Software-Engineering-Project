@@ -38,6 +38,7 @@ public class CommandWords
         commands.put(messages.getString("undoFunc"), new UndoCommand(messages, resources));
         commands.put(messages.getString("putFunc"), new PutImageCommand(messages, resources));
         commands.put(messages.getString("getFunc"), new GetImageCommand(messages, resources));
+        commands.put(messages.getString("cacheFunc"), new ViewImageCacheCommand(messages, resources));
         
     }
 
@@ -71,7 +72,6 @@ public class CommandWords
     	for (Iterator<String> i = commands.keySet().iterator(); i.hasNext();) {
             s = s + i.next() + " ";
     	}
-    	s = s + "\n";
     	return s;
     }
 }

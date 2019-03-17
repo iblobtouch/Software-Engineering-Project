@@ -25,8 +25,8 @@ public class MonoCommand extends Command {
     @Override
     public String execute() {
     	String output = "";
-    	if (sharedResource.getFilters()[3] != null) {
-            return messages.getString("exceededPipe") + "\n";
+    	if (sharedResource.getCurrentFilters()[3] != null) {
+            return messages.getString("exceededPipe");
         }
         
         if (sharedResource.getCurrentImage() == null) {
@@ -46,16 +46,11 @@ public class MonoCommand extends Command {
                 tmpImage.setPixel(x, y, new Color(lum, lum, lum));
             }
         }
-        
-        for (int i =0; i < tmpImage.getFilters().length; i++) {
-            if (tmpImage.getFilters()[i] == null) {
-                tmpImage.addFilter(i, "mono");
-                break;
-            }
-        }
+
+        tmpImage.addFilter("mono");
         
         sharedResource.updateImage(tmpImage);
-        output += "Mono filter has been successfully applied to the image.";
+        output += messages.getString("monoRes");
         return output;
     }
 }

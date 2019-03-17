@@ -53,7 +53,7 @@ public class Editor {
                 System.out.println(messages.getString("unclearMsg"));
             } else {
             	output = command.execute();
-                System.out.println(output);
+                System.out.println(output + "\n");
             }
         }
         System.out.println(messages.getString("finishMsg"));
@@ -70,7 +70,7 @@ public class Editor {
         System.out.println();
         System.out.println(messages.getString("currentImg") + sharedResource.getName());
         System.out.print(messages.getString("appliedFltrs"));
-        String[] appliedFilters = sharedResource.getFilters();
+        String[] appliedFilters = sharedResource.getCurrentFilters();
         for (String appliedFilter : appliedFilters) {
             if (appliedFilter != null) {
                 System.out.println(appliedFilter + " ");
