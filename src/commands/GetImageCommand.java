@@ -11,7 +11,7 @@ public class GetImageCommand extends Command{
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
-     * @param resources
+     * @param resources - Central Resources shared within the application
      */
     public GetImageCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;

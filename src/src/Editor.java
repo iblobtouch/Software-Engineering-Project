@@ -15,13 +15,12 @@ package src;
  * @version 2018.12.12
  */
 import commands.Command;
-import java.io.FileInputStream;
 import java.util.*;
 public class Editor {
     private final Parser parser;
     private final Resources sharedResource;
     private final ResourceBundle messages;
-    private Scanner reader;         // source of command input
+    private final Scanner reader;         // source of command input
    
     /**
      * Create the editor and initialise its parser, shared Resource and 

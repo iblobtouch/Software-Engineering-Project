@@ -20,6 +20,7 @@ public class CommandWords
      * their corresponding Class instance
      * @param messages - Contains the internationalisation resource which
      * enables localisation
+     * @param resources - Central Resources shared within the application
      */
     public CommandWords(ResourceBundle messages, Resources resources)
     {   
@@ -42,7 +43,7 @@ public class CommandWords
 
     /**
      * Check whether a given String is a valid command word. 
-     * @param command
+     * @param command - Command name
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
@@ -53,7 +54,7 @@ public class CommandWords
     
     /**
      *
-     * @param command
+     * @param command - Command name
      * @return a key value pair which corresponds to the given command
      * parameter
      */

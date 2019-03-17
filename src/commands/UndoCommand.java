@@ -8,8 +8,9 @@ public class UndoCommand extends Command{
 	
     /**
      *
-     * @param messages
-     * @param resources
+     * @param messages - Contains the internationalisation resource which
+     * enables localisation
+     * @param resources - Central Resources shared within the application
      */
     public UndoCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;

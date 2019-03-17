@@ -10,7 +10,7 @@ public class QuitCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
-     * @param resources
+     * @param resources - Central Resources shared within the application
      */
     public QuitCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;

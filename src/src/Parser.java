@@ -30,7 +30,7 @@ public class Parser
      * Create a parser to read from the terminal window.
      * @param messages - Contains the internationalisation resource which
      * enables localisation
-     * @param resources
+     * @param resources - Central Resources shared within the application
      */
     public Parser(ResourceBundle messages, Resources resources) 
     {

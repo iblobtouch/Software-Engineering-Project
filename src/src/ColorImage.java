@@ -54,11 +54,13 @@ public class ColorImage extends BufferedImage
      * Create a ColorImage with specified size and 24-bit direct colour
      * @param width The width of the image
      * @param height The height of the image
+     * @param nme The name of the image
+     * @param flters The filters applied to the image
      */
     public ColorImage(int width, int height, String nme, String[] flters)
     {
         super(width, height, TYPE_INT_RGB);
-        name = new String(nme);
+        name = nme;
         filters = Arrays.copyOf(flters, flters.length);
     }
 

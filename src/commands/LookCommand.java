@@ -10,7 +10,7 @@ public class LookCommand extends Command {
      *
      * @param messages - Contains the internationalisation resource which
      * enables localisation
-     * @param resources
+     * @param resources - Central Resources shared within the application
      */
     public LookCommand(ResourceBundle messages, Resources resources) {
 	this.messages = messages;

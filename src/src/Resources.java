@@ -15,8 +15,8 @@ public class Resources {
      * the client class (Editor) and method executor Classes
      */
     private Resources() {
-        this.currentImage = new Stack<ColorImage>();
-        this.imageCache = new ArrayList<Stack<ColorImage>>();
+        this.currentImage = new Stack<>();
+        this.imageCache = new ArrayList<>();
         this.finished = false;
     }
     

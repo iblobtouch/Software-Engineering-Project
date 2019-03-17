@@ -19,7 +19,7 @@ public class OpenCommand extends Command{
      * retrieval of all valid commands (used here when HelpCommand is called)
      * @param messages - Contains the internationalisation resource which
      * enables localisation
-     * @param resources
+     * @param resources - Central Resources shared within the application
      */
     public OpenCommand(CommandWords words, ResourceBundle messages, Resources resources) {
 	this.messages = messages;
