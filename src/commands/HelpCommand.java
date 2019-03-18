@@ -39,7 +39,7 @@ public class HelpCommand extends Command {
         String output = "";
         output = messages.getString("helpMsg1")
                 + "\n" + messages.getString("helpMsg2")
-                + "\n" + commandWords.getAll();
+                + commandWords.getAllCommands();
         return output;
     }
 

@@ -74,7 +74,7 @@ public class Resources {
     }
 
     /**
-     * Adds a new ColorImage to the current image stack.
+     * Adds a new ColorImage to the current ColorImage stack.
      *
      * @param newImage the ColorImage object after being updated from an
      * operation/filter
