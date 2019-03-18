@@ -35,13 +35,7 @@ public class QuitCommand extends Command {
      */
     @Override
     public String execute() {
-        String output = "";
-        if (this.hasSecondWord()) {
-            sharedResource.setFinished(false);
-            output += messages.getString("quitWhat");
-        } else {
-            sharedResource.setFinished(true);  // signal that we want to quit
-        }
-        return output;
+        sharedResource.setFinished(true);  // signal that we want to quit
+        return messages.getString("finishMsg");
     }
 }

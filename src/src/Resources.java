@@ -152,4 +152,12 @@ public class Resources {
         }
     }
 
+    /**
+     * Resets the the state of resources. This function will used for test
+     * purposes to remove independence between test cases.
+     */
+    public void resetResources() {
+        sharedResource = new Resources();
+    }
+
 }

@@ -44,13 +44,14 @@ public class SaveCommand extends Command {
     @Override
     public String execute() {
         String output = "";
-        if (sharedResource.getCurrentImage() == null) {
-            return messages.getString("noImgLoaded");
-        }
 
         if (!this.hasSecondWord()) {
             // if there is no second word, we don't know where to save...
             return messages.getString("saveAs");
+        }
+        
+        if (sharedResource.getCurrentImage() == null) {
+            return messages.getString("noImgLoaded");
         }
 
         String outputName = this.getSecondWord();

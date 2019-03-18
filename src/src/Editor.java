@@ -59,7 +59,6 @@ public class Editor {
                 System.out.println(output + "\n");
             }
         }
-        System.out.println(messages.getString("finishMsg"));
     }
 
     /**
