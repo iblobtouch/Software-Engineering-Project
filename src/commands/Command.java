@@ -69,7 +69,7 @@ public abstract class Command {
     }
 
     /**
-     * Sets the thirdWord field with the second word given by the user.
+     * Sets the thirdWord field with the third word given by the user.
      *
      * @param thirdWord third word from the user input
      */
