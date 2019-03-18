@@ -9,45 +9,61 @@ import java.io.FileReader;
 import src.Parser;
 import src.Resources;
 
+/**
+ * ScriptCommand is an executor class which opens and executes a script text
+ * file that contains a series of commands. It's an extention of the abstract
+ * class Command and contains its main operation in its inherited execute()
+ * method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
 public class ScriptCommand extends Command {
+
     private final ResourceBundle messages;
     private final Resources sharedResource;
-    
+
     /**
-     * @param messages Contains the internationalisation resource which
-     * enables localisation
-     * @param resources Central Resources shared within the application
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
      */
     public ScriptCommand(ResourceBundle messages, Resources resources) {
-	this.messages = messages;
-	this.sharedResource = resources;
+        this.messages = messages;
+        this.sharedResource = resources;
     }
-	
+
     /**
-     * "script 'name'" was entered. Command runs a 
-     * sequence of commands from a text file.
-     * @return Message output after executing a script
+     * Runs a sequence of commands from a text file. Triggered after 'script
+     * [textFile] *[directory]' was entered. A directory within the project's
+     * root directory can also be given as the third word in the user input.
+     * This command can also be used recursively e.g. calling script command
+     * within a script text file.
+     *
+     * @return message output after executing a script
      */
     @Override
     public String execute() {
         String output = "";
-        
-    	if (!this.hasSecondWord()) {
+
+        if (!this.hasSecondWord()) {
             // if there is no second word, we don't know what to open...
             sharedResource.setFinished(false);
             return messages.getString("whichScript");
         }
-  
+
         String scriptName = this.getSecondWord();
         Parser scriptParser = new Parser(messages, sharedResource);
-        
+
         try {
             File currentDir = new File(System.getProperty("user.dir"));
-            String fileName = this.hasThirdWord() ? currentDir.getAbsolutePath() 
-                    + "\\" + this.getThirdWord() + "\\" + scriptName 
+            String fileName = this.hasThirdWord() ? currentDir.getAbsolutePath()
+                    + "\\" + this.getThirdWord() + "\\" + scriptName
                     : scriptName;
             BufferedReader br = new BufferedReader(new FileReader(fileName));
-            
+
             try {
                 String str;
                 while ((str = br.readLine()) != null) {
@@ -55,26 +71,25 @@ public class ScriptCommand extends Command {
                     // executes new commands from a script
                     output += executeScript(cmd);
                 }
-            } 
-            finally {
+            } finally {
                 br.close();
             }
-        }
-        catch (FileNotFoundException fnf) {
-            sharedResource.setFinished(false);  
+        } catch (FileNotFoundException fnf) {
+            sharedResource.setFinished(false);
             return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName;
-        }
-        catch (IOException io) {
+        } catch (IOException io) {
             return io.getMessage() + "\n" + messages.getString("scriptBarfed");
         }
-       
+
         return output;
     }
-    
+
     /**
      * Executes the content of a script file.
-     * @param command User commands executed from a script
-     * @return Result of executing a script appended to main function
+     *
+     * @param command user command extracted from a line in the script file
+     * @return message result after executing a script appended and returned to
+     * the executor function
      */
     public String executeScript(Command command) {
         String output = "";
@@ -85,5 +100,5 @@ public class ScriptCommand extends Command {
         }
         return output;
     }
-    
+
 }

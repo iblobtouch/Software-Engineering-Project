@@ -1,35 +1,46 @@
 package commands;
+
 import java.util.ResourceBundle;
 
-public class HelpCommand extends Command{
+/**
+ * HelpCommand is an executor class which returns a help message to help the
+ * user navigate and use the application. It's an extention of the abstract
+ * class Command and contains its main operation in its inherited execute()
+ * method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
+public class HelpCommand extends Command {
 
     private final CommandWords commandWords;
     private final ResourceBundle messages;
-	
+
     /**
-     * @param words instance of commandWords class which enables the
-     * retrieval of all valid commands
-     * @param messages Contains the internationalisation resource which
-     * enables localisation
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param words instance of commandWords
+     * @param messages contains the internationalisation resource which enables
+     * localisation
      */
     public HelpCommand(CommandWords words, ResourceBundle messages) {
         this.commandWords = words;
-	this.messages = messages;
+        this.messages = messages;
     }
-	
+
     /**
-     * "help" was entered Print out some help information. 
-     * Here we print some useless, cryptic
-     * message and a list of the command words.
-     * @return Help message and commands
+     * Returns some help information including the list of available
+     * commands. Triggered after 'help' was entered.
+     *
+     * @return help message and valid commands
      */
     @Override
     public String execute() {
         String output = "";
-        output = messages.getString("helpMsg1") 
+        output = messages.getString("helpMsg1")
                 + "\n" + messages.getString("helpMsg2")
                 + "\n" + commandWords.getAll();
         return output;
     }
-	
+
 }

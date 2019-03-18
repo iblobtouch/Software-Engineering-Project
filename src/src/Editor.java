@@ -1,32 +1,35 @@
 package src;
+
+import commands.Command;
+import java.util.*;
+
 /**
- * This class is the main processing class of the Fotoshop application. 
- * Fotoshop is a very simple image editing tool. Users can apply a number of
- * filters to an image. That's all. It should really be extended to make it more
- * useful!
+ * This class is the main processing class of the Fotoshop application. Fotoshop
+ * is a very simple image editing tool. Users can apply a number of filters to
+ * an image. That's all. It should really be extended to make it more useful!
  *
  * To edit an image, create an instance of this class and call the "edit"
  * method.
  *
  * This main class creates and initialises all the others: it creates the parser
- * and  evaluates and executes the commands that the parser returns.
+ * and evaluates and executes the commands that the parser returns.
  *
  * @author Joseph Williams
- * @version 2018.12.12
+ * @version 2019.03.18
  */
-import commands.Command;
-import java.util.*;
 public class Editor {
+
     private final Parser parser;
     private final Resources sharedResource;
     private final ResourceBundle messages;
-    private final Scanner reader;         // source of command input
-   
+    private final Scanner reader;
+
     /**
-     * Create the editor and initialise its parser, shared Resource and 
+     * Create the editor and initialise its parser, shared Resource and
      * internationalised resource.
-     * @param messages Contains the internationalisation resource which
-     * enables localisation.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
      */
     public Editor(ResourceBundle messages) {
         this.sharedResource = Resources.getSharedResources();
@@ -36,7 +39,7 @@ public class Editor {
     }
 
     /**
-     * Main edit routine. Loops until the end of the editing session.
+     * Main edit routine which loops until the end of the editing session.
      * Executes command operations until its requested termination.
      */
     public void edit() {
@@ -52,7 +55,7 @@ public class Editor {
             if (command == null) {
                 System.out.println(messages.getString("unclearMsg"));
             } else {
-            	output = command.execute();
+                output = command.execute();
                 System.out.println(output + "\n");
             }
         }
