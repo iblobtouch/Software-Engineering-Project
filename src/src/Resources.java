@@ -5,19 +5,22 @@ import java.util.LinkedHashMap;
 import java.util.Stack;
 
 /**
+ * The Resources class uses a Singleton Design Pattern to create a shared
+ * resource between the client class (Editor) and method executor classes.
  *
- * @author regno
+ * @author Gerron Tinoy
+ * @version 2019.03.18
  */
 public class Resources {
+
     private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
     private LinkedHashMap<String, Stack<ColorImage>> imageCache;
     private String name;
     private boolean finished;
-	 
-    /** 
-     * Uses Singleton Design Pattern to create a shared Resource between
-     * the client class (Editor) and method executor Classes.
+
+    /**
+     * Initialises the fields in the resource class.
      */
     private Resources() {
         this.currentImage = new Stack<>();
@@ -25,103 +28,121 @@ public class Resources {
         this.finished = false;
         this.name = null;
     }
-    
+
     /**
-     * Creates an instance of the resource once and ensures it 
-     * uses the same one throughout.
-     * @return Current/created shared Resources
+     * Creates an instance of the resource once to be used throughout the
+     * application.
+     *
+     * @return current/created shared resource
      */
     public static Resources getSharedResources() {
-	if (sharedResource == null) {
+        if (sharedResource == null) {
             sharedResource = new Resources();
-	}
+        }
         return sharedResource;
     }
-    
+
     /**
+     * Retrieves the ColorImage Stack containing its history of changes.
+     *
      * @return The whole history of the current image
      */
     public Stack<ColorImage> getCurrentImageHistory() {
         return currentImage;
     }
-    
+
     /**
-     * Puts the loaded image in the cache, then sets it to the provided image.
-     * @param img Image to replace current image with
+     * Sets the ColorImage Stack to the provided parameter.
+     *
+     * @param img the ColorImage Stack to replace current image with
      */
     public void setCurrentImageHistory(Stack<ColorImage> img) {
         currentImage = img;
     }
-	 
+
     /**
-     * @return The top image in the current image stack
+     * Retrieves the top ColorImage version within the current ColorImage Stack.
+     *
+     * @return the top ColorImage object in the current image stack
      */
     public ColorImage getCurrentImage() {
-	try {
+        try {
             return currentImage.peek();
         } catch (EmptyStackException e) {
             return null;
         }
     }
-    
+
     /**
-     * Adds the new contents of the current image to the cache.
-     * @param newImage Image after being updated from an operation/filter
+     * Adds a new ColorImage to the current image stack.
+     *
+     * @param newImage the ColorImage object after being updated from an
+     * operation/filter
      */
     public void updateImage(ColorImage newImage) {
-	currentImage.push(newImage);
+        currentImage.push(newImage);
     }
-    
+
     /**
-     * @return The image cache in its current state
+     * Retrieves the image cache.
+     *
+     * @return the image cache in its current state
      */
-    public LinkedHashMap<String, Stack<ColorImage>> getImageCache () {
+    public LinkedHashMap<String, Stack<ColorImage>> getImageCache() {
         return imageCache;
     }
 
     /**
+     * Retrieves the name of the current loaded image
      *
-     * @return
+     * @return the name of the current image
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Sets the name of the current loaded image
      *
-     * @param fN
+     * @param newName the new name to change the current name to
      */
-    public void setName(String fN){
-        this.name = fN;
+    public void setName(String newName) {
+        this.name = newName;
     }
-    
+
     /**
-     * @param name
-     * @param img The image to add to the cache
+     * Adds a ColorImage Stack to the image cache.
+     *
+     * @param name key value which is also the name of the image
+     * @param img the ColorImage Stack to add to the cache
      */
-    public void addToImageCache (String name, Stack<ColorImage> img) {
+    public void addToImageCache(String name, Stack<ColorImage> img) {
         imageCache.put(name, img);
     }
-    
+
     /**
-     * @return A boolean value which determines whether further usage
-     * of the application is required
+     * Retrieves the value of the 'finished' field.
+     *
+     * @return true if the application is ready to terminate, false otherwise
      */
     public boolean getFinished() {
-	return finished;
+        return finished;
     }
-    
+
     /**
-     * Sets the 'finished' field with the value of 'fin'.
-     * @param fin Refers to whether the application is ready to terminate
+     * Sets the 'finished' field with the value given in the parameter.
+     *
+     * @param fin determines whether the application should be terminated
      */
     public void setFinished(boolean fin) {
-	finished = fin;
-    } 
-    
+        finished = fin;
+    }
+
     /**
+     * Retrieves the list of filters that is applied to the top of the current
+     * ColorImage loaded.
      *
-     * @return
+     * @return a list of filters currently applied to the current image
      */
     public String[] getCurrentFilters() {
         if (!currentImage.empty()) {
@@ -130,5 +151,5 @@ public class Resources {
             return new String[4];
         }
     }
-    
+
 }

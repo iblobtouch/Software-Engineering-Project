@@ -1,34 +1,42 @@
 package commands;
+
 import java.util.ResourceBundle;
 import src.Resources;
 
 /**
+ * QuitCommand is an executor class which terminates the application upon user
+ * request. It's an extention of the abstract class Command and contains its
+ * main operation in its inherited execute() method.
  *
- * @author regno
+ * @author Gerron Tinoy
+ * @version 2019.03.18
  */
 public class QuitCommand extends Command {
+
     private final ResourceBundle messages;
     private final Resources sharedResource;
-	
+
     /**
-     * @param messages Contains the internationalisation resource which
-     * enables localisation
-     * @param resources Central Resources shared within the application
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
      */
     public QuitCommand(ResourceBundle messages, Resources resources) {
-	this.messages = messages;
-	this.sharedResource = resources;
+        this.messages = messages;
+        this.sharedResource = resources;
     }
-	
+
     /**
-     * "quit" was entered. Check the rest of the command to see whether we
-     * really quit the editor.
-     * @return Message output after quitting the application
+     * Quits the application upon request. Triggered after 'quit' was entered.
+     *
+     * @return message output after quitting the application
      */
     @Override
     public String execute() {
         String output = "";
-    	if (this.hasSecondWord()) {
+        if (this.hasSecondWord()) {
             sharedResource.setFinished(false);
             output += messages.getString("quitWhat");
         } else {

@@ -1,16 +1,17 @@
 package commands;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import src.ColorImage;
 import src.Resources;
 
 /**
+ * PutImageCommand is an executor class which saves a copy of the current loaded
+ * image to the image cache. It's an extention of the abstract class Command and
+ * contains its main operation in its inherited execute() method.
  *
- * @author regno
+ * @author Gerron Tinoy
+ * @version 2019.03.18
  */
 public class PutImageCommand extends Command {
 
@@ -18,9 +19,11 @@ public class PutImageCommand extends Command {
     private final Resources sharedResource;
 
     /**
-     * @param messages Contains the internationalisation resource which enables
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
      * localisation
-     * @param resources Central Resources shared within the application
+     * @param resources central resources shared within the application
      */
     public PutImageCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;
@@ -28,8 +31,10 @@ public class PutImageCommand extends Command {
     }
 
     /**
-     * "put 'name'" was entered. Put a copy of the current image on the cache.
-     * @return Message output after adding an image in the cache
+     * Saves a copy of the current image to the image cache. Triggered after
+     * 'put [newName]' was entered.
+     *
+     * @return message output after saving an image to the image cache
      */
     @Override
     public String execute() {
@@ -42,16 +47,16 @@ public class PutImageCommand extends Command {
         tempImg = (Stack<ColorImage>) sharedResource.getCurrentImageHistory().clone();
         if (sharedResource.getCurrentImage() == null) {
             return messages.getString("noImgLoaded");
-        } 
-        
+        }
+
         if (sharedResource.getImageCache().containsKey(inputName)) {
             output += messages.getString("cacheOverwrite") + inputName;
         } else {
             output += inputName + " " + messages.getString("imgAdded");
         }
-        
+
         sharedResource.addToImageCache(inputName, tempImg);
-        
+
         return output;
     }
 }

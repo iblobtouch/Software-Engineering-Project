@@ -1,5 +1,5 @@
 package commands;
-import java.util.ArrayList;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -8,27 +8,35 @@ import src.ColorImage;
 import src.Resources;
 
 /**
+ * GetImageCommand is an executor class which retrieves an image from the cache
+ * memory. It's an extention of the abstract class Command and contains its main
+ * operation in its inherited execute() method.
  *
- * @author regno
+ * @author Gerron Tinoy
+ * @version 2019.03.18
  */
-public class GetImageCommand extends Command{
+public class GetImageCommand extends Command {
 
     private final ResourceBundle messages;
     private final Resources sharedResource;
-	
+
     /**
-     * @param messages Contains the internationalisation resource which
-     * enables localisation
-     * @param resources Central Resources shared within the application
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
      */
     public GetImageCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;
         this.sharedResource = resources;
     }
-	
+
     /**
-     * "get 'name'" was entered. Retrieve an image saved from the image cache.
-     * @return Message output after retrieving an image from the cache
+     * Retrieves an image saved from the image cache. Triggered after 'get
+     * [imageName]' was entered.
+     *
+     * @return message output after retrieving an image from the image cache
      */
     @Override
     public String execute() {
@@ -36,28 +44,23 @@ public class GetImageCommand extends Command{
             return messages.getString("getWhat");
         }
         String inputName = this.getSecondWord();
-        Map.Entry<String, Stack<ColorImage>> foundItem = getImageFromCache(inputName); 
+        
+        
+        Map.Entry<String, Stack<ColorImage>> foundItem = null;
+        
+        LinkedHashMap<String, Stack<ColorImage>> imageCache = sharedResource.getImageCache();
+        for (Map.Entry<String, Stack<ColorImage>> entry : imageCache.entrySet()) {
+            if (inputName.equals(entry.getKey())) {
+                foundItem = entry;
+            }
+        }  
+        
         if (foundItem != null) {
-            sharedResource.setCurrentImageHistory((Stack<ColorImage>)foundItem.getValue().clone());
+            sharedResource.setCurrentImageHistory((Stack<ColorImage>) foundItem.getValue().clone());
             sharedResource.setName(foundItem.getKey());
             return messages.getString("loaded") + sharedResource.getName();
         } else {
             return messages.getString("cacheNotFound");
-        } 
-    }
-    
-    /**
-     * Gets an image from the cache by name and sets it as the current image.
-     * @param itemName Name of item to retrieve from the cache
-     * @return Image that was retrieved from the cache
-     */
-    public Map.Entry<String, Stack<ColorImage>> getImageFromCache(String itemName) {
-        LinkedHashMap<String, Stack<ColorImage>> imageCache = sharedResource.getImageCache(); 
-        for (Map.Entry<String, Stack<ColorImage>> entry : imageCache.entrySet()) {
-            if (itemName.equals(entry.getKey())) {
-                return entry;
-            }
         }
-        return null;
     }
 }

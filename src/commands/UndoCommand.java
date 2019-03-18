@@ -1,30 +1,39 @@
 package commands;
+
 import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 import src.Resources;
 
 /**
+ * UndoCommand is an executor class which removes the previously added filter to
+ * the image. It's an extention of the abstract class Command and contains its
+ * main operation in its inherited execute() method.
  *
- * @author regno
+ * @author Gerron Tinoy
+ * @version 2019.03.18
  */
-public class UndoCommand extends Command{
+public class UndoCommand extends Command {
+
     private final Resources sharedResource;
     private final ResourceBundle messages;
-	
+
     /**
-     * @param messages Contains the internationalisation resource which
-     * enables localisation
-     * @param resources Central Resources shared within the application
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
      */
     public UndoCommand(ResourceBundle messages, Resources resources) {
-	this.messages = messages;
-	this.sharedResource = resources;
+        this.messages = messages;
+        this.sharedResource = resources;
     }
-	
+
     /**
-     * "undo" was entered. Undo the previous operation to
-     * go back on the previous state.
-     * @return Message output stating if the undo was completed
+     * Undo the previous operation to remove recently added filter. Triggered
+     * after 'undo' was entered.
+     *
+     * @return message output stating if the undo was completed
      */
     @Override
     public String execute() {
@@ -33,21 +42,15 @@ public class UndoCommand extends Command{
         } else if (sharedResource.getCurrentImageHistory().size() == 1) {
             return messages.getString("noFiltersUndo");
         } else {
-            undo();
-            return messages.getString("undoComplete");
-        }           
-    }
-    
-    /**
-     * Removes the last operation performed on the current image.
-     */
-    public void undo() {
-        try {
-            if (!sharedResource.getCurrentImageHistory().isEmpty()) {
-                sharedResource.getCurrentImageHistory().pop();
+            try {
+                if (!sharedResource.getCurrentImageHistory().isEmpty()) {
+                    // removes previous image state
+                    sharedResource.getCurrentImageHistory().pop();
+                }
+            } catch (EmptyStackException e) {
             }
-        } catch (EmptyStackException e) {
+            return messages.getString("undoComplete");
         }
     }
-	
+
 }
