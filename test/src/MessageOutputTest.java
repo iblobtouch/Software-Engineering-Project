@@ -22,8 +22,102 @@ public class MessageOutputTest {
         parser = new Parser(messages, resources);
     }
 
+    // Test General Message Output - mono, rot90, flipH, flipV, help, quit, look, cache, undo, put, get
+    // TODO - script, save
+    @Test
+    public void testOpenUnsupportedFileMessageOutput() {
+        String output = parser.getCommand("open script.txt").execute();
+        assertTrue(output.equals("File is unsupported"));
+    }
     
-    // Test General Message Output - mono, rot90, flipH, flipV, help, quit, look
+    @Test
+    public void testOpenNonExistingFileMessageOutput() {
+        String output = parser.getCommand("open test4.jpg").execute();
+        assertTrue(output.equals("Cannot find image file, test4.jpg"
+                + "\ncwd is " + System.getProperty("user.dir")));
+    }
+
+    @Test
+    public void testOpenMessageOutput() {
+        String output = parser.getCommand("open input.jpg").execute();
+        assertTrue(output.equals("Loaded input.jpg"));
+    }
+
+    @Test
+    public void testPutOverwriteMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // store an image in the image cache
+        parser.getCommand("put test3").execute();
+        // make more changes
+        parser.getCommand("rot90").execute();
+        parser.getCommand("flipV").execute();
+        // Overwrite existing image in the cache
+        String output = parser.getCommand("put test3").execute();
+        assertTrue(output.equals("The following cache has been overwritten: test3"));
+    }
+
+    @Test
+    public void testPutMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // store an image in the image cache
+        String output = parser.getCommand("put test2").execute();
+        assertTrue(output.equals("test2 has been added to the cache"));
+    }
+
+    @Test
+    public void testGetMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // store an image in the image cache
+        parser.getCommand("put test1").execute();
+        String output = parser.getCommand("get test1").execute();
+        assertTrue(output.equals("Loaded test1"));
+    }
+
+    @Test
+    public void testGetNonExistingImageMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // get a non-existing image from the image cache
+        String output = parser.getCommand("get test1").execute();
+        assertTrue(output.equals("Cannot find cache image"));
+    }
+
+    @Test
+    public void testUndoMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // Add some filters
+        parser.getCommand("mono").execute();
+        parser.getCommand("flipH").execute();
+        String output = parser.getCommand("undo").execute();
+        assertTrue(output.equals("Undo Completed"));
+    }
+
+    @Test
+    public void testUndoNoFiltersMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // Don't add any filters
+        String output = parser.getCommand("undo").execute();
+        assertTrue(output.equals("No filters to undo"));
+    }
+
+    @Test
+    public void testCacheEmptyMessageOutput() {
+        assertTrue(parser.getCommand("cache").execute().equals("Image cache list:"));
+    }
+
+    @Test
+    public void testCacheMessageOutput() {
+        // insert some images in cache
+        parser.getCommand("open input.jpg").execute();
+        parser.getCommand("put test1").execute();
+        parser.getCommand("put test2").execute();
+        parser.getCommand("put test3").execute();
+        String output = parser.getCommand("cache").execute();
+        assertTrue(output.equals("Image cache list:"
+                + "\ntest1"
+                + "\ntest2"
+                + "\ntest3"));
+    }
+
     @Test
     public void testMonoMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -72,7 +166,7 @@ public class MessageOutputTest {
                 + "get [name] : Retrieves an image from the image cache\n"
                 + "cache : Views the list of images currently stored in the image cache"));
     }
-    
+
     @Test
     public void testQuitMessageOutput() {
         String output = parser.getCommand("quit").execute();
@@ -104,19 +198,22 @@ public class MessageOutputTest {
     public void testExceededPipeMono() {
         assertTrue(automateExceededPipe("mono").equals("Filter pipeline exceeded"));
     }
+
     @Test
     public void testExceededPipeRot90() {
         assertTrue(automateExceededPipe("rot90").equals("Filter pipeline exceeded"));
     }
+
     @Test
     public void testExceededPipeFlipH() {
         assertTrue(automateExceededPipe("flipH").equals("Filter pipeline exceeded"));
     }
+
     @Test
     public void testExceededPipeFlipV() {
         assertTrue(automateExceededPipe("flipV").equals("Filter pipeline exceeded"));
     }
-    
+
     private String automateExceededPipe(String command) {
         parser.getCommand("open input.jpg").execute();
         // Fill pipes
@@ -127,7 +224,7 @@ public class MessageOutputTest {
         String output = parser.getCommand(command).execute();
         return output;
     }
-    
+
     // No Image Loaded Test - mono, rot90, flipH, flipV, save, undo, put
     @Test
     public void testNoImageLoadedMono() {
@@ -135,62 +232,74 @@ public class MessageOutputTest {
         String output = parser.getCommand("mono").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedRot90() {
         // No Image has been loaded
         String output = parser.getCommand("rot90").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedFlipH() {
         // No Image has been loaded
         String output = parser.getCommand("flipH").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedflipV() {
         // No Image has been loaded
         String output = parser.getCommand("flipV").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedSave() {
         // No Image has been loaded
         String output = parser.getCommand("save test1").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedUndo() {
         // No Image has been loaded
         String output = parser.getCommand("undo").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
+
     @Test
     public void testNoImageLoadedPut() {
         // No Image has been loaded
         String output = parser.getCommand("put test2").execute();
         assertTrue(output.equals("No Image Loaded"));
     }
-    
+
     // No second word provided tests - open, save, script, put, get
     @Test
     public void testOpenNoSecondWord() {
         assertTrue(parser.getCommand("open").execute().equals("open what?"));
     }
+
     @Test
     public void testSaveNoSecondWord() {
         assertTrue(parser.getCommand("save").execute().equals("save as what?"));
     }
+
     @Test
     public void testScriptNoSecondWord() {
         assertTrue(parser.getCommand("script").execute().equals("which script?"));
     }
+
     @Test
     public void testPutNoSecondWord() {
         assertTrue(parser.getCommand("put").execute().equals("save as what?"));
     }
+
     @Test
     public void testGetNoSecondWord() {
         assertTrue(parser.getCommand("get").execute().equals("get what?"));
     }
+
+    // test unrecognized command
 }

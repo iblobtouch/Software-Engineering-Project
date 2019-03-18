@@ -25,7 +25,7 @@ public class CommandWords {
      */
     public CommandWords(ResourceBundle messages, Resources resources) {
         commands = new LinkedHashMap<>();
-        commands.put(messages.getString("openFunc"), new Object[]{messages.getString("openHelp"), new OpenCommand(this, messages, resources)});
+        commands.put(messages.getString("openFunc"), new Object[]{messages.getString("openHelp"), new OpenCommand(messages, resources)});
         commands.put(messages.getString("saveFunc"), new Object[]{messages.getString("saveHelp"), new SaveCommand(this, messages, resources)});
         commands.put(messages.getString("lookFunc"), new Object[]{messages.getString("lookHelp"), new LookCommand(messages, resources)});
         commands.put(messages.getString("monoFunc"), new Object[]{messages.getString("monoHelp"), new MonoCommand(messages, resources)});

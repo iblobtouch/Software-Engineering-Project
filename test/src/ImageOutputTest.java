@@ -2,7 +2,6 @@ package src;
 
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
@@ -24,6 +23,7 @@ public class ImageOutputTest {
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
         resources = Resources.getSharedResources();
+        resources.resetResources();
         parser = new Parser(messages, resources);
         testDir = System.getProperty("user.dir") + "\\testFiles\\images\\";
     }
