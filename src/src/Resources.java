@@ -13,7 +13,7 @@ import java.util.Stack;
  */
 public class Resources {
 
-    private static Resources sharedResource = new Resources();
+    private static Resources sharedResource = null;
     private Stack<ColorImage> currentImage;
     private LinkedHashMap<String, Stack<ColorImage>> imageCache;
     private String name;

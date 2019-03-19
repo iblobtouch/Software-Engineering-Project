@@ -1,9 +1,15 @@
 package commands;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import src.ColorImage;
 import src.Resources;
 
 /**
@@ -18,20 +24,17 @@ import src.Resources;
 public class SaveCommand extends Command {
 
     private final ResourceBundle messages;
-    private final CommandWords commandWords;
     private final Resources sharedResource;
 
     /**
      * Initialises the pre-requisite resources for the command execution.
      *
-     * @param words instance of commandWords
      * @param messages contains the internationalisation resource which enables
      * localisation
      * @param resources central resources shared within the application
      */
-    public SaveCommand(CommandWords words, ResourceBundle messages, Resources resources) {
+    public SaveCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;
-        this.commandWords = words;
         this.sharedResource = resources;
     }
 
@@ -49,21 +52,49 @@ public class SaveCommand extends Command {
             // if there is no second word, we don't know where to save...
             return messages.getString("saveAs");
         }
-        
+
         if (sharedResource.getCurrentImage() == null) {
             return messages.getString("noImgLoaded");
         }
 
         String outputName = this.getSecondWord();
+        File outputFile = new File(outputName);
+
         try {
-            File outputFile = new File(outputName);
-            ImageIO.write(sharedResource.getCurrentImage(), "jpg", outputFile);
-            output += messages.getString("imgSavedTo") + outputName;
-        } catch (IOException e) {
-            output += e.getMessage();
-            output += new HelpCommand(commandWords, messages).execute();
-            return output;
+            if (isValidPath(outputName)) {
+                if (outputFile.isAbsolute()) {
+                    // check if directory exists
+                    if (outputFile.getParentFile().exists()) {
+                        ImageIO.write(sharedResource.getCurrentImage(), "jpg", outputFile);
+                    } else {
+                        throw new Exception();
+                    }
+                } else {
+                    ImageIO.write(sharedResource.getCurrentImage(), "jpg", outputFile);
+                }
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            return messages.getString("failedSave");
         }
+
+        output += messages.getString("imgSavedTo") + " " + outputName;
         return output;
+    }
+
+    /**
+     * Check if the name/path given is a valid path.
+     *
+     * @param path file name/path given
+     * @return true if name/path is valid, false otherwise
+     */
+    public static boolean isValidPath(String path) {
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException | NullPointerException ex) {
+            return false;
+        }
+        return true;
     }
 }

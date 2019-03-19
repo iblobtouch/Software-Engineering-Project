@@ -1,9 +1,11 @@
 package src;
 
+import java.io.File;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.filechooser.FileSystemView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,14 +24,100 @@ public class MessageOutputTest {
         parser = new Parser(messages, resources);
     }
 
-    // Test General Message Output - mono, rot90, flipH, flipV, help, quit, look, cache, undo, put, get
-    // TODO - script, save
+    // Test General Message Output - mono, rot90, flipH, flipV, help, quit, look, cache, undo, put, get, save, script
+    
+    
+    @Test
+    public void testScriptCannotFindMessageOutput() {
+        String input = "script invalidName.txt";
+        String output = parser.getCommand(input).execute();
+        assertTrue(output.equals("Cannot find invalidName.txt"));
+        
+    }
+    @Test
+    public void testScriptFromProjectRootMessageOutput() {
+        String input = "script testScript.txt";
+        String output = parser.getCommand(input).execute();
+        assertTrue(output.equals("Loaded input.jpg\n"
+                + "The current image is input.jpg\n"
+                + "Filters applied:\n"
+                + "Image has been successfully rotated around 90 degrees.\n"
+                + "Image has been successfully flipped vertically.\n"
+                + "The current image is input.jpg\n"
+                + "Filters applied: rot90 flipV\n"
+                + "I don't know what you mean...\n"));
+    }
+
+    @Test
+    public void testScriptRecursiveMessageOutput() {
+        String input = "script testScript.txt testFiles/scripts";
+        String output = parser.getCommand(input).execute();
+        assertTrue(output.equals("Loaded input.jpg\n"
+                + "Image has been successfully flipped horizontally.\n"
+                + "Mono filter has been successfully applied to the image.\n"
+                + "The current image is input.jpg\n"
+                + "Filters applied: flipH mono\n"
+                + "Undo Completed\n"
+                + "Image has been successfully rotated around 90 degrees.\n"
+                + "The current image is input.jpg\n"
+                + "Filters applied: flipH rot90\n"
+                + "Thank you for using Fotoshop.  Good bye.\n\n"));
+    }
+
+    //Failed to save
+    @Test
+    public void testSaveToValidPathOutsideProjectMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        String check = FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath();
+        File savedFile = new File(check + "/temp/");
+        String output = parser.getCommand("save " + savedFile.toString()).execute();
+        savedFile.delete();
+        assertTrue(output.equals("Image saved to " + savedFile.toString()));
+    }
+
+    @Test
+    public void testSaveToValidPathInsideProjectMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        File savedFile = new File("testFiles/test6.jpg");
+        // provide an invalid save path/name
+        String output = parser.getCommand("save testFiles/test6.jpg").execute();
+        File actualFileLoc = new File (System.getProperty("user.dir") + "/" + savedFile.toString());
+        actualFileLoc.delete();
+        assertTrue(output.equals("Image saved to testFiles/test6.jpg"));
+    }
+
+    @Test
+    public void testSaveInvalidNameMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // provide an invalid save path/name
+        String output = parser.getCommand("save '#?%^*s").execute();
+        assertTrue(output.equals("Failed to save"));
+    }
+
+    @Test
+    public void testSaveInvalidPathMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        // provide an invalid save path/name
+        String output = parser.getCommand("save //sdfsdf/dsfs").execute();
+        assertTrue(output.equals("Failed to save"));
+    }
+
+    @Test
+    public void testSaveMessageOutput() {
+        parser.getCommand("open input.jpg").execute();
+        File savedFile = new File("test5.jpg");
+        String output = parser.getCommand("save test5.jpg").execute();
+        // clean generated files
+        savedFile.delete();
+        assertTrue(output.equals("Image saved to test5.jpg"));
+    }
+
     @Test
     public void testOpenUnsupportedFileMessageOutput() {
         String output = parser.getCommand("open script.txt").execute();
         assertTrue(output.equals("File is unsupported"));
     }
-    
+
     @Test
     public void testOpenNonExistingFileMessageOutput() {
         String output = parser.getCommand("open test4.jpg").execute();
