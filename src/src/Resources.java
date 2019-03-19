@@ -13,7 +13,7 @@ import java.util.Stack;
  */
 public class Resources {
 
-    private static Resources sharedResource = null;
+    private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
     private LinkedHashMap<String, Stack<ColorImage>> imageCache;
     private String name;
@@ -30,15 +30,11 @@ public class Resources {
     }
 
     /**
-     * Creates an instance of the resource once to be used throughout the
-     * application.
+     * Returns the one and only instantiated sharedResource.
      *
      * @return current/created shared resource
      */
     public static Resources getSharedResources() {
-        if (sharedResource == null) {
-            sharedResource = new Resources();
-        }
         return sharedResource;
     }
 
