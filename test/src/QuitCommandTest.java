@@ -1,13 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package src;
 
-import static org.junit.Assert.assertTrue;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class MessageOutputTest {
-
+/**
+ *
+ * @author regno
+ */
+public class QuitCommandTest {
+    
     ResourceBundle messages;
     Parser parser;
     Resources resources;
@@ -20,11 +29,9 @@ public class MessageOutputTest {
         parser = new Parser(messages, resources);
     }
 
-    // Note: Still need to test playing around with the put, get and undo command while checking the
-    // image cache state. Can use script to easily achieve this.
     @Test
-    public void testUnrecognizedCommandInput() {
-        String output = parser.getCommand("unknown command").execute();
-        assertTrue(output.equals("I don't know what you mean..."));
+    public void testQuitMessageOutput() {
+        String output = parser.getCommand("quit").execute();
+        assertTrue(output.equals("Thank you for using Fotoshop.  Good bye."));
     }
 }

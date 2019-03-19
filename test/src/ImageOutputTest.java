@@ -82,7 +82,6 @@ public class ImageOutputTest {
         ColorImage expectedImageOutput = new ColorImage(ImageIO.read(comparedFile));
         savedFile.delete();
         return TestUtility.imageMatched(0, actualImageOutput, expectedImageOutput);
-
     }
 
 }

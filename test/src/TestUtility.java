@@ -36,4 +36,14 @@ public class TestUtility {
         return imageMatch;
     }
 
+    public static String automateExceededPipe(Parser parser, String command) {
+        parser.getCommand("open input.jpg").execute();
+        // Fill pipes
+        parser.getCommand("mono").execute();
+        parser.getCommand("rot90").execute();
+        parser.getCommand("flipH").execute();
+        parser.getCommand("flipV").execute();
+        String output = parser.getCommand(command).execute();
+        return output;
+    }
 }
