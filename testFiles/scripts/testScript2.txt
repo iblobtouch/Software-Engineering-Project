@@ -1,0 +1,4 @@
+undo
+rot90
+look
+quit

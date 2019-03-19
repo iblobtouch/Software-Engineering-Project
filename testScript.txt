@@ -1,0 +1,6 @@
+open input.jpg
+look
+rot90
+flipV
+look
+invalidCommand

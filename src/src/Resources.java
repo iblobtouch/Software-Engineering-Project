@@ -30,15 +30,11 @@ public class Resources {
     }
 
     /**
-     * Creates an instance of the resource once to be used throughout the
-     * application.
+     * Returns the one and only instantiated sharedResource.
      *
      * @return current/created shared resource
      */
     public static Resources getSharedResources() {
-        if (sharedResource == null) {
-            sharedResource = new Resources();
-        }
         return sharedResource;
     }
 
@@ -74,7 +70,7 @@ public class Resources {
     }
 
     /**
-     * Adds a new ColorImage to the current image stack.
+     * Adds a new ColorImage to the current ColorImage stack.
      *
      * @param newImage the ColorImage object after being updated from an
      * operation/filter
@@ -150,6 +146,14 @@ public class Resources {
         } else {
             return new String[4];
         }
+    }
+
+    /**
+     * Resets the the state of resources. This function will used for test
+     * purposes to remove independence between test cases.
+     */
+    public void resetResources() {
+        sharedResource = new Resources();
     }
 
 }

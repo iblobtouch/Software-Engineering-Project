@@ -69,16 +69,16 @@ public class ScriptCommand extends Command {
                 while ((str = br.readLine()) != null) {
                     Command cmd = scriptParser.getCommand(str);
                     // executes new commands from a script
-                    output += executeScript(cmd);
+                    output += executeScript(cmd) + "\n";
                 }
             } finally {
                 br.close();
             }
         } catch (FileNotFoundException fnf) {
             sharedResource.setFinished(false);
-            return fnf.getMessage() + "\n" + messages.getString("cannotFind") + scriptName;
+            return messages.getString("cannotFind") + scriptName;
         } catch (IOException io) {
-            return io.getMessage() + "\n" + messages.getString("scriptBarfed");
+            return messages.getString("scriptBarfed");
         }
 
         return output;

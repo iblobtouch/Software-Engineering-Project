@@ -1,0 +1,5 @@
+open input.jpg
+flipH
+mono
+look
+script testScript2.txt /testFiles/scripts/

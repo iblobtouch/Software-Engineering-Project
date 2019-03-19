@@ -1,0 +1,9 @@
+Code coverage is used and an attempt to test all parts of the code has been made.
+The Main and Editor class will not be part of this coverage because they are Front End classes 
+and are therefore outside the test scope. Additionally, script barfed in the ScriptCommand class which is triggered after
+a readline from a BufferedReader causes an IOException was also not tested. 
+This was because they are difficult to simulate in the test environment as they are caused by external factors
+that cannot be easily simulated e.g. the sudden deletion of a source file being used in the test.
+
+In Resources, getFinished() is only ever used in the front end to check whether the application is ready to terminate
+which explains why it also wasn't covered in the test coverage.

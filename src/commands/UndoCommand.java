@@ -42,13 +42,8 @@ public class UndoCommand extends Command {
         } else if (sharedResource.getCurrentImageHistory().size() == 1) {
             return messages.getString("noFiltersUndo");
         } else {
-            try {
-                if (!sharedResource.getCurrentImageHistory().isEmpty()) {
-                    // removes previous image state
-                    sharedResource.getCurrentImageHistory().pop();
-                }
-            } catch (EmptyStackException e) {
-            }
+            // removes previous image state
+            sharedResource.getCurrentImageHistory().pop();
             return messages.getString("undoComplete");
         }
     }

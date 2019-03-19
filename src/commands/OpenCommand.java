@@ -19,20 +19,17 @@ import src.Resources;
 public class OpenCommand extends Command {
 
     private final ResourceBundle messages;
-    private final CommandWords commandWords;
     private final Resources sharedResource;
 
     /**
      * Initialises the pre-requisite resources for the command execution.
      *
-     * @param words instance of commandWords
      * @param messages contains the internationalisation resource which enables
      * localisation
      * @param resources central resources shared within the application
      */
-    public OpenCommand(CommandWords words, ResourceBundle messages, Resources resources) {
+    public OpenCommand(ResourceBundle messages, Resources resources) {
         this.messages = messages;
-        this.commandWords = words;
         this.sharedResource = resources;
     }
 
@@ -53,16 +50,15 @@ public class OpenCommand extends Command {
         try {
             ColorImage img = loadImage(inputName);
             sharedResource.setName(inputName);
-            if (img == null) {
-                output += new HelpCommand(commandWords, messages).execute();
-            } else {
-                Stack<ColorImage> tmp = new Stack<ColorImage>();
-                tmp.push(img);
-                sharedResource.setCurrentImageHistory(tmp);
-                // Initialise array list
-                output += messages.getString("loaded") + inputName;
-            }
-        } catch (IOException e) {
+
+            Stack<ColorImage> tmp = new Stack<ColorImage>();
+            tmp.push(img);
+            sharedResource.setCurrentImageHistory(tmp);
+            // Initialise array list
+            output += messages.getString("loaded") + inputName;
+        } catch (IOException ioe) {
+            return ioe.getMessage();
+        } catch (Exception e) {
             return e.getMessage();
         }
 
@@ -75,12 +71,14 @@ public class OpenCommand extends Command {
      * @param name the name of the image file
      * @return instance of ColorImage containing the loaded image
      */
-    private ColorImage loadImage(String fileName) throws IOException {
+    private ColorImage loadImage(String fileName) throws IOException, Exception {
         ColorImage img = null;
         try {
             img = new ColorImage(ImageIO.read(new File(fileName)));
-        } catch (IOException e) {
+        } catch (IOException ioe) {
             throw new IOException(messages.getString("imgNotFound") + fileName + "\n" + messages.getString("imgDir") + System.getProperty("user.dir"));
+        } catch (Exception e) {
+            throw new Exception(messages.getString("unsupportedFile"));
         }
         return img;
     }

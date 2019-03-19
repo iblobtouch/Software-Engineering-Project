@@ -54,18 +54,11 @@ public class Parser {
         Command command = commands.get(wordList[0]);
         // Only set the second and third word if the first word given
         // is found under valid commands in HashMap
-        if (commands.isCommand(wordList[0])) {
+        if (command != null) {
             command.setSecondWord(wordList[1]);
             command.setThirdWord(wordList[2]);
         }
 
         return command;
-    }
-
-    /**
-     * @return a list of valid command words.
-     */
-    public String getCommands() {
-        return commands.getAll();
     }
 }
