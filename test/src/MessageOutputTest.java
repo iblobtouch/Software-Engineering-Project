@@ -22,9 +22,4 @@ public class MessageOutputTest {
 
     // Note: Still need to test playing around with the put, get and undo command while checking the
     // image cache state. Can use script to easily achieve this.
-    @Test
-    public void testUnrecognizedCommandInput() {
-        String output = parser.getCommand("unknown command").execute();
-        assertTrue(output.equals("I don't know what you mean..."));
-    }
 }
