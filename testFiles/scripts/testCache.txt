@@ -1,0 +1,18 @@
+open input.jpg
+look
+mono
+put test1
+rot90
+flipH
+put test2
+undo
+undo
+flipV
+put test3
+cache
+get test1
+look
+get test2
+look
+get test3
+look

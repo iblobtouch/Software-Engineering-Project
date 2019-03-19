@@ -1,7 +1,6 @@
 package commands;
 
 import java.util.*;
-import src.ColorImage;
 import src.Resources;
 
 /**
