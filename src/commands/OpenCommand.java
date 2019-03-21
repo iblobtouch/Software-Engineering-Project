@@ -51,7 +51,7 @@ public class OpenCommand extends Command {
             ColorImage img = loadImage(inputName);
             sharedResource.setName(inputName);
 
-            Stack<ColorImage> tmp = new Stack<ColorImage>();
+            Stack<ColorImage> tmp = new Stack<>();
             tmp.push(img);
             sharedResource.setCurrentImageHistory(tmp);
             // Initialise array list

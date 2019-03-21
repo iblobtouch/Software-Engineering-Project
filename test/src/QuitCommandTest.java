@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test quit command related functionalities.
  */
 public class QuitCommandTest {
-    
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
 
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
+
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,6 +26,9 @@ public class QuitCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests message output after quitting the application.
+     */
     @Test
     public void testQuitMessageOutput() {
         String output = parser.getCommand("quit").execute();

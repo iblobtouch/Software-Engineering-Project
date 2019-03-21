@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test undo command related functionalities.
  */
 public class UndoCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,6 +26,10 @@ public class UndoCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests message output upon executing undo command on an image with filters
+     * applied to it.
+     */
     @Test
     public void testUndoMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -39,6 +40,10 @@ public class UndoCommandTest {
         assertTrue(output.equals("Undo Completed"));
     }
 
+    /**
+     * Tests message output upon executing undo command on an image without any
+     * filters applied to it.
+     */
     @Test
     public void testUndoNoFiltersMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -47,6 +52,10 @@ public class UndoCommandTest {
         assertTrue(output.equals("No filters to undo"));
     }
 
+    /**
+     * Tests message output after executing undo command without any image
+     * loaded to the application.
+     */
     @Test
     public void testUndoNoImageLoaded() {
         // No Image has been loaded

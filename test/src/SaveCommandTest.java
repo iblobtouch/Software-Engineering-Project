@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.io.File;
@@ -14,15 +9,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test save command related functionalities.
  */
 public class SaveCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -31,6 +28,10 @@ public class SaveCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests message output after saving a file outside of the project's root
+     * directory.
+     */
     @Test
     public void testSaveToValidPathOutsideProjectMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -41,6 +42,10 @@ public class SaveCommandTest {
         assertTrue(output.equals("Image saved to " + savedFile.toString()));
     }
 
+    /**
+     * Tests message output after saving a file inside a path within the
+     * project's root directory.
+     */
     @Test
     public void testSaveToValidPathInsideProjectMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -52,6 +57,9 @@ public class SaveCommandTest {
         assertTrue(output.equals("Image saved to testFiles/test6.jpg"));
     }
 
+    /**
+     * Tests message output after saving a file with invalid characters.
+     */
     @Test
     public void testSaveInvalidNameMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -60,6 +68,9 @@ public class SaveCommandTest {
         assertTrue(output.equals("Failed to save"));
     }
 
+    /**
+     * Tests message output after saving a file within an invalid file path.
+     */
     @Test
     public void testSaveInvalidPathMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -68,6 +79,9 @@ public class SaveCommandTest {
         assertTrue(output.equals("Failed to save"));
     }
 
+    /**
+     * Tests message output after saving a file in the project's root directory.
+     */
     @Test
     public void testSaveMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -78,11 +92,18 @@ public class SaveCommandTest {
         assertTrue(output.equals("Image saved to test5.jpg"));
     }
 
+    /**
+     * Tests message output after using the save command by itself without
+     * referring to a file name/path.
+     */
     @Test
     public void testSaveNoSecondWord() {
         assertTrue(parser.getCommand("save").execute().equals("save as what?"));
     }
 
+    /**
+     * Tests message output after using save command without any image loaded.
+     */
     @Test
     public void testSaveNoImageLoaded() {
         // No Image has been loaded

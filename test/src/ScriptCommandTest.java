@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test script command related functionalities.
  */
 public class ScriptCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,6 +26,9 @@ public class ScriptCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests message output after executing a non-existing script text file.
+     */
     @Test
     public void testScriptCannotFindMessageOutput() {
         String input = "script invalidName.txt";
@@ -37,6 +37,10 @@ public class ScriptCommandTest {
 
     }
 
+    /**
+     * Tests message output after executing a script file in the project's root
+     * directory.
+     */
     @Test
     public void testScriptFromProjectRootMessageOutput() {
         String input = "script testScript.txt";
@@ -51,6 +55,9 @@ public class ScriptCommandTest {
                 + "I don't know what you mean...\n"));
     }
 
+    /**
+     * Tests executing a script text file that also uses the script command.
+     */
     @Test
     public void testScriptRecursiveMessageOutput() {
         String input = "script testScript.txt testFiles/scripts";
@@ -67,6 +74,10 @@ public class ScriptCommandTest {
                 + "Thank you for using Fotoshop.  Good bye.\n\n"));
     }
 
+    /**
+     * Tests message output after executing the script command by itself without
+     * referring to any file.
+     */
     @Test
     public void testScriptNoSecondWord() {
         assertTrue(parser.getCommand("script").execute().equals("which script?"));

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HelpCommand.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">commands</a> &gt; <span class="el_source">HelpCommand.java</span></div><h1>HelpCommand.java</h1><pre class="source lang-java linenums">package commands;
+
+import java.util.ResourceBundle;
+
+/**
+ * HelpCommand is an executor class which returns a help message to help the
+ * user navigate and use the application. It's an extention of the abstract
+ * class Command and contains its main operation in its inherited execute()
+ * method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
+public class HelpCommand extends Command {
+
+    private final CommandWords commandWords;
+    private final ResourceBundle messages;
+
+    /**
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param words instance of commandWords
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     */
+<span class="fc" id="L26">    public HelpCommand(CommandWords words, ResourceBundle messages) {</span>
+<span class="fc" id="L27">        this.commandWords = words;</span>
+<span class="fc" id="L28">        this.messages = messages;</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Returns some help information including the list of available
+     * commands. Triggered after 'help' was entered.
+     *
+     * @return help message and valid commands
+     */
+    @Override
+    public String execute() {
+        String output;
+<span class="fc" id="L40">        output = messages.getString(&quot;helpMsg1&quot;)</span>
+<span class="fc" id="L41">                + &quot;\n&quot; + messages.getString(&quot;helpMsg2&quot;)</span>
+<span class="fc" id="L42">                + commandWords.getAllCommands();</span>
+<span class="fc" id="L43">        return output;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

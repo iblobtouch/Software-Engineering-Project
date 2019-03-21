@@ -43,8 +43,7 @@ public class PutImageCommand extends Command {
             return messages.getString("saveAs");
         }
         String inputName = this.getSecondWord();
-        Stack<ColorImage> tempImg = new Stack<ColorImage>();
-        tempImg = (Stack<ColorImage>) sharedResource.getCurrentImageHistory().clone();
+        Stack<ColorImage> tempImg = (Stack<ColorImage>) sharedResource.getCurrentImageHistory().clone();
         if (sharedResource.getCurrentImage() == null) {
             return messages.getString("noImgLoaded");
         }

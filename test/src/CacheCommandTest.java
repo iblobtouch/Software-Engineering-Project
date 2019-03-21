@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test cache command related functionalities.
  */
 public class CacheCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,11 +26,19 @@ public class CacheCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests the message output if cache command is called while no images are
+     * stored in the image cache.
+     */
     @Test
     public void testCacheEmptyMessageOutput() {
         assertTrue(parser.getCommand("cache").execute().equals("Image cache list:"));
     }
 
+    /**
+     * Tests the message output if cache command is called to show its content
+     * after adding images in the image cache.
+     */
     @Test
     public void testCacheMessageOutput() {
         // insert some images in cache
@@ -48,7 +53,11 @@ public class CacheCommandTest {
                 + "\ntest3"));
     }
 
-    // also test undo, put and get
+    /**
+     * Tests manipulating the content of image cache by using the get, put and
+     * cache commands, as well as other filter commands to demonstrate correct
+     * functionality.
+     */
     @Test
     public void testCacheUsage() {
         String output = parser.getCommand("script testFiles/scripts/testCache.txt").execute();
@@ -78,5 +87,5 @@ public class CacheCommandTest {
                 + "The current image is test3\n"
                 + "Filters applied: mono flipV\n"));
     }
-    
+
 }

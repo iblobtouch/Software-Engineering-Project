@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ScriptCommand.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">commands</a> &gt; <span class="el_source">ScriptCommand.java</span></div><h1>ScriptCommand.java</h1><pre class="source lang-java linenums">package commands;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ResourceBundle;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import src.Parser;
+import src.Resources;
+
+/**
+ * ScriptCommand is an executor class which opens and executes a script text
+ * file that contains a series of commands. It's an extention of the abstract
+ * class Command and contains its main operation in its inherited execute()
+ * method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
+public class ScriptCommand extends Command {
+
+    private final ResourceBundle messages;
+    private final Resources sharedResource;
+
+    /**
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
+     */
+<span class="fc" id="L33">    public ScriptCommand(ResourceBundle messages, Resources resources) {</span>
+<span class="fc" id="L34">        this.messages = messages;</span>
+<span class="fc" id="L35">        this.sharedResource = resources;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Runs a sequence of commands from a text file. Triggered after 'script
+     * [textFile] *[directory]' was entered. A directory within the project's
+     * root directory can also be given as the third word in the user input.
+     * This command can also be used recursively e.g. calling script command
+     * within a script text file.
+     *
+     * @return message output after executing a script
+     */
+    @Override
+    public String execute() {
+<span class="fc" id="L49">        String output = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (!this.hasSecondWord()) {</span>
+            // if there is no second word, we don't know what to open...
+<span class="fc" id="L53">            sharedResource.setFinished(false);</span>
+<span class="fc" id="L54">            return messages.getString(&quot;whichScript&quot;);</span>
+        }
+
+<span class="fc" id="L57">        String scriptName = this.getSecondWord();</span>
+<span class="fc" id="L58">        Parser scriptParser = new Parser(messages, sharedResource);</span>
+
+        try {
+<span class="fc" id="L61">            File currentDir = new File(System.getProperty(&quot;user.dir&quot;));</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            String fileName = this.hasThirdWord() ? currentDir.getAbsolutePath()</span>
+<span class="fc" id="L63">                    + &quot;\\&quot; + this.getThirdWord() + &quot;\\&quot; + scriptName</span>
+                    : scriptName;
+<span class="pc" id="L65">            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {</span>
+                String str;
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                while ((str = br.readLine()) != null) {</span>
+<span class="fc" id="L68">                    Command cmd = scriptParser.getCommand(str);</span>
+                    // executes new commands from a script
+<span class="fc" id="L70">                    output += executeScript(cmd) + &quot;\n&quot;;</span>
+<span class="fc" id="L71">                }</span>
+<span class="pc bpc" id="L72" title="6 of 8 branches missed.">            }</span>
+<span class="fc" id="L73">        } catch (FileNotFoundException fnf) {</span>
+<span class="fc" id="L74">            sharedResource.setFinished(false);</span>
+<span class="fc" id="L75">            return messages.getString(&quot;cannotFind&quot;) + scriptName;</span>
+<span class="nc" id="L76">        } catch (IOException io) {</span>
+<span class="nc" id="L77">            return messages.getString(&quot;scriptBarfed&quot;);</span>
+<span class="fc" id="L78">        }</span>
+
+<span class="fc" id="L80">        return output;</span>
+    }
+
+    /**
+     * Executes the content of a script file.
+     *
+     * @param command user command extracted from a line in the script file
+     * @return message result after executing a script appended and returned to
+     * the executor function
+     */
+    public String executeScript(Command command) {
+<span class="fc" id="L91">        String output = &quot;&quot;;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (command == null) {</span>
+<span class="fc" id="L93">            output += messages.getString(&quot;unclearMsg&quot;);</span>
+        } else {
+<span class="fc" id="L95">            output += command.execute();</span>
+        }
+<span class="fc" id="L97">        return output;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
