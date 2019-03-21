@@ -15,7 +15,7 @@ public class Resources {
 
     private static Resources sharedResource = new Resources();
     private Stack<ColorImage> currentImage;
-    private LinkedHashMap<String, Stack<ColorImage>> imageCache;
+    private final LinkedHashMap<String, Stack<ColorImage>> imageCache;
     private String name;
     private boolean finished;
 

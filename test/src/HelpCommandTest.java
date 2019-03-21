@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test help command related functionalities.
  */
 public class HelpCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,6 +26,9 @@ public class HelpCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests the message output upon executing the help command.
+     */
     @Test
     public void testHelpMessageOutput() {
         String output = parser.getCommand("help").execute();

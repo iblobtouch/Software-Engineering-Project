@@ -62,17 +62,13 @@ public class ScriptCommand extends Command {
             String fileName = this.hasThirdWord() ? currentDir.getAbsolutePath()
                     + "\\" + this.getThirdWord() + "\\" + scriptName
                     : scriptName;
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-
-            try {
+            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
                 String str;
                 while ((str = br.readLine()) != null) {
                     Command cmd = scriptParser.getCommand(str);
                     // executes new commands from a script
                     output += executeScript(cmd) + "\n";
                 }
-            } finally {
-                br.close();
             }
         } catch (FileNotFoundException fnf) {
             sharedResource.setFinished(false);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package src;
 
 import java.util.Locale;
@@ -12,15 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author regno
+ * Test look command related functionalities.
  */
 public class LookCommandTest {
 
-    ResourceBundle messages;
-    Parser parser;
-    Resources resources;
+    private ResourceBundle messages;
+    private Parser parser;
+    private Resources resources;
 
+    /**
+     * Initialises and resets each resources for each test run.
+     */
     @Before
     public void setUp() {
         messages = ResourceBundle.getBundle("langFiles.MessagesBundle", new Locale("en", "UK"));
@@ -29,6 +26,9 @@ public class LookCommandTest {
         parser = new Parser(messages, resources);
     }
 
+    /**
+     * Tests the look command on an image without any filter applied.
+     */
     @Test
     public void testLookNoFiltersMessageOutput() {
         parser.getCommand("open input.jpg").execute();
@@ -37,6 +37,9 @@ public class LookCommandTest {
                 + "Filters applied:"));
     }
 
+    /**
+     * Tests the look command on an image with four filters applied.
+     */
     @Test
     public void testLook4FiltersMessageOutput() {
         parser.getCommand("open input.jpg").execute();

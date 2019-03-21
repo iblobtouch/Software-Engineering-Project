@@ -36,7 +36,7 @@ public class HelpCommand extends Command {
      */
     @Override
     public String execute() {
-        String output = "";
+        String output;
         output = messages.getString("helpMsg1")
                 + "\n" + messages.getString("helpMsg2")
                 + commandWords.getAllCommands();

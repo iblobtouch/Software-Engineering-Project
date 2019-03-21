@@ -21,7 +21,6 @@ import java.util.*;
 public class Parser {
 
     private final CommandWords commands;  // holds all valid command words
-    ResourceBundle messages;
 
     /**
      * Create a parser to read from the terminal window.
@@ -32,7 +31,6 @@ public class Parser {
      */
     public Parser(ResourceBundle messages, Resources resources) {
         commands = new CommandWords(messages, resources);
-        this.messages = messages;
     }
 
     /**
