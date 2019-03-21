@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Rotate90Command.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">commands</a> &gt; <span class="el_source">Rotate90Command.java</span></div><h1>Rotate90Command.java</h1><pre class="source lang-java linenums">package commands;
+
+import java.awt.Color;
+import java.util.ResourceBundle;
+import src.ColorImage;
+import src.Resources;
+
+/**
+ * Rotate90Command is an executor class which rotates the image currently being
+ * edited to 90 degrees clockwise. It's an extention of the abstract class
+ * Command and contains its main operation in its inherited execute() method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
+public class Rotate90Command extends Command {
+
+    private final ResourceBundle messages;
+    private final Resources sharedResource;
+
+    /**
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
+     */
+<span class="fc" id="L28">    public Rotate90Command(ResourceBundle messages, Resources resources) {</span>
+<span class="fc" id="L29">        this.messages = messages;</span>
+<span class="fc" id="L30">        this.sharedResource = resources;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Rotates the current image to 90 degrees clockwise. Triggered after
+     * 'rot90' was entered.
+     *
+     * @return message output after rotating image to 90 degrees
+     */
+    @Override
+    public String execute() {
+<span class="fc" id="L41">        String output = &quot;&quot;;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (sharedResource.getCurrentFilters()[3] != null) {</span>
+<span class="fc" id="L43">            return messages.getString(&quot;exceededPipe&quot;);</span>
+        }
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (sharedResource.getCurrentImage() == null) {</span>
+<span class="fc" id="L47">            return messages.getString(&quot;noImgLoaded&quot;);</span>
+        }
+
+        // R90 = [0 -1, 1 0] rotates around origin
+        // (x,y) -&gt; (-y,x)
+        // then transate -&gt; (height-y, x)
+<span class="fc" id="L53">        int height = sharedResource.getCurrentImage().getHeight();</span>
+<span class="fc" id="L54">        int width = sharedResource.getCurrentImage().getWidth();</span>
+<span class="fc" id="L55">        ColorImage rotImage = new ColorImage(height, width, sharedResource.getName(), sharedResource.getCurrentImage().getFilters());</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (int y = 0; y &lt; height; y++) { // in the rotated image</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            for (int x = 0; x &lt; width; x++) {</span>
+<span class="fc" id="L58">                Color pix = sharedResource.getCurrentImage().getPixel(x, y);</span>
+<span class="fc" id="L59">                rotImage.setPixel(height - y - 1, x, pix);</span>
+            }
+        }
+
+<span class="fc" id="L63">        rotImage.addFilter(&quot;rot90&quot;);</span>
+
+<span class="fc" id="L65">        sharedResource.updateImage(rotImage);</span>
+<span class="fc" id="L66">        output += messages.getString(&quot;rot90Res&quot;);</span>
+<span class="fc" id="L67">        return output;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

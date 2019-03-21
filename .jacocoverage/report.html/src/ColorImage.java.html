@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ColorImage.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">src</a> &gt; <span class="el_source">ColorImage.java</span></div><h1>ColorImage.java</h1><pre class="source lang-java linenums">package src;
+
+import java.awt.*;
+import java.awt.image.*;
+import java.util.Arrays;
+
+/**
+ * Extends standard BufferedImage class with convenience functions for
+ * getting/setting pixel values using the standard Color class and converting
+ * the raster to a standard 24-bit direct colour format.
+ *
+ * Based on class OFImage described in chapter 11 of the book &quot;Objects First
+ * with Java&quot; by David J Barnes and Michael Kolling (from 2nd edition onwards).
+ *
+ * @author Michael Kolling, David J. Barnes and Peter Kenny
+ * @version 2019.03.18
+ */
+public class ColorImage extends BufferedImage {
+
+    private String[] filters;
+
+    /**
+     * Constructor that makes a clone copy of a given ColorImage object.
+     *
+     * @param image object of ColorImage instance to clone
+     */
+    public ColorImage(ColorImage image) {
+<span class="fc" id="L28">        super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);</span>
+<span class="fc" id="L29">        int width = image.getWidth();</span>
+<span class="fc" id="L30">        int height = image.getHeight();</span>
+<span class="fc" id="L31">        this.filters = Arrays.copyOf(image.filters, image.filters.length);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (int y = 0; y &lt; height; y++) {</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">            for (int x = 0; x &lt; width; x++) {</span>
+<span class="fc" id="L34">                setRGB(x, y, image.getRGB(x, y));</span>
+            }
+        }
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * Create a ColorImage copied from a BufferedImage. Convert to 24-bit direct
+     * colour.
+     *
+     * @param image the image to copy
+     */
+    public ColorImage(BufferedImage image) {
+<span class="fc" id="L46">        super(image.getWidth(), image.getHeight(), TYPE_INT_RGB);</span>
+<span class="fc" id="L47">        int width = image.getWidth();</span>
+<span class="fc" id="L48">        int height = image.getHeight();</span>
+<span class="fc" id="L49">        this.filters = new String[4];</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (int y = 0; y &lt; height; y++) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            for (int x = 0; x &lt; width; x++) {</span>
+<span class="fc" id="L52">                setRGB(x, y, image.getRGB(x, y));</span>
+            }
+        }
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Create a ColorImage with specified size and 24-bit direct colour.
+     *
+     * @param width the width of the image
+     * @param height the height of the image
+     * @param nme the name of the image
+     * @param flters the filters applied to the image
+     */
+    public ColorImage(int width, int height, String nme, String[] flters) {
+<span class="fc" id="L66">        super(width, height, TYPE_INT_RGB);</span>
+<span class="fc" id="L67">        this.filters = Arrays.copyOf(flters, flters.length);</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * Set a given pixel of this image to a specified color. The color is
+     * represented as an (r,g,b) value.
+     *
+     * @param x the x position of the pixel
+     * @param y the y position of the pixel
+     * @param col the color of the pixel
+     */
+    public void setPixel(int x, int y, Color col) {
+<span class="fc" id="L79">        int pixel = col.getRGB();</span>
+<span class="fc" id="L80">        setRGB(x, y, pixel);</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * Get the color value at a specified pixel position.
+     *
+     * @param x the x position of the pixel
+     * @param y the y position of the pixel
+     * @return the color of the pixel at the given position
+     */
+    public Color getPixel(int x, int y) {
+<span class="fc" id="L91">        int pixel = getRGB(x, y);</span>
+<span class="fc" id="L92">        return new Color(pixel);</span>
+    }
+
+    /**
+     * Adds a filter from the array of filters.
+     *
+     * @param filtAdd name of the filter to be added
+     */
+    public void addFilter(String filtAdd) {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        for (int i = 0; i &lt; filters.length; i++) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (filters[i] == null) {</span>
+<span class="fc" id="L103">                filters[i] = filtAdd;</span>
+<span class="fc" id="L104">                break;</span>
+            }
+        }
+<span class="fc" id="L107">    }</span>
+
+    /**
+     * Returns the list of filters applied to the current image.
+     *
+     * @return list of filters
+     */
+    public String[] getFilters() {
+<span class="fc" id="L115">        return filters;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

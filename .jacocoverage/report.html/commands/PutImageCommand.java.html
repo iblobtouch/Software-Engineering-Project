@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PutImageCommand.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">commands</a> &gt; <span class="el_source">PutImageCommand.java</span></div><h1>PutImageCommand.java</h1><pre class="source lang-java linenums">package commands;
+
+import java.util.ResourceBundle;
+import java.util.Stack;
+import src.ColorImage;
+import src.Resources;
+
+/**
+ * PutImageCommand is an executor class which saves a copy of the current loaded
+ * image to the image cache. It's an extention of the abstract class Command and
+ * contains its main operation in its inherited execute() method.
+ *
+ * @author Gerron Tinoy
+ * @version 2019.03.18
+ */
+public class PutImageCommand extends Command {
+
+    private final ResourceBundle messages;
+    private final Resources sharedResource;
+
+    /**
+     * Initialises the pre-requisite resources for the command execution.
+     *
+     * @param messages contains the internationalisation resource which enables
+     * localisation
+     * @param resources central resources shared within the application
+     */
+<span class="fc" id="L28">    public PutImageCommand(ResourceBundle messages, Resources resources) {</span>
+<span class="fc" id="L29">        this.messages = messages;</span>
+<span class="fc" id="L30">        this.sharedResource = resources;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Saves a copy of the current image to the image cache. Triggered after
+     * 'put [newName]' was entered.
+     *
+     * @return message output after saving an image to the image cache
+     */
+    @Override
+    public String execute() {
+<span class="fc" id="L41">        String output = &quot;&quot;;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (!this.hasSecondWord()) {</span>
+<span class="fc" id="L43">            return messages.getString(&quot;saveAs&quot;);</span>
+        }
+<span class="fc" id="L45">        String inputName = this.getSecondWord();</span>
+<span class="fc" id="L46">        Stack&lt;ColorImage&gt; tempImg = (Stack&lt;ColorImage&gt;) sharedResource.getCurrentImageHistory().clone();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (sharedResource.getCurrentImage() == null) {</span>
+<span class="fc" id="L48">            return messages.getString(&quot;noImgLoaded&quot;);</span>
+        }
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (sharedResource.getImageCache().containsKey(inputName)) {</span>
+<span class="fc" id="L52">            output += messages.getString(&quot;cacheOverwrite&quot;) + inputName;</span>
+        } else {
+<span class="fc" id="L54">            output += inputName + &quot; &quot; + messages.getString(&quot;imgAdded&quot;);</span>
+        }
+
+<span class="fc" id="L57">        sharedResource.addToImageCache(inputName, tempImg);</span>
+
+<span class="fc" id="L59">        return output;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

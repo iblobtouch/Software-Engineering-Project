@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CommandWords.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;fotoshop&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">commands</a> &gt; <span class="el_source">CommandWords.java</span></div><h1>CommandWords.java</h1><pre class="source lang-java linenums">package commands;
+
+import java.util.*;
+import src.Resources;
+
+/**
+ * The CommandWords Class holds an enumeration of all command words that are
+ * valid. It is used to link command names with their corresponding Class
+ * executors.
+ *
+ * @author Michael Kolling and David J. Barnes,
+ * @version 2019.03.18
+ */
+public class CommandWords {
+
+    private final LinkedHashMap&lt;String, Object[]&gt; commands;
+
+    /**
+     * Initialise the valid command words and pair them with their corresponding
+     * Class executor.
+     *
+     * @param messages internationalisation resource which enables localisation
+     * @param resources central resources shared within the application
+     */
+<span class="fc" id="L25">    public CommandWords(ResourceBundle messages, Resources resources) {</span>
+<span class="fc" id="L26">        commands = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L27">        commands.put(messages.getString(&quot;openFunc&quot;), new Object[]{messages.getString(&quot;openHelp&quot;), new OpenCommand(messages, resources)});</span>
+<span class="fc" id="L28">        commands.put(messages.getString(&quot;saveFunc&quot;), new Object[]{messages.getString(&quot;saveHelp&quot;), new SaveCommand(messages, resources)});</span>
+<span class="fc" id="L29">        commands.put(messages.getString(&quot;lookFunc&quot;), new Object[]{messages.getString(&quot;lookHelp&quot;), new LookCommand(messages, resources)});</span>
+<span class="fc" id="L30">        commands.put(messages.getString(&quot;monoFunc&quot;), new Object[]{messages.getString(&quot;monoHelp&quot;), new MonoCommand(messages, resources)});</span>
+<span class="fc" id="L31">        commands.put(messages.getString(&quot;rot90Func&quot;), new Object[]{messages.getString(&quot;rot90Help&quot;), new Rotate90Command(messages, resources)});</span>
+<span class="fc" id="L32">        commands.put(messages.getString(&quot;helpFunc&quot;), new Object[]{messages.getString(&quot;helpHelp&quot;), new HelpCommand(this, messages)});</span>
+<span class="fc" id="L33">        commands.put(messages.getString(&quot;quitFunc&quot;), new Object[]{messages.getString(&quot;quitHelp&quot;), new QuitCommand(messages, resources)});</span>
+<span class="fc" id="L34">        commands.put(messages.getString(&quot;scriptFunc&quot;), new Object[]{messages.getString(&quot;scriptHelp&quot;), new ScriptCommand(messages, resources)});</span>
+<span class="fc" id="L35">        commands.put(messages.getString(&quot;flipHFunc&quot;), new Object[]{messages.getString(&quot;flipHHelp&quot;), new FlipHorizontalCommand(messages, resources)});</span>
+<span class="fc" id="L36">        commands.put(messages.getString(&quot;flipVFunc&quot;), new Object[]{messages.getString(&quot;flipVHelp&quot;), new FlipVerticalCommand(messages, resources)});</span>
+<span class="fc" id="L37">        commands.put(messages.getString(&quot;undoFunc&quot;), new Object[]{messages.getString(&quot;undoHelp&quot;), new UndoCommand(messages, resources)});</span>
+<span class="fc" id="L38">        commands.put(messages.getString(&quot;putFunc&quot;), new Object[]{messages.getString(&quot;putHelp&quot;), new PutImageCommand(messages, resources)});</span>
+<span class="fc" id="L39">        commands.put(messages.getString(&quot;getFunc&quot;), new Object[]{messages.getString(&quot;getHelp&quot;), new GetImageCommand(messages, resources)});</span>
+<span class="fc" id="L40">        commands.put(messages.getString(&quot;cacheFunc&quot;), new Object[]{messages.getString(&quot;cacheHelp&quot;), new ViewImageCacheCommand(messages, resources)});</span>
+
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * Determines whether a given String is a valid command word.
+     *
+     * @param firstWord first word from the user input
+     * @return true if the given String is a valid command, false otherwise
+     */
+    private boolean isCommand(String firstWord) {
+<span class="fc" id="L51">        return commands.containsKey(firstWord);</span>
+    }
+
+    /**
+     * Returns a command object that corresponds to the command name given
+     *
+     * @param command command name
+     * @return retrieved command object
+     */
+    public Command get(String command) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (isCommand(command)) {</span>
+<span class="fc" id="L62">            return (Command) commands.get(command)[1];</span>
+        }
+<span class="fc" id="L64">        return null;</span>
+    }
+
+    /**
+     * Iterates through the LinkedHashMap of valid commands and returns them in
+     * String format with instructions of their usage.
+     *
+     * @return a list of valid commands
+     */
+    public String getAllCommands() {
+<span class="fc" id="L74">        String commandList = &quot;&quot;;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        for (Map.Entry&lt;String, Object[]&gt; entry : commands.entrySet()) {</span>
+<span class="fc" id="L76">            commandList += &quot;\n&quot; + entry.getValue()[0];</span>
+
+<span class="fc" id="L78">        } </span>
+<span class="fc" id="L79">        return commandList;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
